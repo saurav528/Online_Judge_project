@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ummeed_postgres
+    environment:
+      POSTGRES_USER: ummeed_admin
+      POSTGRES_PASSWORD: ummeed_secure_password
+      POSTGRES_DB: ummeed_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ummeed_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ummeed.org
+      PGADMIN_DEFAULT_PASSWORD: admin_secure_password
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
