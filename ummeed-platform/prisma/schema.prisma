@@ -18,6 +18,7 @@ enum Difficulty {
 }
 
 enum SubmissionStatus {
+  PENDING
   QUEUED
   RUNNING
   COMPLETED
@@ -26,12 +27,13 @@ enum SubmissionStatus {
 
 enum Verdict {
   PENDING
-  AC
-  WA
+  ACCEPTED
+  WRONG_ANSWER
   TLE
   MLE
-  CE
-  RE
+  RUNTIME_ERROR
+  COMPILATION_ERROR
+  INTERNAL_ERROR
 }
 
 enum Language {
@@ -62,6 +64,7 @@ model User {
   accounts             Account[]
   submissions          Submission[]
   contestParticipants ContestParticipant[]
+  createdProblems      Problem[]            @relation("ProblemCreator")
 }
 
 model Session {
@@ -112,26 +115,53 @@ model Problem {
   slug        String           @unique
   title       String
   difficulty  Difficulty
-  topics      String[]
   timeLimit   Int              // in milliseconds
   memoryLimit Int              // in Megabytes
   version     Int              @default(1)
   published   Boolean          @default(false)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+  createdById String?
+  createdBy   User?            @relation("ProblemCreator", fields: [createdById], references: [id], onDelete: SetNull)
 
+  tags             Tag[]
+  testCases        TestCase[]
   submissions      Submission[]
   contestProblems  ContestProblem[]
+
+  @@index([createdById])
+}
+
+model Tag {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  problems Problem[]
+}
+
+model TestCase {
+  id         String   @id @default(cuid())
+  order      Int
+  isSample   Boolean  @default(false)
+  inputPath  String
+  outputPath String
+
+  problemId  String
+  problem    Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@index([problemId])
 }
 
 model Submission {
   id            String           @id @default(uuid())
   language      Language
-  status        SubmissionStatus @default(QUEUED)
+  status        SubmissionStatus @default(PENDING)
   verdict       Verdict          @default(PENDING)
   executionTime Int?             // in milliseconds, empty until execution completes
   memoryUsed    Int?             // in Kilobytes, empty until execution completes
   sourceCode    String           @db.Text
+  compileOutput String?          @db.Text
+  runtimeOutput String?          @db.Text
+  errorOutput   String?          @db.Text
   judgeToken    String?          @unique
   score         Int?
   submittedAt   DateTime         @default(now())
