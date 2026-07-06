@@ -1,0 +1,196 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SubmissionStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum Verdict {
+  PENDING
+  AC
+  WA
+  TLE
+  MLE
+  CE
+  RE
+}
+
+enum Language {
+  CPP
+  PYTHON
+  JAVA
+  JAVASCRIPT
+}
+
+enum ContestStatus {
+  UPCOMING
+  RUNNING
+  ENDED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  role          Role      @default(STUDENT)
+  rating        Int       @default(1200)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions             Session[]
+  accounts             Account[]
+  submissions          Submission[]
+  contestParticipants ContestParticipant[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+}
+
+model Problem {
+  id          String           @id @default(uuid())
+  slug        String           @unique
+  title       String
+  difficulty  Difficulty
+  topics      String[]
+  timeLimit   Int              // in milliseconds
+  memoryLimit Int              // in Megabytes
+  version     Int              @default(1)
+  published   Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  submissions      Submission[]
+  contestProblems  ContestProblem[]
+}
+
+model Submission {
+  id            String           @id @default(uuid())
+  language      Language
+  status        SubmissionStatus @default(QUEUED)
+  verdict       Verdict          @default(PENDING)
+  executionTime Int?             // in milliseconds, empty until execution completes
+  memoryUsed    Int?             // in Kilobytes, empty until execution completes
+  sourceCode    String           @db.Text
+  judgeToken    String?          @unique
+  score         Int?
+  submittedAt   DateTime         @default(now())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemId String
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  contestId String?
+  contest   Contest? @relation(fields: [contestId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([problemId])
+  @@index([contestId])
+}
+
+model Contest {
+  id          String        @id @default(uuid())
+  title       String
+  description String?       @db.Text
+  startTime   DateTime
+  endTime     DateTime
+  status      ContestStatus @default(UPCOMING)
+  published   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  participants ContestParticipant[]
+  submissions  Submission[]
+  problems     ContestProblem[]
+}
+
+model ContestProblem {
+  contestId String
+  problemId String
+  points    Int      @default(100)
+  sequence  Int      // 0 for A, 1 for B, 2 for C, etc.
+
+  contest   Contest  @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@id([contestId, problemId])
+  @@index([contestId])
+  @@index([problemId])
+}
+
+model ContestParticipant {
+  contestId    String
+  userId       String
+  registeredAt DateTime @default(now())
+  score        Int      @default(0)
+  penalty      Int      @default(0) // time penalty in minutes
+
+  contest Contest @relation(fields: [contestId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([contestId, userId])
+  @@index([userId])
+  @@index([contestId])
+}
