@@ -1,0 +1,50 @@
+{
+  "statement": "Given an integer $N$, calculate and print its factorial ($N! = 1 \\times 2 \\times 3 \\dots \\times N$). For $N=0$, the factorial is $1$.",
+  "inputSpecification": "A single integer $N$.",
+  "outputSpecification": "Print a single integer representing $N!$.",
+  "constraints": "$0 \\le N \\le 12$",
+  "examples": [
+    {
+      "input": "4",
+      "output": "24",
+      "displayOrder": 1
+    },
+    {
+      "input": "0",
+      "output": "1",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/factorial/tests/1.in",
+      "outputPath": "problems/factorial/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/factorial/tests/2.in",
+      "outputPath": "problems/factorial/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/factorial/tests/3.in",
+      "outputPath": "problems/factorial/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/factorial/tests/4.in",
+      "outputPath": "problems/factorial/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/factorial/tests/5.in",
+      "outputPath": "problems/factorial/tests/5.out"
+    }
+  ]
+}

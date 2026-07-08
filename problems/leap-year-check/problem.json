@@ -1,0 +1,50 @@
+{
+  "statement": "Write a program that determines if a given year is a leap year. A year is a leap year if it is divisible by 4, except for end-of-century years, which must be divisible by 400.",
+  "inputSpecification": "A single integer year $Y$.",
+  "outputSpecification": "Print `Leap Year` or `Not Leap Year` accordingly.",
+  "constraints": "$1 \\le Y \\le 3000$",
+  "examples": [
+    {
+      "input": "2024",
+      "output": "Leap Year",
+      "displayOrder": 1
+    },
+    {
+      "input": "1900",
+      "output": "Not Leap Year",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/leap-year-check/tests/1.in",
+      "outputPath": "problems/leap-year-check/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/leap-year-check/tests/2.in",
+      "outputPath": "problems/leap-year-check/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/leap-year-check/tests/3.in",
+      "outputPath": "problems/leap-year-check/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/leap-year-check/tests/4.in",
+      "outputPath": "problems/leap-year-check/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/leap-year-check/tests/5.in",
+      "outputPath": "problems/leap-year-check/tests/5.out"
+    }
+  ]
+}

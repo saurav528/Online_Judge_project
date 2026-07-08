@@ -1,0 +1,50 @@
+{
+  "statement": "Given a single word, reverse it and print it out.",
+  "inputSpecification": "A single word $S$.",
+  "outputSpecification": "Print the reversed string.",
+  "constraints": "$1 \\le |S| \\le 100$",
+  "examples": [
+    {
+      "input": "coder",
+      "output": "redoc",
+      "displayOrder": 1
+    },
+    {
+      "input": "school",
+      "output": "loohcs",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/reversed-string/tests/1.in",
+      "outputPath": "problems/reversed-string/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/reversed-string/tests/2.in",
+      "outputPath": "problems/reversed-string/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/reversed-string/tests/3.in",
+      "outputPath": "problems/reversed-string/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/reversed-string/tests/4.in",
+      "outputPath": "problems/reversed-string/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/reversed-string/tests/5.in",
+      "outputPath": "problems/reversed-string/tests/5.out"
+    }
+  ]
+}

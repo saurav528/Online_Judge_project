@@ -1,0 +1,50 @@
+{
+  "statement": "Given an array of $N$ integers, calculate and print their sum.",
+  "inputSpecification": "The first line contains an integer $N$. The second line contains $N$ space-separated integers.",
+  "outputSpecification": "Print the sum of the array elements.",
+  "constraints": "$1 \\le N \\le 100$, each element fits in a standard integer.",
+  "examples": [
+    {
+      "input": "4\n1 2 3 4",
+      "output": "10",
+      "displayOrder": 1
+    },
+    {
+      "input": "3\n-5 10 2",
+      "output": "7",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/sum-of-array/tests/1.in",
+      "outputPath": "problems/sum-of-array/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/sum-of-array/tests/2.in",
+      "outputPath": "problems/sum-of-array/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/sum-of-array/tests/3.in",
+      "outputPath": "problems/sum-of-array/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/sum-of-array/tests/4.in",
+      "outputPath": "problems/sum-of-array/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/sum-of-array/tests/5.in",
+      "outputPath": "problems/sum-of-array/tests/5.out"
+    }
+  ]
+}

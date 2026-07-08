@@ -26,6 +26,7 @@ export interface ProblemContent {
   explanation?: string;
   examples: ProblemExample[];
   testCases: ProblemTestCase[];
+  signature?: any;
 }
 
 /**
@@ -121,6 +122,7 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     explanation: metadata.explanation,
     examples: metadata.examples || [],
     testCases: hydratedTestCases,
+    signature: metadata.signature,
   };
 }
 

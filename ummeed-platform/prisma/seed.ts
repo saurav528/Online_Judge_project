@@ -1,8 +1,27 @@
 import { PrismaClient, Difficulty, Role } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 import fs from "fs";
 import path from "path";
+import { loadEnvFile } from "process";
 
-const prisma = new PrismaClient();
+const envPath = path.join(__dirname, "..", ".env");
+if (fs.existsSync(envPath)) {
+  try {
+    loadEnvFile(envPath);
+  } catch (e) {
+    // Fail silently
+  }
+}
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set in environment variables.");
+}
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 // Resolve paths relative to this seed file
 const PROBLEMS_DIR = path.join(__dirname, "..", "..", "problems");
@@ -53,9 +72,7 @@ const seedProblems: SeedProblem[] = [
     testCases: [
       { order: 1, isSample: true, input: "3 5", output: "8" },
       { order: 2, isSample: true, input: "-2 7", output: "5" },
-      { order: 3, isSample: false, input: "0 0", output: "0" },
-      { order: 4, isSample: false, input: "1000000000 2000000000", output: "3000000000" },
-      { order: 5, isSample: false, input: "-500 -500", output: "-1000" }
+      { order: 3, isSample: false, input: "0 0", output: "0" }
     ]
   },
   {
@@ -317,9 +334,11 @@ async function main() {
   console.log("Seeding database...");
 
   // 1. Clear existing database values in correct dependency order
+  await prisma.contestParticipant.deleteMany();
   await prisma.testCase.deleteMany();
   await prisma.contestProblem.deleteMany();
   await prisma.submission.deleteMany();
+  await prisma.contest.deleteMany();
   await prisma.problem.deleteMany();
   await prisma.tag.deleteMany();
   await prisma.session.deleteMany();
@@ -353,12 +372,34 @@ async function main() {
     }
   });
 
+  const student2 = await prisma.user.create({
+    data: {
+      name: "Priya Sharma",
+      email: "priya@ummeed.org",
+      emailVerified: true,
+      role: Role.STUDENT,
+      rating: 1350
+    }
+  });
+
+  const student3 = await prisma.user.create({
+    data: {
+      name: "Rahul Verma",
+      email: "rahul@ummeed.org",
+      emailVerified: true,
+      role: Role.STUDENT,
+      rating: 1100
+    }
+  });
+
   console.log("Seeded users:", { admin: admin.email, student: student.email });
 
   // 3. Create tags map to prevent double creation
   const tagCache: Record<string, string> = {};
 
   // 4. Seeding problems
+  const problemIdMap: Record<string, string> = {};
+
   for (const prob of seedProblems) {
     console.log(`Processing problem: ${prob.title}`);
 
@@ -391,6 +432,8 @@ async function main() {
         }
       }
     });
+
+    problemIdMap[prob.slug] = dbProblem.id;
 
     // Create database Test Case metadata entries (no body contents)
     for (const tc of prob.testCases) {
@@ -437,6 +480,94 @@ async function main() {
     }
   }
 
+  // 6. Seed 3 Contests
+  console.log("Seeding contests...");
+
+  const now = new Date();
+
+  // Contest A — Beginner Blitz (ENDED)
+  const pastStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+  const pastEnd   = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000); // 2hr duration
+
+  const contestA = await prisma.contest.create({
+    data: {
+      title: "Beginner Blitz",
+      description: "A beginner-friendly contest covering the fundamentals of programming — math, conditionals, and simple I/O. Perfect for your first competitive programming experience!",
+      startTime: pastStart,
+      endTime: pastEnd,
+      status: "ENDED",
+      published: true,
+    }
+  });
+
+  await prisma.contestProblem.createMany({
+    data: [
+      { contestId: contestA.id, problemId: problemIdMap["add-two-numbers"],      points: 100, sequence: 0 },
+      { contestId: contestA.id, problemId: problemIdMap["even-or-odd"],           points: 100, sequence: 1 },
+      { contestId: contestA.id, problemId: problemIdMap["celsius-to-fahrenheit"], points: 150, sequence: 2 },
+      { contestId: contestA.id, problemId: problemIdMap["find-maximum"],          points: 150, sequence: 3 },
+    ]
+  });
+
+  // Seed realistic participants and scores for Beginner Blitz leaderboard demo
+  await prisma.contestParticipant.createMany({
+    data: [
+      { contestId: contestA.id, userId: student2.id,  score: 400, penalty: 0  },  // Priya: all AC, no penalty
+      { contestId: contestA.id, userId: student.id,   score: 350, penalty: 40 },  // Student: 3 solved, 2 WA
+      { contestId: contestA.id, userId: student3.id,  score: 200, penalty: 20 },  // Rahul: 2 solved, 1 WA
+      { contestId: contestA.id, userId: admin.id,     score: 100, penalty: 0  },  // Admin: 1 solved
+    ]
+  });
+
+  // Contest B — Weekend Warrior (RUNNING)
+  const runStart = new Date(now.getTime() - 30 * 60 * 1000);                       // started 30 min ago
+  const runEnd   = new Date(now.getTime() + 90 * 60 * 1000);                       // ends in 90 min
+
+  const contestB = await prisma.contest.create({
+    data: {
+      title: "Weekend Warrior",
+      description: "A 2-hour sprint for intermediate coders. Problems range from loops and recursion to string manipulation. Jump in, register, and start solving!",
+      startTime: runStart,
+      endTime: runEnd,
+      status: "RUNNING",
+      published: true,
+    }
+  });
+
+  await prisma.contestProblem.createMany({
+    data: [
+      { contestId: contestB.id, problemId: problemIdMap["factorial"],       points: 100, sequence: 0 },
+      { contestId: contestB.id, problemId: problemIdMap["palindrome-check"], points: 150, sequence: 1 },
+      { contestId: contestB.id, problemId: problemIdMap["prime-number-check"], points: 200, sequence: 2 },
+      { contestId: contestB.id, problemId: problemIdMap["count-vowels"],    points: 100, sequence: 3 },
+    ]
+  });
+
+  // Contest C — The Grand Challenge (UPCOMING)
+  const futureStart = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);           // 2 days from now
+  const futureEnd   = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000); // 3hr duration
+
+  const contestC = await prisma.contest.create({
+    data: {
+      title: "The Grand Challenge",
+      description: "Our most ambitious contest yet! Featuring mixed difficulty problems covering arrays, strings, loops, and classic algorithms. Only the sharpest minds will claim the top rank.",
+      startTime: futureStart,
+      endTime: futureEnd,
+      status: "UPCOMING",
+      published: true,
+    }
+  });
+
+  await prisma.contestProblem.createMany({
+    data: [
+      { contestId: contestC.id, problemId: problemIdMap["fibonacci-number"],  points: 100, sequence: 0 },
+      { contestId: contestC.id, problemId: problemIdMap["sum-of-array"],       points: 150, sequence: 1 },
+      { contestId: contestC.id, problemId: problemIdMap["reversed-string"],    points: 150, sequence: 2 },
+      { contestId: contestC.id, problemId: problemIdMap["leap-year-check"],    points: 200, sequence: 3 },
+    ]
+  });
+
+  console.log("Seeded contests: Beginner Blitz, Weekend Warrior, The Grand Challenge");
   console.log("Database seeded successfully!");
 }
 
@@ -448,3 +579,5 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+

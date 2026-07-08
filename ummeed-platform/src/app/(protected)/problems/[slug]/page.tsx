@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getProblemContent } from "@/lib/problems-fs";
 import Link from "next/link";
 import { SubmissionForm } from "@/components/problems/submission-form";
+import { SEEDED_SIGNATURES } from "@/lib/services/executor";
 
 interface StudentProblemDetailsPageProps {
   params: Promise<{
@@ -219,7 +220,10 @@ export default async function StudentProblemDetailsPage({ params }: StudentProbl
 
         {/* Right Column: Code Submission Box */}
         <div style={{ flex: "2 1 400px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-          <SubmissionForm problemId={problem.id} />
+          <SubmissionForm
+            problemId={problem.id}
+            problemSignature={fileContent.signature || SEEDED_SIGNATURES[problem.slug]}
+          />
         </div>
       </div>
     </div>

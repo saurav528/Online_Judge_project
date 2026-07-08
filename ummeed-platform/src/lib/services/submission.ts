@@ -7,6 +7,7 @@ export interface CreateSubmissionInput {
   problemId: string;
   language: Language;
   sourceCode: string;
+  contestId?: string; // Optional — links submission to a contest
 }
 
 export class SubmissionService {
@@ -21,6 +22,7 @@ export class SubmissionService {
         problemId: input.problemId,
         language: input.language,
         sourceCode: input.sourceCode,
+        contestId: input.contestId ?? null,
         status: SubmissionStatus.PENDING,
         verdict: Verdict.PENDING,
       },

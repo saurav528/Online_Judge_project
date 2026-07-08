@@ -1,0 +1,50 @@
+{
+  "statement": "Given a string, count and print the total number of vowels (a, e, i, o, u) present in it, ignoring case.",
+  "inputSpecification": "A single string $S$ (may contain spaces).",
+  "outputSpecification": "Print the count of vowels.",
+  "constraints": "$1 \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "Hello World",
+      "output": "3",
+      "displayOrder": 1
+    },
+    {
+      "input": "Ummeed Platform",
+      "output": "5",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/count-vowels/tests/1.in",
+      "outputPath": "problems/count-vowels/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/count-vowels/tests/2.in",
+      "outputPath": "problems/count-vowels/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/count-vowels/tests/3.in",
+      "outputPath": "problems/count-vowels/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/count-vowels/tests/4.in",
+      "outputPath": "problems/count-vowels/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/count-vowels/tests/5.in",
+      "outputPath": "problems/count-vowels/tests/5.out"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "statement": "Write a program that converts a temperature in Celsius to Fahrenheit. The formula is: $F = C \\times 1.8 + 32$.",
+  "inputSpecification": "A decimal number $C$ representing the temperature in Celsius.",
+  "outputSpecification": "Print the corresponding temperature in Fahrenheit. Round to 1 decimal place.",
+  "constraints": "$-100.0 \\le C \\le 100.0$",
+  "examples": [
+    {
+      "input": "0",
+      "output": "32.0",
+      "displayOrder": 1
+    },
+    {
+      "input": "37.5",
+      "output": "99.5",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/celsius-to-fahrenheit/tests/1.in",
+      "outputPath": "problems/celsius-to-fahrenheit/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/celsius-to-fahrenheit/tests/2.in",
+      "outputPath": "problems/celsius-to-fahrenheit/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/celsius-to-fahrenheit/tests/3.in",
+      "outputPath": "problems/celsius-to-fahrenheit/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/celsius-to-fahrenheit/tests/4.in",
+      "outputPath": "problems/celsius-to-fahrenheit/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/celsius-to-fahrenheit/tests/5.in",
+      "outputPath": "problems/celsius-to-fahrenheit/tests/5.out"
+    }
+  ]
+}

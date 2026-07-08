@@ -1,20 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createSubmissionAction } from "@/app/actions/submissions";
+import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
+import { ProblemSignature } from "@/lib/boilerplate/types";
 
 interface SubmissionFormProps {
   problemId: string;
+  problemSignature?: ProblemSignature;
 }
 
-export function SubmissionForm({ problemId }: SubmissionFormProps) {
+export function SubmissionForm({ problemId, problemSignature }: SubmissionFormProps) {
   const router = useRouter();
   const [language, setLanguage] = useState<"CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT">("CPP");
   const [sourceCode, setSourceCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [globalError, setGlobalError] = useState("");
+
+  useEffect(() => {
+    if (problemSignature) {
+      const boilerplate = BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature);
+      setSourceCode(boilerplate);
+    }
+  }, [language, problemSignature]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

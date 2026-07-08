@@ -1,0 +1,50 @@
+{
+  "statement": "Given an integer $N$ ($N > 1$), check whether it is a prime number.",
+  "inputSpecification": "A single integer $N$.",
+  "outputSpecification": "Print `Prime` if the number is prime, otherwise print `Not Prime`.",
+  "constraints": "$2 \\le N \\le 10^5$",
+  "examples": [
+    {
+      "input": "7",
+      "output": "Prime",
+      "displayOrder": 1
+    },
+    {
+      "input": "10",
+      "output": "Not Prime",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/prime-number-check/tests/1.in",
+      "outputPath": "problems/prime-number-check/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/prime-number-check/tests/2.in",
+      "outputPath": "problems/prime-number-check/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/prime-number-check/tests/3.in",
+      "outputPath": "problems/prime-number-check/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/prime-number-check/tests/4.in",
+      "outputPath": "problems/prime-number-check/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/prime-number-check/tests/5.in",
+      "outputPath": "problems/prime-number-check/tests/5.out"
+    }
+  ]
+}

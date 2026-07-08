@@ -1,0 +1,50 @@
+{
+  "statement": "Given three integers, find and print the maximum value.",
+  "inputSpecification": "Three space-separated integers, $A$, $B$, and $C$.",
+  "outputSpecification": "Print the maximum of the three numbers.",
+  "constraints": "$-10^5 \\le A, B, C \\le 10^5$",
+  "examples": [
+    {
+      "input": "3 8 5",
+      "output": "8",
+      "displayOrder": 1
+    },
+    {
+      "input": "12 12 4",
+      "output": "12",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/find-maximum/tests/1.in",
+      "outputPath": "problems/find-maximum/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/find-maximum/tests/2.in",
+      "outputPath": "problems/find-maximum/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/find-maximum/tests/3.in",
+      "outputPath": "problems/find-maximum/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/find-maximum/tests/4.in",
+      "outputPath": "problems/find-maximum/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/find-maximum/tests/5.in",
+      "outputPath": "problems/find-maximum/tests/5.out"
+    }
+  ]
+}

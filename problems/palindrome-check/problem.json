@@ -1,0 +1,50 @@
+{
+  "statement": "Given a lowercase string, determine if it is a palindrome (reads the same backwards as forwards).",
+  "inputSpecification": "A single word $S$ consisting of lowercase English letters.",
+  "outputSpecification": "Print `Yes` if the word is a palindrome, otherwise print `No`.",
+  "constraints": "$1 \\le |S| \\le 100$",
+  "examples": [
+    {
+      "input": "racecar",
+      "output": "Yes",
+      "displayOrder": 1
+    },
+    {
+      "input": "hello",
+      "output": "No",
+      "displayOrder": 2
+    }
+  ],
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/palindrome-check/tests/1.in",
+      "outputPath": "problems/palindrome-check/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/palindrome-check/tests/2.in",
+      "outputPath": "problems/palindrome-check/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/palindrome-check/tests/3.in",
+      "outputPath": "problems/palindrome-check/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/palindrome-check/tests/4.in",
+      "outputPath": "problems/palindrome-check/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/palindrome-check/tests/5.in",
+      "outputPath": "problems/palindrome-check/tests/5.out"
+    }
+  ]
+}
