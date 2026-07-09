@@ -26,11 +26,13 @@ export default async function ProtectedLayout({
 
   return (
     <UserProvider user={authUser}>
-      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", fontFamily: "sans-serif" }}>
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <Navbar isAdmin={authUser.role === "ADMIN"} />
         <div style={{ display: "flex", flex: 1 }}>
           <Sidebar isAdmin={authUser.role === "ADMIN"} />
-          <main style={{ flex: 1, padding: "2rem", backgroundColor: "#f3f4f6" }}>{children}</main>
+          <main style={{ flex: 1, padding: "2rem", backgroundColor: "var(--surface-bg, #f0f2f5)", minWidth: 0 }}>
+            {children}
+          </main>
         </div>
       </div>
     </UserProvider>

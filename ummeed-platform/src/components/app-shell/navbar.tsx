@@ -1,38 +1,107 @@
+"use client";
+
 import React from "react";
-import { UserMenu } from "./user-menu";
+import Image from "next/image";
 import Link from "next/link";
+import { UserMenu } from "./user-menu";
+
+const NAV_LINKS = [
+  { href: "/dashboard",   label: "Home",        icon: "🏠" },
+  { href: "/problems",    label: "Problems",     icon: "📋" },
+  { href: "/contests",    label: "Contests",     icon: "🏆" },
+  { href: "/submissions", label: "Submissions",  icon: "📜" },
+];
 
 export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
   return (
-    <header
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "1rem 2rem",
-        borderBottom: "1px solid #e5e7eb",
-        backgroundColor: isAdmin ? "#fff5f5" : "#ffffff",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-        <Link
-          href="/dashboard"
-          style={{ textDecoration: "none", color: "#111827", fontWeight: "bold", fontSize: "1.2rem" }}
-        >
-          Ummeed Platform {isAdmin && <span style={{ color: "#dc2626", fontSize: "0.9rem" }}>(Admin Control)</span>}
+    <header style={{
+      position: "sticky",
+      top: 0,
+      zIndex: 100,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "0 1.5rem",
+      height: "60px",
+      backgroundColor: "#ffffff",
+      borderBottom: "1px solid #e5e7eb",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+    }}>
+      {/* Left: Logo + Nav */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
+        {/* iCFDR Logo */}
+        <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem", marginRight: "2rem" }}>
+          <div style={{
+            background: "#fff",
+            borderRadius: "8px",
+            padding: "3px",
+            border: "1px solid #e5e7eb",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+            <Image src="/icfdr-logo.png" alt="iCFDR" width={36} height={28} style={{ objectFit: "contain" }} />
+          </div>
+          <div>
+            <span style={{ fontWeight: 800, fontSize: "1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>
+              Ummeed
+            </span>
+            {isAdmin && (
+              <span style={{
+                marginLeft: "0.5rem", fontSize: "0.7rem", fontWeight: 700,
+                background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
+                borderRadius: "4px",
+              }}>
+                ADMIN
+              </span>
+            )}
+          </div>
         </Link>
-        <nav style={{ display: "flex", gap: "1rem" }}>
-          <Link href="/dashboard" style={{ textDecoration: "none", color: "#4b5563" }}>
-            Dashboard
-          </Link>
+
+        {/* Navigation Links */}
+        <nav style={{ display: "flex", alignItems: "center", height: "60px" }}>
+          {NAV_LINKS.map((link) => (
+            <NavLink key={link.href} href={link.href} label={link.label} />
+          ))}
           {isAdmin && (
-            <Link href="/admin" style={{ textDecoration: "none", color: "#dc2626", fontWeight: "600" }}>
-              Admin Panel
-            </Link>
+            <NavLink href="/admin" label="Admin Panel" adminStyle />
           )}
         </nav>
       </div>
+
+      {/* Right: User menu */}
       <UserMenu />
     </header>
+  );
+}
+
+function NavLink({ href, label, adminStyle }: { href: string; label: string; adminStyle?: boolean }) {
+  return (
+    <Link
+      href={href}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        height: "100%",
+        padding: "0 0.9rem",
+        fontSize: "0.88rem",
+        fontWeight: 500,
+        color: adminStyle ? "#dc2626" : "#4b5563",
+        textDecoration: "none",
+        borderBottom: "2px solid transparent",
+        transition: "color 150ms ease, border-color 150ms ease",
+        whiteSpace: "nowrap",
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.color = adminStyle ? "#991b1b" : "#1a56db";
+        e.currentTarget.style.borderBottomColor = adminStyle ? "#991b1b" : "#1a56db";
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.color = adminStyle ? "#dc2626" : "#4b5563";
+        e.currentTarget.style.borderBottomColor = "transparent";
+      }}
+    >
+      {label}
+    </Link>
   );
 }
