@@ -4,224 +4,187 @@ import { prisma } from "@/lib/prisma";
 import { getProblemContent } from "@/lib/problems-fs";
 import Link from "next/link";
 import { SubmissionForm } from "@/components/problems/submission-form";
+import { ProblemSubmissions } from "@/components/problems/problem-submissions";
+import { TabPanel } from "@/components/ui/tab-panel";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
+import { requireAuth } from "@/lib/auth-utils";
 
-interface StudentProblemDetailsPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
-export default async function StudentProblemDetailsPage({ params }: StudentProblemDetailsPageProps) {
+export default async function StudentProblemDetailsPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
+  const user = await requireAuth();
 
-  // Retrieve problem metadata from database
   const problem = await prisma.problem.findUnique({
     where: { slug },
     include: { tags: true },
   });
 
-  // Verify problem exists and is published
-  if (!problem || !problem.published) {
-    notFound();
-  }
+  if (!problem || !problem.published) notFound();
 
-  // Retrieve Git-backed statements and examples
   const fileContent = await getProblemContent(slug);
-  if (!fileContent) {
-    notFound();
-  }
+  if (!fileContent) notFound();
 
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "2rem", fontFamily: "sans-serif" }}>
-      {/* Top Banner: Breadcrumb & Title */}
-      <div
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "1.5rem 2rem",
-          borderRadius: "0.5rem",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        }}
-      >
-        <div style={{ marginBottom: "0.5rem", fontSize: "0.85rem" }}>
-          <Link href="/problems" style={{ color: "#2563eb", textDecoration: "none" }}>
-            &larr; Back to Problems
-          </Link>
+  const submissionCount = await prisma.submission.count({
+    where: { problemId: problem.id, userId: user.id },
+  });
+
+  const solved = await prisma.submission.findFirst({
+    where: { problemId: problem.id, userId: user.id, verdict: "ACCEPTED" },
+  });
+
+  const DIFF: Record<string, { color: string; bg: string }> = {
+    EASY:   { color: "#16a34a", bg: "#dcfce7" },
+    MEDIUM: { color: "#d97706", bg: "#fef3c7" },
+    HARD:   { color: "#dc2626", bg: "#fee2e2" },
+  };
+  const diff = DIFF[problem.difficulty] ?? DIFF.EASY;
+
+  const statementContent = (
+    <div style={{ color: "#374151", lineHeight: 1.7 }}>
+      {/* Problem Statement */}
+      <section style={{ marginBottom: "1.75rem" }}>
+        <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Problem Statement</h3>
+        <p style={{ whiteSpace: "pre-wrap", fontSize: "0.95rem" }}>{fileContent.statement}</p>
+      </section>
+
+      {/* Input / Output Specs */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.75rem" }}>
+        <div>
+          <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Input Format</h3>
+          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.inputSpecification}</p>
         </div>
-        <h1 style={{ margin: "0 0 0.5rem 0", color: "#111827" }}>{problem.title}</h1>
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
-          <span
-            style={{
-              fontSize: "0.85rem",
-              fontWeight: "600",
-              color:
-                problem.difficulty === "EASY"
-                  ? "#166534"
-                  : problem.difficulty === "MEDIUM"
-                  ? "#854d0e"
-                  : "#991b1b",
-            }}
-          >
-            {problem.difficulty}
-          </span>
-          <span style={{ fontSize: "0.85rem", color: "#6b7280" }}>
-            Time Limit: <strong>{problem.timeLimit} ms</strong>
-          </span>
-          <span style={{ fontSize: "0.85rem", color: "#6b7280" }}>
-            Memory Limit: <strong>{problem.memoryLimit} MB</strong>
-          </span>
-          <div style={{ display: "flex", gap: "0.25rem" }}>
-            {problem.tags.map((t) => (
-              <span
-                key={t.id}
+        <div>
+          <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Output Format</h3>
+          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.outputSpecification}</p>
+        </div>
+      </div>
+
+      {/* Constraints */}
+      <section style={{ marginBottom: "1.75rem" }}>
+        <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Constraints</h3>
+        <pre style={{
+          background: "#0d1117", color: "#e6edf3",
+          padding: "0.85rem 1.1rem", borderRadius: "8px",
+          fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem",
+          overflowX: "auto", margin: 0,
+        }}>
+          {fileContent.constraints}
+        </pre>
+      </section>
+
+      {/* Examples */}
+      {fileContent.examples && fileContent.examples.length > 0 && (
+        <section style={{ marginBottom: "1.75rem" }}>
+          <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.75rem" }}>Examples</h3>
+          {fileContent.examples
+            .sort((a, b) => a.displayOrder - b.displayOrder)
+            .map((ex, idx) => (
+              <div
+                key={idx}
                 style={{
-                  fontSize: "0.75rem",
-                  backgroundColor: "#f3f4f6",
-                  color: "#4b5563",
-                  padding: "0.1rem 0.5rem",
-                  borderRadius: "0.25rem",
+                  border: "1px solid #e5e7eb", borderRadius: "10px",
+                  overflow: "hidden", marginBottom: "1rem",
                 }}
               >
-                {t.name}
-              </span>
+                <div style={{ padding: "0.5rem 1rem", background: "#f9fafb", borderBottom: "1px solid #e5e7eb", fontSize: "0.8rem", fontWeight: 700, color: "#6b7280" }}>
+                  Example {idx + 1}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+                  <div style={{ padding: "0.85rem 1rem", borderRight: "1px solid #e5e7eb" }}>
+                    <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#9ca3af", marginBottom: "0.35rem", textTransform: "uppercase" }}>Input</div>
+                    <pre style={{ margin: 0, fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem", color: "#1f2937" }}>{ex.input}</pre>
+                  </div>
+                  <div style={{ padding: "0.85rem 1rem" }}>
+                    <div style={{ fontSize: "0.75rem", fontWeight: 700, color: "#9ca3af", marginBottom: "0.35rem", textTransform: "uppercase" }}>Output</div>
+                    <pre style={{ margin: 0, fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem", color: "#1f2937" }}>{ex.output}</pre>
+                  </div>
+                </div>
+                {ex.explanation && (
+                  <div style={{ padding: "0.65rem 1rem", background: "#f9fafb", borderTop: "1px solid #e5e7eb", fontSize: "0.85rem", color: "#4b5563" }}>
+                    💡 <strong>Explanation:</strong> {ex.explanation}
+                  </div>
+                )}
+              </div>
             ))}
+        </section>
+      )}
+
+      {fileContent.explanation && (
+        <section>
+          <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Explanation</h3>
+          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.explanation}</p>
+        </section>
+      )}
+    </div>
+  );
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "1200px" }}>
+      {/* Header */}
+      <div className="card" style={{ padding: "1.25rem 1.5rem" }}>
+        <div style={{ marginBottom: "0.5rem", fontSize: "0.82rem" }}>
+          <Link href="/problems" style={{ color: "#1a56db", textDecoration: "none", fontWeight: 500 }}>
+            ← Problems
+          </Link>
+        </div>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
+          <div>
+            <h1 style={{ margin: "0 0 0.5rem", color: "#111827", fontSize: "1.4rem", fontWeight: 800 }}>
+              {problem.title}
+            </h1>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
+              <span style={{
+                fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.65rem",
+                borderRadius: "999px", background: diff.bg, color: diff.color,
+              }}>
+                {problem.difficulty}
+              </span>
+              {problem.tags.map((t) => (
+                <span key={t.id} style={{ fontSize: "0.75rem", background: "#f3f4f6", color: "#4b5563", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
+                  {t.name}
+                </span>
+              ))}
+              {solved && (
+                <span style={{ fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.65rem", borderRadius: "999px", background: "#dcfce7", color: "#16a34a" }}>
+                  ✓ Solved
+                </span>
+              )}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "1.25rem", fontSize: "0.82rem", color: "#9ca3af" }}>
+            <span>⏱ {problem.timeLimit} ms</span>
+            <span>💾 {problem.memoryLimit} MB</span>
           </div>
         </div>
       </div>
 
-      {/* Main Grid: Left Side Description, Right Side Code Form */}
-      <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
-        <div
-          style={{
-            flex: "3 1 600px",
-            backgroundColor: "#ffffff",
-            padding: "2rem",
-            borderRadius: "0.5rem",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-            lineHeight: "1.6",
-            color: "#374151",
-          }}
-        >
-          {/* Description Section */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: "0.5rem", color: "#111827" }}>
-              Problem Statement
-            </h3>
-            <p style={{ whiteSpace: "pre-wrap" }}>{fileContent.statement}</p>
-          </section>
-
-          {/* Input / Output Specs */}
-          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap", marginBottom: "2rem" }}>
-            <div style={{ flex: "1 1 250px" }}>
-              <h3 style={{ borderBottom: "1px solid #e5e7eb", color: "#111827" }}>Input Specification</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{fileContent.inputSpecification}</p>
-            </div>
-            <div style={{ flex: "1 1 250px" }}>
-              <h3 style={{ borderBottom: "1px solid #e5e7eb", color: "#111827" }}>Output Specification</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{fileContent.outputSpecification}</p>
-            </div>
-          </div>
-
-          {/* Constraints */}
-          <section style={{ marginBottom: "2rem" }}>
-            <h3 style={{ borderBottom: "1px solid #e5e7eb", color: "#111827" }}>Constraints</h3>
-            <pre
-              style={{
-                backgroundColor: "#f9fafb",
-                padding: "1rem",
-                borderRadius: "0.375rem",
-                fontFamily: "monospace",
-                fontSize: "0.95rem",
-                border: "1px solid #e5e7eb",
-                margin: 0,
-              }}
-            >
-              {fileContent.constraints}
-            </pre>
-          </section>
-
-          {/* Examples Section */}
-          {fileContent.examples && fileContent.examples.length > 0 && (
-            <section style={{ marginBottom: "2rem" }}>
-              <h3 style={{ borderBottom: "1px solid #e5e7eb", color: "#111827" }}>Examples</h3>
-              {fileContent.examples
-                .sort((a, b) => a.displayOrder - b.displayOrder)
-                .map((ex, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      backgroundColor: "#f9fafb",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "0.375rem",
-                      padding: "1rem",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    <div style={{ fontWeight: "bold", marginBottom: "0.5rem", fontSize: "0.9rem" }}>
-                      Example #{ex.displayOrder}
-                    </div>
-                    <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", marginBottom: "0.5rem" }}>
-                      <div style={{ flex: "1 1 200px" }}>
-                        <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: "bold" }}>Input:</span>
-                        <pre
-                          style={{
-                            backgroundColor: "#f3f4f6",
-                            padding: "0.5rem",
-                            borderRadius: "0.25rem",
-                            fontFamily: "monospace",
-                            margin: "0.25rem 0 0 0",
-                          }}
-                        >
-                          {ex.input}
-                        </pre>
-                      </div>
-                      <div style={{ flex: "1 1 200px" }}>
-                        <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: "bold" }}>Output:</span>
-                        <pre
-                          style={{
-                            backgroundColor: "#f3f4f6",
-                            padding: "0.5rem",
-                            borderRadius: "0.25rem",
-                            fontFamily: "monospace",
-                            margin: "0.25rem 0 0 0",
-                          }}
-                        >
-                          {ex.output}
-                        </pre>
-                      </div>
-                    </div>
-                    {ex.explanation && (
-                      <div
-                        style={{
-                          fontSize: "0.9rem",
-                          color: "#4b5563",
-                          borderTop: "1px dashed #e5e7eb",
-                          paddingTop: "0.5rem",
-                          marginTop: "0.5rem",
-                        }}
-                      >
-                        <strong>Explanation:</strong> {ex.explanation}
-                      </div>
-                    )}
-                  </div>
-                ))}
-            </section>
-          )}
-
-          {/* Explanation Section */}
-          {fileContent.explanation && (
-            <section>
-              <h3 style={{ borderBottom: "1px solid #e5e7eb", color: "#111827" }}>Explanation</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{fileContent.explanation}</p>
-            </section>
-          )}
+      {/* Main split layout */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 480px", gap: "1.25rem", alignItems: "start" }}>
+        {/* Left: Problem statement + Submissions tab */}
+        <div className="card" style={{ padding: "1.5rem" }}>
+          <TabPanel
+            tabs={[
+              { id: "statement",   label: "Problem",     icon: "📋" },
+              { id: "submissions", label: "My Submissions", icon: "📜", count: submissionCount },
+            ]}
+            defaultTab="statement"
+          >
+            {{
+              statement: statementContent,
+              submissions: <ProblemSubmissions problemId={problem.id} userId={user.id} />,
+            }}
+          </TabPanel>
         </div>
 
-        {/* Right Column: Code Submission Box */}
-        <div style={{ flex: "2 1 400px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        {/* Right: Code editor */}
+        <div style={{ position: "sticky", top: "80px" }}>
           <SubmissionForm
             problemId={problem.id}
+            problemSlug={problem.slug}
             problemSignature={fileContent.signature || SEEDED_SIGNATURES[problem.slug]}
           />
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ProblemSearchSchema } from "@/lib/validation";
+import { requireAuth } from "@/lib/auth-utils";
 
 interface StudentProblemsPageProps {
   searchParams: Promise<{
@@ -12,10 +13,16 @@ interface StudentProblemsPageProps {
   }>;
 }
 
+const DIFF_STYLE: Record<string, { color: string; bg: string }> = {
+  EASY:   { color: "#16a34a", bg: "#dcfce7" },
+  MEDIUM: { color: "#d97706", bg: "#fef3c7" },
+  HARD:   { color: "#dc2626", bg: "#fee2e2" },
+};
+
 export default async function StudentProblemsPage({ searchParams }: StudentProblemsPageProps) {
+  const user = await requireAuth();
   const resolvedParams = await searchParams;
 
-  // Validate search parameters with Zod
   const parsed = ProblemSearchSchema.parse({
     q: resolvedParams.q || undefined,
     difficulty: resolvedParams.difficulty || undefined,
@@ -26,46 +33,23 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
   const { q, difficulty, tag, page, limit } = parsed;
   const skip = (page - 1) * limit;
 
-  // Build database query filters
-  const where: any = {
-    published: true, // Only show published problems to students
-  };
+  const where: any = { published: true };
+  if (q) where.OR = [{ title: { contains: q, mode: "insensitive" } }, { slug: { contains: q, mode: "insensitive" } }];
+  if (difficulty === "EASY" || difficulty === "MEDIUM" || difficulty === "HARD") where.difficulty = difficulty;
+  if (tag) where.tags = { some: { name: tag } };
 
-  if (q) {
-    where.OR = [
-      { title: { contains: q, mode: "insensitive" } },
-      { slug: { contains: q, mode: "insensitive" } },
-    ];
-  }
-
-  if (difficulty === "EASY" || difficulty === "MEDIUM" || difficulty === "HARD") {
-    where.difficulty = difficulty;
-  }
-
-  if (tag) {
-    where.tags = {
-      some: {
-        name: tag,
-      },
-    };
-  }
-
-  // Fetch problems, total count, and all tags for filter UI
-  const [problems, totalCount, allTags] = await Promise.all([
-    prisma.problem.findMany({
-      where,
-      include: { tags: true },
-      orderBy: { title: "asc" },
-      skip,
-      take: limit,
-    }),
+  const [problems, totalCount, allTags, solvedProblemIds, attemptedProblemIds] = await Promise.all([
+    prisma.problem.findMany({ where, include: { tags: true, _count: { select: { submissions: { where: { verdict: "ACCEPTED" } } } } }, orderBy: { title: "asc" }, skip, take: limit }),
     prisma.problem.count({ where }),
     prisma.tag.findMany({ orderBy: { name: "asc" } }),
+    // Problems this user solved
+    prisma.submission.findMany({ where: { userId: user.id, verdict: "ACCEPTED" }, select: { problemId: true }, distinct: ["problemId"] }).then((r) => new Set(r.map((s) => s.problemId))),
+    // Problems this user attempted (any submission)
+    prisma.submission.findMany({ where: { userId: user.id }, select: { problemId: true }, distinct: ["problemId"] }).then((r) => new Set(r.map((s) => s.problemId))),
   ]);
 
   const totalPages = Math.ceil(totalCount / limit);
 
-  // Helper to generate pagination URLs
   const getPageUrl = (targetPage: number) => {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
@@ -75,252 +59,220 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
     return `/problems?${params.toString()}`;
   };
 
-  return (
-    <div
-      style={{
-        backgroundColor: "#ffffff",
-        padding: "2rem",
-        borderRadius: "0.5rem",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h2 style={{ marginTop: 0, marginBottom: "1.5rem", color: "#111827" }}>Coding Problems</h2>
+  const getFilterUrl = (updates: Record<string, string | undefined>) => {
+    const params = new URLSearchParams();
+    const merged = { q, difficulty, tag, ...updates };
+    if (merged.q) params.set("q", merged.q);
+    if (merged.difficulty) params.set("difficulty", merged.difficulty);
+    if (merged.tag) params.set("tag", merged.tag);
+    params.set("page", "1");
+    return `/problems?${params.toString()}`;
+  };
 
-      {/* Filter and Search Form */}
-      <form
-        method="GET"
-        action="/problems"
-        style={{
-          display: "flex",
-          gap: "1rem",
-          flexWrap: "wrap",
-          marginBottom: "2rem",
-          padding: "1rem",
-          backgroundColor: "#f9fafb",
-          borderRadius: "0.375rem",
-          border: "1px solid #e5e7eb",
-        }}
-      >
-        <div style={{ flex: "1 1 250px" }}>
-          <label style={{ display: "block", fontSize: "0.85rem", fontWeight: "600", marginBottom: "0.25rem" }}>
-            Search Problems
-          </label>
+  const solvedCount = problems.filter((p) => solvedProblemIds.has(p.id)).length;
+
+  return (
+    <div style={{ maxWidth: "1000px", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
+        <div>
+          <h2 style={{ margin: 0, color: "#111827", fontSize: "1.4rem", fontWeight: 800 }}>Practice Problems</h2>
+          <p style={{ margin: "0.2rem 0 0", color: "#6b7280", fontSize: "0.88rem" }}>
+            {totalCount} problems · You solved {solvedCount} on this page
+          </p>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="card" style={{ padding: "1rem 1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
+        {/* Search */}
+        <form method="get" action="/problems" style={{ display: "flex", gap: "0.5rem", flex: "1 1 250px" }}>
+          {difficulty && <input type="hidden" name="difficulty" value={difficulty} />}
+          {tag && <input type="hidden" name="tag" value={tag} />}
           <input
             type="text"
             name="q"
             defaultValue={q || ""}
-            placeholder="Search by title or slug..."
-            style={{ width: "100%", padding: "0.4rem", boxSizing: "border-box" }}
+            placeholder="🔍 Search problems..."
+            className="form-input"
+            style={{ flex: 1, padding: "0.5rem 0.85rem" }}
           />
+          <button type="submit" className="btn btn-primary" style={{ padding: "0.5rem 1rem" }}>Search</button>
+        </form>
+
+        {/* Difficulty filter */}
+        <div style={{ display: "flex", gap: "0.35rem" }}>
+          {["ALL", "EASY", "MEDIUM", "HARD"].map((d) => {
+            const isActive = d === "ALL" ? !difficulty : difficulty === d;
+            const ds = DIFF_STYLE[d] || { color: "#4b5563", bg: "#f3f4f6" };
+            return (
+              <Link
+                key={d}
+                href={getFilterUrl({ difficulty: d === "ALL" ? undefined : d })}
+                style={{
+                  padding: "0.3rem 0.75rem",
+                  borderRadius: "999px",
+                  fontSize: "0.8rem",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  background: isActive ? ds.bg : "#f3f4f6",
+                  color: isActive ? ds.color : "#6b7280",
+                  border: `1.5px solid ${isActive ? (d === "ALL" ? "#d1d5db" : ds.color) : "transparent"}`,
+                  transition: "all 150ms ease",
+                }}
+              >
+                {d}
+              </Link>
+            );
+          })}
         </div>
 
-        <div style={{ minWidth: "150px" }}>
-          <label style={{ display: "block", fontSize: "0.85rem", fontWeight: "600", marginBottom: "0.25rem" }}>
-            Difficulty
-          </label>
-          <select name="difficulty" defaultValue={difficulty || ""} style={{ width: "100%", padding: "0.4rem" }}>
-            <option value="">All Difficulties</option>
-            <option value="EASY">EASY</option>
-            <option value="MEDIUM">MEDIUM</option>
-            <option value="HARD">HARD</option>
-          </select>
-        </div>
-
-        <div style={{ minWidth: "180px" }}>
-          <label style={{ display: "block", fontSize: "0.85rem", fontWeight: "600", marginBottom: "0.25rem" }}>
-            Tag
-          </label>
-          <select name="tag" defaultValue={tag || ""} style={{ width: "100%", padding: "0.4rem" }}>
-            <option value="">All Tags</option>
-            {allTags.map((t) => (
-              <option key={t.id} value={t.name}>
+        {/* Tag filter */}
+        {allTags.length > 0 && (
+          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
+            {allTags.slice(0, 8).map((t) => (
+              <Link
+                key={t.id}
+                href={getFilterUrl({ tag: tag === t.name ? undefined : t.name })}
+                style={{
+                  padding: "0.25rem 0.6rem",
+                  borderRadius: "999px",
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  background: tag === t.name ? "#eff6ff" : "#f9fafb",
+                  color: tag === t.name ? "#1a56db" : "#6b7280",
+                  border: `1px solid ${tag === t.name ? "#bfdbfe" : "#e5e7eb"}`,
+                  transition: "all 150ms ease",
+                }}
+              >
                 {t.name}
-              </option>
+              </Link>
             ))}
-          </select>
-        </div>
-
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "flex-end" }}>
-          <button
-            type="submit"
-            style={{
-              padding: "0.45rem 1rem",
-              backgroundColor: "#2563eb",
-              color: "#ffffff",
-              border: "0",
-              borderRadius: "0.25rem",
-              cursor: "pointer",
-              fontWeight: "600",
-            }}
-          >
-            Apply Filters
-          </button>
-          <Link
-            href="/problems"
-            style={{
-              padding: "0.45rem 1rem",
-              backgroundColor: "#f3f4f6",
-              color: "#4b5563",
-              textDecoration: "none",
-              borderRadius: "0.25rem",
-              border: "1px solid #d1d5db",
-              fontSize: "0.9rem",
-              textAlign: "center",
-            }}
-          >
-            Reset
-          </Link>
-        </div>
-      </form>
+            {tag && (
+              <Link href={getFilterUrl({ tag: undefined })} style={{ padding: "0.25rem 0.6rem", borderRadius: "999px", fontSize: "0.75rem", fontWeight: 600, textDecoration: "none", background: "#fef2f2", color: "#dc2626", border: "1px solid #fca5a5" }}>
+                ✕ Clear tag
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Problems Table */}
-      {problems.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#6b7280" }}>
-          No problems found matching your filters.
-        </div>
-      ) : (
-        <>
-          <table style={{ width: "100%", borderCollapse: "collapse", color: "#374151" }}>
+      <div className="card" style={{ overflow: "hidden" }}>
+        {problems.length === 0 ? (
+          <div style={{ padding: "3rem", textAlign: "center", color: "#9ca3af" }}>
+            <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>🔍</div>
+            <p style={{ fontSize: "0.95rem" }}>No problems match your filters.</p>
+            <Link href="/problems" style={{ color: "#1a56db", fontWeight: 600, textDecoration: "none", fontSize: "0.88rem" }}>Clear filters →</Link>
+          </div>
+        ) : (
+          <table className="data-table">
             <thead>
-              <tr style={{ borderBottom: "2px solid #e5e7eb", textAlign: "left" }}>
-                <th style={{ padding: "0.75rem 0.5rem" }}>Problem</th>
-                <th style={{ padding: "0.75rem 0.5rem" }}>Difficulty</th>
-                <th style={{ padding: "0.75rem 0.5rem" }}>Limits</th>
-                <th style={{ padding: "0.75rem 0.5rem", textAlign: "right" }}>Action</th>
+              <tr>
+                <th style={{ width: "40px" }}>#</th>
+                <th>Status</th>
+                <th>Problem</th>
+                <th>Difficulty</th>
+                <th>Tags</th>
+                <th style={{ textAlign: "center" }}>Accepted</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {problems.map((problem) => (
-                <tr key={problem.id} style={{ borderBottom: "1px solid #e5e7eb" }}>
-                  <td style={{ padding: "1rem 0.5rem" }}>
-                    <Link
-                      href={`/problems/${problem.slug}`}
-                      style={{
-                        fontWeight: "600",
-                        color: "#2563eb",
-                        textDecoration: "none",
-                        fontSize: "1.05rem",
-                      }}
-                    >
-                      {problem.title}
-                    </Link>
-                    <div style={{ display: "flex", gap: "0.25rem", marginTop: "0.25rem" }}>
-                      {problem.tags.map((t) => (
-                        <span
-                          key={t.id}
-                          style={{
-                            fontSize: "0.7rem",
-                            backgroundColor: "#f3f4f6",
-                            color: "#4b5563",
-                            padding: "0.1rem 0.4rem",
-                            borderRadius: "0.25rem",
-                          }}
-                        >
-                          {t.name}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td style={{ padding: "1rem 0.5rem" }}>
-                    <span
-                      style={{
-                        fontSize: "0.85rem",
-                        fontWeight: "600",
-                        color:
-                          problem.difficulty === "EASY"
-                            ? "#166534"
-                            : problem.difficulty === "MEDIUM"
-                            ? "#854d0e"
-                            : "#991b1b",
-                      }}
-                    >
-                      {problem.difficulty}
-                    </span>
-                  </td>
-                  <td style={{ padding: "1rem 0.5rem", fontSize: "0.85rem", color: "#4b5563" }}>
-                    {problem.timeLimit} ms / {problem.memoryLimit} MB
-                  </td>
-                  <td style={{ padding: "1rem 0.5rem", textAlign: "right" }}>
-                    <Link
-                      href={`/problems/${problem.slug}`}
-                      style={{
-                        padding: "0.4rem 0.8rem",
-                        backgroundColor: "#2563eb",
-                        color: "#ffffff",
-                        textDecoration: "none",
-                        fontSize: "0.85rem",
-                        borderRadius: "0.25rem",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Solve
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              {problems.map((problem, idx) => {
+                const isSolved    = solvedProblemIds.has(problem.id);
+                const isAttempted = attemptedProblemIds.has(problem.id);
+                const ds = DIFF_STYLE[problem.difficulty] ?? DIFF_STYLE.EASY;
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div style={{ display: "flex", justifyContent: "center", gap: "0.5rem", marginTop: "2rem" }}>
-              {page > 1 && (
-                <Link
-                  href={getPageUrl(page - 1)}
-                  style={{
-                    padding: "0.4rem 0.8rem",
-                    border: "1px solid #d1d5db",
-                    textDecoration: "none",
-                    color: "#374151",
-                    borderRadius: "0.25rem",
-                  }}
-                >
-                  &laquo; Prev
-                </Link>
-              )}
-
-              {Array.from({ length: totalPages }).map((_, idx) => {
-                const pNum = idx + 1;
-                const isCurrent = pNum === page;
                 return (
-                  <Link
-                    key={pNum}
-                    href={getPageUrl(pNum)}
-                    style={{
-                      padding: "0.4rem 0.8rem",
-                      border: "1px solid #d1d5db",
-                      textDecoration: "none",
-                      color: isCurrent ? "#ffffff" : "#374151",
-                      backgroundColor: isCurrent ? "#2563eb" : "transparent",
-                      borderColor: isCurrent ? "#2563eb" : "#d1d5db",
-                      borderRadius: "0.25rem",
-                      fontWeight: isCurrent ? "bold" : "normal",
-                    }}
-                  >
-                    {pNum}
-                  </Link>
+                  <tr key={problem.id}>
+                    <td style={{ color: "#9ca3af", fontWeight: 500, fontSize: "0.82rem" }}>
+                      {skip + idx + 1}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      {isSolved ? (
+                        <span title="Solved" style={{ fontSize: "1.1rem" }}>✅</span>
+                      ) : isAttempted ? (
+                        <span title="Attempted" style={{ fontSize: "1.1rem" }}>🟡</span>
+                      ) : (
+                        <span title="Not attempted" style={{ fontSize: "1.1rem", opacity: 0.25 }}>○</span>
+                      )}
+                    </td>
+                    <td>
+                      <Link
+                        href={`/problems/${problem.slug}`}
+                        style={{ fontWeight: 600, color: isSolved ? "#16a34a" : "#1a56db", textDecoration: "none", fontSize: "0.92rem" }}
+                      >
+                        {problem.title}
+                      </Link>
+                    </td>
+                    <td>
+                      <span style={{ fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.6rem", borderRadius: "999px", background: ds.bg, color: ds.color }}>
+                        {problem.difficulty}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
+                        {problem.tags.slice(0, 3).map((t) => (
+                          <span key={t.id} style={{ fontSize: "0.72rem", background: "#f3f4f6", color: "#6b7280", padding: "0.1rem 0.45rem", borderRadius: "999px" }}>
+                            {t.name}
+                          </span>
+                        ))}
+                        {problem.tags.length > 3 && (
+                          <span style={{ fontSize: "0.72rem", color: "#9ca3af" }}>+{problem.tags.length - 3}</span>
+                        )}
+                      </div>
+                    </td>
+                    <td style={{ textAlign: "center", color: "#16a34a", fontWeight: 700, fontSize: "0.88rem" }}>
+                      {problem._count.submissions}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <Link
+                        href={`/problems/${problem.slug}`}
+                        className="btn btn-ghost"
+                        style={{ padding: "0.3rem 0.85rem", fontSize: "0.82rem" }}
+                      >
+                        Solve →
+                      </Link>
+                    </td>
+                  </tr>
                 );
               })}
+            </tbody>
+          </table>
+        )}
 
-              {page < totalPages && (
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ display: "flex", justifyContent: "center", gap: "0.4rem", padding: "1.25rem", borderTop: "1px solid #f3f4f6" }}>
+            {page > 1 && (
+              <Link href={getPageUrl(page - 1)} className="btn btn-ghost" style={{ padding: "0.4rem 0.85rem", fontSize: "0.85rem" }}>← Prev</Link>
+            )}
+            {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+              const pNum = i + 1;
+              return (
                 <Link
-                  href={getPageUrl(page + 1)}
+                  key={pNum}
+                  href={getPageUrl(pNum)}
                   style={{
-                    padding: "0.4rem 0.8rem",
-                    border: "1px solid #d1d5db",
-                    textDecoration: "none",
-                    color: "#374151",
-                    borderRadius: "0.25rem",
+                    padding: "0.4rem 0.75rem", borderRadius: "6px", fontSize: "0.85rem",
+                    textDecoration: "none", fontWeight: 600,
+                    background: pNum === page ? "#1a56db" : "transparent",
+                    color: pNum === page ? "#fff" : "#374151",
+                    border: `1px solid ${pNum === page ? "#1a56db" : "#e5e7eb"}`,
                   }}
                 >
-                  Next &raquo;
+                  {pNum}
                 </Link>
-              )}
-            </div>
-          )}
-        </>
-      )}
+              );
+            })}
+            {page < totalPages && (
+              <Link href={getPageUrl(page + 1)} className="btn btn-ghost" style={{ padding: "0.4rem 0.85rem", fontSize: "0.85rem" }}>Next →</Link>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
