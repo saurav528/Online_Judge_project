@@ -51,7 +51,7 @@ export async function createProblemAction(formData: any) {
         timeLimit: data.timeLimit,
         memoryLimit: data.memoryLimit,
         published: data.published,
-        createdById: admin.id,
+        createdById: admin.id === "admin-system-bypass" ? null : admin.id,
         tags: {
           connect: tagConnectOrCreate,
         },

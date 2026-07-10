@@ -27,47 +27,51 @@ export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       borderBottom: "1px solid #e5e7eb",
       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
     }}>
-      {/* Left: Logo + Nav */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0" }}>
-        {/* iCFDR Logo */}
-        <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem", marginRight: "2rem" }}>
-          <div style={{
-            background: "#fff",
-            borderRadius: "8px",
-            padding: "3px",
-            border: "1px solid #e5e7eb",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-            <Image src="/icfdr-logo.png" alt="iCFDR" width={36} height={28} style={{ objectFit: "contain" }} />
-          </div>
-          <div>
-            <span style={{ fontWeight: 800, fontSize: "1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>
-              Ummeed
-            </span>
-            {isAdmin && (
-              <span style={{
-                marginLeft: "0.5rem", fontSize: "0.7rem", fontWeight: 700,
-                background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
-                borderRadius: "4px",
-              }}>
-                ADMIN
-              </span>
-            )}
-          </div>
-        </Link>
-
-        {/* Navigation Links */}
-        <nav style={{ display: "flex", alignItems: "center", height: "60px" }}>
-          {NAV_LINKS.map((link) => (
-            <NavLink key={link.href} href={link.href} label={link.label} />
-          ))}
+      {/* Left: Logo */}
+      <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{
+          background: "#fff",
+          borderRadius: "8px",
+          padding: "3px",
+          border: "1px solid #e5e7eb",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+          <Image src="/icfdr-logo.png" alt="iCFDR" width={36} height={28} style={{ objectFit: "contain" }} />
+        </div>
+        <div>
+          <span style={{ fontWeight: 800, fontSize: "1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>
+            Ummeed
+          </span>
           {isAdmin && (
-            <NavLink href="/admin" label="Admin Panel" adminStyle />
+            <span style={{
+              marginLeft: "0.5rem", fontSize: "0.7rem", fontWeight: 700,
+              background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
+              borderRadius: "4px",
+            }}>
+              ADMIN
+            </span>
           )}
-        </nav>
-      </div>
+        </div>
+      </Link>
+
+      {/* Center: Navigation Links */}
+      <nav style={{
+        display: "flex",
+        alignItems: "center",
+        height: "60px",
+        position: "absolute",
+        left: "50%",
+        transform: "translateX(-50%)"
+      }}>
+        {NAV_LINKS.map((link) => (
+          <NavLink key={link.href} href={link.href} label={link.label} />
+        ))}
+        {isAdmin && (
+          <NavLink href="/admin" label="Admin Panel" adminStyle />
+        )}
+      </nav>
 
       {/* Right: User menu */}
       <UserMenu />

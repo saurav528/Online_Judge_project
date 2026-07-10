@@ -5,6 +5,7 @@ import { useUser } from "../providers/user-provider";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { logoutAdminAction } from "@/app/actions/admin-auth";
 
 export function UserMenu() {
   const user = useUser();
@@ -14,13 +15,14 @@ export function UserMenu() {
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
-        onSuccess: () => {
-          router.push("/login");
-          router.refresh();
-        },
+        onSuccess: () => {},
       },
     });
+    await logoutAdminAction();
+    router.push("/login");
+    router.refresh();
   };
+
 
   const initials = user.name
     ? user.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
@@ -98,13 +100,11 @@ export function UserMenu() {
             {/* Menu items */}
             <div style={{ padding: "0.4rem" }}>
               {[
-                { href: "/dashboard",   icon: "🏠", label: "Dashboard" },
-                { href: "/submissions", icon: "📜", label: "My Submissions" },
-                { href: "/problems",    icon: "📋", label: "Problems" },
-                { href: "/contests",    icon: "🏆", label: "Contests" },
+                { href: "/dashboard", icon: "👤", label: "My Profile" },
+                { href: "#",          icon: "⚙️", label: "Settings" },
               ].map((item) => (
                 <Link
-                  key={item.href}
+                  key={item.label}
                   href={item.href}
                   onClick={() => setOpen(false)}
                   style={{

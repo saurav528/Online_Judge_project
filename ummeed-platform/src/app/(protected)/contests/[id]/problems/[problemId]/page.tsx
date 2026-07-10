@@ -6,7 +6,9 @@ import { requireAuth } from "@/lib/auth-utils";
 import { ContestService } from "@/lib/services/contest";
 import { getProblemContent } from "@/lib/problems-fs";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
+import { ContestCountdown } from "../../contest-client";
 import { ContestSubmissionForm } from "./contest-submission-form";
+import { RichText } from "@/components/rich-text";
 
 export default async function ContestProblemPage({
   params,
@@ -18,7 +20,7 @@ export default async function ContestProblemPage({
 
   // Fetch contest with problems
   const [contest, contestProblem, problem, isRegistered] = await Promise.all([
-    prisma.contest.findUnique({ where: { id: contestId } }),
+    ContestService.getContest(contestId),
     prisma.contestProblem.findUnique({
       where: { contestId_problemId: { contestId, problemId } },
       include: { problem: { include: { tags: true } } },
@@ -52,7 +54,7 @@ export default async function ContestProblemPage({
   const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];
 
   return (
-    <div style={{ fontFamily: "sans-serif", maxWidth: "1100px" }}>
+    <div style={{ fontFamily: "sans-serif", maxWidth: "1200px", margin: "0 auto" }}>
       {/* Breadcrumb + Problem Navigation */}
       <div
         style={{
@@ -61,19 +63,27 @@ export default async function ContestProblemPage({
           alignItems: "center",
           marginBottom: "1.25rem",
           flexWrap: "wrap",
-          gap: "0.75rem",
+          gap: "1rem",
         }}
       >
-        <div style={{ fontSize: "0.85rem", color: "#6b7280" }}>
-          <Link href="/contests" style={{ color: "#2563eb", textDecoration: "none" }}>
-            ← Contest Hub
-          </Link>
-          {" / "}
-          <Link href={`/contests/${contestId}`} style={{ color: "#2563eb", textDecoration: "none" }}>
-            {contest.title}
-          </Link>
-          {" / "}
-          <strong style={{ color: "#111827" }}>{problem.title}</strong>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+          <div style={{ fontSize: "0.85rem", color: "#6b7280" }}>
+            <Link href="/contests" style={{ color: "#2563eb", textDecoration: "none" }}>
+              ← Contest Hub
+            </Link>
+            {" / "}
+            <Link href={`/contests/${contestId}`} style={{ color: "#2563eb", textDecoration: "none" }}>
+              {contest.title}
+            </Link>
+            {" / "}
+            <strong style={{ color: "#111827" }}>{problem.title}</strong>
+          </div>
+
+          {/* Time Remaining Timer */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", padding: "0.3rem 0.6rem", backgroundColor: "#fef2f2", border: "1px solid #fee2e2", borderRadius: "6px", fontSize: "0.8rem", color: "#dc2626", fontWeight: 700 }}>
+            <span>⏱️ Time Left:</span>
+            <ContestCountdown endTime={contest.endTime.toISOString()} style={{ fontSize: "0.85rem", color: "#dc2626" }} />
+          </div>
         </div>
 
         {/* Problem switcher */}
@@ -156,22 +166,30 @@ export default async function ContestProblemPage({
             <>
               <section style={{ marginBottom: "1.5rem" }}>
                 <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Problem Statement</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.7, whiteSpace: "pre-wrap" }}>{content.statement}</p>
+                <p style={{ color: "#4b5563", lineHeight: 1.7 }}><RichText>{content.statement}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
                 <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Input</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.6 }}>{content.inputSpecification}</p>
+                <p style={{ color: "#4b5563", lineHeight: 1.6 }}><RichText>{content.inputSpecification}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
                 <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Output</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.6 }}>{content.outputSpecification}</p>
+                <p style={{ color: "#4b5563", lineHeight: 1.6 }}><RichText>{content.outputSpecification}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
                 <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Constraints</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.6, fontFamily: "monospace" }}>{content.constraints}</p>
+                <div style={{
+                  background: "#f8fafc", color: "#0f172a",
+                  border: "1px solid #e2e8f0",
+                  padding: "0.85rem 1.1rem", borderRadius: "8px",
+                  fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem",
+                  overflowX: "auto", margin: 0,
+                }}>
+                  <RichText style={{ color: "#0f172a" }}>{content.constraints}</RichText>
+                </div>
               </section>
 
               {content.examples.length > 0 && (

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { createSubmissionAction } from "@/app/actions/submissions";
+import { createSubmissionAction, runCodeAction } from "@/app/actions/submissions";
 import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
 import { ProblemSignature } from "@/lib/boilerplate/types";
 
@@ -64,6 +64,8 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
       setSourceCode(stored);
     } else if (problemSignature) {
       setSourceCode(BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature));
+    } else {
+      setSourceCode(BoilerplateGenerator.generateGenericBoilerplate(language));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -77,7 +79,7 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
     } else if (problemSignature) {
       setSourceCode(BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature));
     } else {
-      setSourceCode("");
+      setSourceCode(BoilerplateGenerator.generateGenericBoilerplate(language));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, isClient]);
@@ -103,10 +105,14 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
       setSourceCode(boilerplate);
       saveCode(problemId, language, boilerplate);
     } else {
-      setSourceCode("");
-      saveCode(problemId, language, "");
+      const boilerplate = BoilerplateGenerator.generateGenericBoilerplate(language);
+      setSourceCode(boilerplate);
+      saveCode(problemId, language, boilerplate);
     }
   };
+
+  const [runLoading, setRunLoading] = useState(false);
+  const [runOutput, setRunOutput] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,6 +129,37 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
     } else {
       router.push(`/submissions/${res.submissionId}`);
     }
+  };
+
+  const handleRun = async () => {
+    setRunLoading(true);
+    setRunOutput(null);
+    setErrors({});
+    setGlobalError("");
+    
+    const res = await runCodeAction({ problemId, language, sourceCode });
+    
+    setRunLoading(false);
+    
+    if (!res.success) {
+      setGlobalError(res.error || "Failed to run code.");
+      return;
+    }
+    
+    let output = "";
+    if (res.status) output += `Status: ${res.status}\n`;
+    if (res.time) output += `Time: ${res.time}s\n`;
+    if (res.memory) output += `Memory: ${res.memory}KB\n\n`;
+    
+    if (res.compileOutput) output += `[Compilation Output]\n${res.compileOutput}\n\n`;
+    if (res.runtimeOutput) output += `[Runtime Output]\n${res.runtimeOutput}\n\n`;
+    if (res.errorOutput) output += `[Error Output]\n${res.errorOutput}\n\n`;
+    
+    if (!res.compileOutput && !res.runtimeOutput && !res.errorOutput) {
+      output += "No output.";
+    }
+    
+    setRunOutput(output.trim());
   };
 
   const lineCount = sourceCode.split("\n").length;
@@ -270,32 +307,80 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
           <span style={{ fontSize: "0.78rem", color: "#9ca3af" }}>
             {lineCount} lines · Code auto-saved locally
           </span>
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.6rem 1.5rem",
-              background: loading ? "#9ca3af" : "#16a34a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "8px",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 700,
-              fontSize: "0.9rem",
-              cursor: loading ? "not-allowed" : "pointer",
-              transition: "all 150ms ease",
-            }}
-          >
-            {loading ? (
-              <><span className="spinner" /> Submitting...</>
-            ) : (
-              <>⚡ Submit Code</>
-            )}
-          </button>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
+            <button
+              type="button"
+              disabled={loading || runLoading}
+              onClick={handleRun}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.6rem 1.25rem",
+                background: runLoading ? "#e5e7eb" : "#f3f4f6",
+                color: runLoading ? "#9ca3af" : "#374151",
+                border: "1px solid #d1d5db",
+                borderRadius: "8px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+                fontSize: "0.85rem",
+                cursor: (loading || runLoading) ? "not-allowed" : "pointer",
+                transition: "all 150ms ease",
+              }}
+            >
+              {runLoading ? <span className="spinner" style={{borderColor: "#9ca3af", borderTopColor: "transparent"}}/> : "▶️ Run Code"}
+            </button>
+            <button
+              type="submit"
+              disabled={loading || runLoading}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.6rem 1.5rem",
+                background: (loading || runLoading) ? "#9ca3af" : "#16a34a",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 700,
+                fontSize: "0.9rem",
+                cursor: (loading || runLoading) ? "not-allowed" : "pointer",
+                transition: "all 150ms ease",
+              }}
+            >
+              {loading ? (
+                <><span className="spinner" /> Submitting...</>
+              ) : (
+                <>⚡ Submit</>
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* Run Output Terminal */}
+        {runOutput && (
+          <div style={{
+            background: "#1e1e1e",
+            color: "#d4d4d4",
+            padding: "1rem 1.25rem",
+            fontFamily: "var(--font-mono, monospace)",
+            fontSize: "0.85rem",
+            borderTop: "1px solid #333",
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#858585" }}>
+              <span style={{ fontWeight: 600 }}>Terminal Output</span>
+              <button 
+                type="button" 
+                onClick={() => setRunOutput(null)}
+                style={{ background: "none", border: "none", color: "#858585", cursor: "pointer", fontSize: "0.85rem" }}
+              >
+                ✕ Close
+              </button>
+            </div>
+            <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{runOutput}</pre>
+          </div>
+        )}
       </form>
     </div>
   );

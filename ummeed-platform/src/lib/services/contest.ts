@@ -7,7 +7,7 @@ export class ContestService {
    * List all published contests ordered by startTime descending.
    */
   static async listContests() {
-    return prisma.contest.findMany({
+    const contests = await prisma.contest.findMany({
       where: { published: true },
       include: {
         problems: {
@@ -18,13 +18,26 @@ export class ContestService {
       },
       orderBy: { startTime: "desc" },
     });
+
+    const now = new Date();
+    return contests.map((c) => {
+      let status: "UPCOMING" | "RUNNING" | "ENDED" = c.status;
+      if (now >= c.endTime) {
+        status = "ENDED";
+      } else if (now >= c.startTime) {
+        status = "RUNNING";
+      } else {
+        status = "UPCOMING";
+      }
+      return { ...c, status };
+    });
   }
 
   /**
    * Get a single contest with full problem details.
    */
   static async getContest(id: string) {
-    return prisma.contest.findUnique({
+    const contest = await prisma.contest.findUnique({
       where: { id },
       include: {
         problems: {
@@ -34,6 +47,20 @@ export class ContestService {
         _count: { select: { participants: true } },
       },
     });
+
+    if (!contest) return null;
+
+    const now = new Date();
+    let status: "UPCOMING" | "RUNNING" | "ENDED" = contest.status;
+    if (now >= contest.endTime) {
+      status = "ENDED";
+    } else if (now >= contest.startTime) {
+      status = "RUNNING";
+    } else {
+      status = "UPCOMING";
+    }
+
+    return { ...contest, status };
   }
 
   /**

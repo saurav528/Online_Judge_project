@@ -11,7 +11,7 @@ export async function POST(
     const user = await requireAuth();
     const { id: contestId } = await params;
 
-    const contest = await prisma.contest.findUnique({ where: { id: contestId } });
+    const contest = await ContestService.getContest(contestId);
     if (!contest) {
       return NextResponse.json({ error: "Contest not found" }, { status: 404 });
     }

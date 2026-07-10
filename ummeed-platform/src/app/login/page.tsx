@@ -237,6 +237,14 @@ export default function LoginPage() {
               Sign up
             </Link>
           </p>
+
+          <p style={{ textAlign: "center", marginTop: "0.75rem", color: "#64748b", fontSize: "0.88rem" }}>
+            Are you an administrator?{" "}
+            <Link href="/admin-login" style={{ color: "#ef4444", fontWeight: 600, textDecoration: "none" }}>
+              Admin Console
+            </Link>
+          </p>
+
         </div>
       </div>
     </div>

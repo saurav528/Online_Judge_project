@@ -8,6 +8,7 @@ import { ProblemSubmissions } from "@/components/problems/problem-submissions";
 import { TabPanel } from "@/components/ui/tab-panel";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
 import { requireAuth } from "@/lib/auth-utils";
+import { RichText } from "@/components/rich-text";
 
 export default async function StudentProblemDetailsPage({
   params,
@@ -48,32 +49,33 @@ export default async function StudentProblemDetailsPage({
       {/* Problem Statement */}
       <section style={{ marginBottom: "1.75rem" }}>
         <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Problem Statement</h3>
-        <p style={{ whiteSpace: "pre-wrap", fontSize: "0.95rem" }}>{fileContent.statement}</p>
+        <p style={{ fontSize: "0.95rem" }}><RichText>{fileContent.statement}</RichText></p>
       </section>
 
       {/* Input / Output Specs */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.75rem" }}>
         <div>
           <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Input Format</h3>
-          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.inputSpecification}</p>
+          <p style={{ fontSize: "0.9rem" }}><RichText>{fileContent.inputSpecification}</RichText></p>
         </div>
         <div>
           <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Output Format</h3>
-          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.outputSpecification}</p>
+          <p style={{ fontSize: "0.9rem" }}><RichText>{fileContent.outputSpecification}</RichText></p>
         </div>
       </div>
 
       {/* Constraints */}
       <section style={{ marginBottom: "1.75rem" }}>
         <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Constraints</h3>
-        <pre style={{
-          background: "#0d1117", color: "#e6edf3",
+        <div style={{
+          background: "#f8fafc", color: "#0f172a",
+          border: "1px solid #e2e8f0",
           padding: "0.85rem 1.1rem", borderRadius: "8px",
           fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem",
           overflowX: "auto", margin: 0,
         }}>
-          {fileContent.constraints}
-        </pre>
+          <RichText style={{ color: "#0f172a" }}>{fileContent.constraints}</RichText>
+        </div>
       </section>
 
       {/* Examples */}
@@ -123,7 +125,7 @@ export default async function StudentProblemDetailsPage({
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "1200px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "1200px", margin: "0 auto" }}>
       {/* Header */}
       <div className="card" style={{ padding: "1.25rem 1.5rem" }}>
         <div style={{ marginBottom: "0.5rem", fontSize: "0.82rem" }}>

@@ -5,16 +5,17 @@ import { useRouter } from "next/navigation";
 
 interface CountdownProps {
   endTime: string;
+  style?: React.CSSProperties;
 }
 
-export function ContestCountdown({ endTime }: CountdownProps) {
+export function ContestCountdown({ endTime, style }: CountdownProps) {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
     const calc = () => {
       const diff = new Date(endTime).getTime() - Date.now();
       if (diff <= 0) {
-        setTimeLeft("Contest ended");
+        setTimeLeft("Ended");
         return;
       }
       const h = Math.floor(diff / 3600000);
@@ -35,6 +36,7 @@ export function ContestCountdown({ endTime }: CountdownProps) {
         fontWeight: 700,
         color: "#15803d",
         letterSpacing: "0.05em",
+        ...style,
       }}
     >
       {timeLeft}

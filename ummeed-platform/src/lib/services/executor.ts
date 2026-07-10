@@ -143,42 +143,31 @@ export class Judge0Executor implements SubmissionExecutor {
       }
     }
 
-    if (!signature) {
-      console.error(`No signature available for problem ${problem.slug}`);
-      await prisma.submission.update({
-        where: { id: submissionId },
-        data: {
-          status: SubmissionStatus.FAILED,
-          verdict: Verdict.INTERNAL_ERROR,
-          errorOutput: "Failed to generate boilerplate: signature metadata is missing.",
-        },
-      });
-      return;
-    }
-
     // 3. Construct the wrapped executable program
-    let wrappedCode = "";
-    try {
-      wrappedCode = WrapperService.wrapSolution(
-        submission.sourceCode,
-        signature,
-        submission.language
-      );
-    } catch (e: any) {
-      console.error("Code wrapping failed", e);
-      await prisma.submission.update({
-        where: { id: submissionId },
-        data: {
-          status: SubmissionStatus.FAILED,
-          verdict: Verdict.INTERNAL_ERROR,
-          errorOutput: `Code wrapping failed: ${e.message || e}`,
-        },
-      });
-      return;
+    let wrappedCode = submission.sourceCode;
+    if (signature) {
+      try {
+        wrappedCode = WrapperService.wrapSolution(
+          submission.sourceCode,
+          signature,
+          submission.language
+        );
+      } catch (e: any) {
+        console.error("Code wrapping failed", e);
+        await prisma.submission.update({
+          where: { id: submissionId },
+          data: {
+            status: SubmissionStatus.FAILED,
+            verdict: Verdict.INTERNAL_ERROR,
+            errorOutput: `Code wrapping failed: ${e.message || e}`,
+          },
+        });
+        return;
+      }
     }
 
-    // 4. Consolidate all testcases into a single stream with testcase count T at the top
-    let consolidatedInput = `${problem.testCases.length}\n`;
+    // 4. Consolidate all testcases into a single stream (with testcase count T at the top if signature exists)
+    let consolidatedInput = signature ? `${problem.testCases.length}\n` : "";
     let consolidatedOutput = "";
 
     try {
@@ -270,8 +259,9 @@ export class Judge0Executor implements SubmissionExecutor {
         case 9:
         case 10:
         case 11: dbStatus = SubmissionStatus.COMPLETED; dbVerdict = Verdict.RUNTIME_ERROR; break;
-        case 12: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.INTERNAL_ERROR; break;
-        case 13: dbStatus = SubmissionStatus.COMPLETED; dbVerdict = Verdict.WRONG_ANSWER; break;
+        case 12: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.RUNTIME_ERROR; break;
+        case 13: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.INTERNAL_ERROR; break;
+        case 14: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.INTERNAL_ERROR; break;
         default: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.INTERNAL_ERROR; break;
       }
 

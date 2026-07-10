@@ -20,7 +20,7 @@ export async function POST(
     }
 
     // Validate contest exists and is RUNNING
-    const contest = await prisma.contest.findUnique({ where: { id: contestId } });
+    const contest = await ContestService.getContest(contestId);
     if (!contest) {
       return NextResponse.json({ error: "Contest not found" }, { status: 404 });
     }

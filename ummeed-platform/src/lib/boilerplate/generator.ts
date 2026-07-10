@@ -2,9 +2,21 @@ import { ProblemSignature, LanguageDefinition } from "./types";
 import { LANGUAGE_REGISTRY } from "./languages";
 
 export class BoilerplateGenerator {
-  /**
-   * Generates the code snippet shown in the student's browser editor.
-   */
+  static generateGenericBoilerplate(langKey: string): string {
+    switch (langKey) {
+      case "CPP":
+        return `#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    \n    return 0;\n}\n`;
+      case "JAVA":
+        return `import java.util.*;\nimport java.io.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}\n`;
+      case "PYTHON":
+        return `def main():\n    # Write your code here\n    pass\n\nif __name__ == "__main__":\n    main()\n`;
+      case "JAVASCRIPT":
+        return `function main() {\n    // Write your code here\n    \n}\n\nmain();\n`;
+      default:
+        return "// Write your code here\n";
+    }
+  }
+
   static generateStudentBoilerplate(langKey: string, sig: ProblemSignature): string {
     const lang = LANGUAGE_REGISTRY[langKey];
     if (!lang) {

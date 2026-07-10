@@ -84,21 +84,23 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
       minHeight: "calc(100vh - 60px)",
     }}>
       {/* Main nav */}
-      <div>
-        <p style={{
-          textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700,
-          color: "#9ca3af", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
-        }}>
-          Main
-        </p>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          <SidebarLink href="/dashboard"    icon="🏠" label="Home" />
-          <SidebarLink href="/problems"     icon="📋" label="Problems" />
-          <SidebarLink href="/contests"     icon="🏆" label="Contest Hub" />
-          <SidebarLink href="/submissions"  icon="📜" label="My Submissions" />
-          <SidebarLink href="/leaderboard"  icon="🥇" label="Leaderboard" />
-        </ul>
-      </div>
+      {!isAdmin && (
+        <div>
+          <p style={{
+            textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700,
+            color: "#9ca3af", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
+          }}>
+            Main
+          </p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            <SidebarLink href="/dashboard"    icon="🏠" label="Home" />
+            <SidebarLink href="/problems"     icon="📋" label="Problems" />
+            <SidebarLink href="/contests"     icon="🏆" label="Contest Hub" />
+            <SidebarLink href="/submissions"  icon="📜" label="My Submissions" />
+            <SidebarLink href="/leaderboard"  icon="🥇" label="Leaderboard" />
+          </ul>
+        </div>
+      )}
 
       {/* Admin section */}
       {isAdmin && (
@@ -110,7 +112,9 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
             Admin
           </p>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            <SidebarLink href="/admin" icon="⚙️" label="Admin Panel" />
+            <SidebarLink href="/admin" icon="⚙️" label="Overview" />
+            <SidebarLink href="/admin/problems" icon="📋" label="Manage Problems" />
+            <SidebarLink href="/admin/contests" icon="🏆" label="Manage Contests" />
           </ul>
         </div>
       )}
