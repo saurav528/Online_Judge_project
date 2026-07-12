@@ -1,0 +1,1 @@
+chore: replace default favicon with branding icon
