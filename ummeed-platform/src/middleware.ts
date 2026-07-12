@@ -13,7 +13,8 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/admin/") ||
     request.nextUrl.pathname.startsWith("/problems") ||
     request.nextUrl.pathname.startsWith("/contests") ||
-    request.nextUrl.pathname.startsWith("/leaderboard");
+    request.nextUrl.pathname.startsWith("/leaderboard") ||
+    request.nextUrl.pathname.startsWith("/duels");
 
 
   const isAuthRoute =
@@ -50,6 +51,7 @@ export const config = {
     "/problems/:path*",
     "/contests/:path*",
     "/leaderboard/:path*",
+    "/duels/:path*",
     "/login",
     "/signup",
     "/admin-login",

@@ -5,6 +5,7 @@ import { getProblemContent } from "@/lib/problems-fs";
 import Link from "next/link";
 import { SubmissionForm } from "@/components/problems/submission-form";
 import { ProblemSubmissions } from "@/components/problems/problem-submissions";
+import { AIHintPanel } from "@/components/problems/ai-hint-panel";
 import { TabPanel } from "@/components/ui/tab-panel";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
 import { requireAuth } from "@/lib/auth-utils";
@@ -166,18 +167,20 @@ export default async function StudentProblemDetailsPage({
 
       {/* Main split layout */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 480px", gap: "1.25rem", alignItems: "start" }}>
-        {/* Left: Problem statement + Submissions tab */}
+        {/* Left: Problem statement + Submissions tab + AI Assistant */}
         <div className="card" style={{ padding: "1.5rem" }}>
           <TabPanel
             tabs={[
               { id: "statement",   label: "Problem",     icon: "📋" },
               { id: "submissions", label: "My Submissions", icon: "📜", count: submissionCount },
+              { id: "ai_hint",     label: "AI Hint",     icon: "🤖" },
             ]}
             defaultTab="statement"
           >
             {{
               statement: statementContent,
               submissions: <ProblemSubmissions problemId={problem.id} userId={user.id} />,
+              ai_hint: <AIHintPanel problemId={problem.id} problemSlug={problem.slug} />,
             }}
           </TabPanel>
         </div>
@@ -194,3 +197,4 @@ export default async function StudentProblemDetailsPage({
     </div>
   );
 }
+

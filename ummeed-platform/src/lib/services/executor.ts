@@ -6,6 +6,8 @@ import { ProblemSignature } from "../boilerplate/types";
 import { WrapperService } from "./wrapper";
 import { LANGUAGE_REGISTRY } from "../boilerplate/languages";
 import { ContestService } from "./contest";
+import { DuelService } from "./duel";
+
 
 export interface SubmissionExecutor {
   execute(submissionId: string): Promise<void>;
@@ -289,6 +291,14 @@ export class Judge0Executor implements SubmissionExecutor {
           (err) => console.error("Failed to recalculate contest score:", err)
         );
       }
+
+      // 8. If the user is in an active duel room, update their score
+      DuelService.handleSubmission(
+        updatedSubmission.userId,
+        updatedSubmission.problemId,
+        updatedSubmission.verdict
+      ).catch((err) => console.error("Failed to update duel score:", err));
+
     } catch (e: any) {
       console.error("Failed to forward code to Judge0", e);
       await prisma.submission.update({

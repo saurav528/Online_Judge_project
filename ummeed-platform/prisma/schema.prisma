@@ -128,6 +128,7 @@ model Problem {
   testCases        TestCase[]
   submissions      Submission[]
   contestProblems  ContestProblem[]
+  duelRooms        DuelRoom[]
 
   @@index([createdById])
 }
@@ -224,3 +225,39 @@ model ContestParticipant {
   @@index([userId])
   @@index([contestId])
 }
+
+enum DuelStatus {
+  MATCHMAKING
+  PLAYING
+  FINISHED
+  CANCELLED
+}
+
+model DuelRoom {
+  id           String     @id @default(uuid())
+  status       DuelStatus @default(MATCHMAKING)
+  difficulty   Difficulty @default(EASY)
+  
+  player1Id    String
+  player2Id    String?
+  
+  player1Score Int        @default(0)
+  player2Score Int        @default(0)
+  
+  problemId    String?
+  problem      Problem?   @relation(fields: [problemId], references: [id], onDelete: SetNull)
+  
+  createdAt    DateTime   @default(now())
+  startedAt    DateTime?
+  endsAt       DateTime?
+  
+  winnerId     String?
+}
+
+model DuelQueue {
+  id         String     @id @default(cuid())
+  userId     String     @unique
+  difficulty Difficulty @default(EASY)
+  joinedAt   DateTime   @default(now())
+}
+

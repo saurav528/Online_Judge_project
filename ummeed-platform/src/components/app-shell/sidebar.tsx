@@ -98,6 +98,7 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
             <SidebarLink href="/contests"     icon="🏆" label="Contest Hub" />
             <SidebarLink href="/submissions"  icon="📜" label="My Submissions" />
             <SidebarLink href="/leaderboard"  icon="🥇" label="Leaderboard" />
+            <SidebarLink href="/duels"        icon="⚔️" label="1v1 Duels" />
           </ul>
         </div>
       )}
