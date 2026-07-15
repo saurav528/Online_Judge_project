@@ -141,12 +141,20 @@ public:
             `    bool ${p.name};\n    {\n        std::string temp;\n        std::cin >> temp;\n        ${p.name} = (temp == "true" || temp == "1");\n    }`
           );
         } else if (p.type === "int[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    int size_${p.name};\n    std::cin >> size_${p.name};\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    int size_${p.name};\n    std::cin >> size_${p.name};\n    std::vector<int> ${p.name}(size_${p.name});\n    for(int i = 0; i < size_${p.name}; ++i) {\n        std::cin >> ${p.name}[i];\n    }`
+            `${sizeDecl}    std::vector<int> ${p.name}(${sizeVar});\n    for(int i = 0; i < ${sizeVar}; ++i) {\n        std::cin >> ${p.name}[i];\n    }`
           );
         } else if (p.type === "string[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    int size_${p.name};\n    std::cin >> size_${p.name};\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    int size_${p.name};\n    std::cin >> size_${p.name};\n    std::vector<std::string> ${p.name}(size_${p.name});\n    for(int i = 0; i < size_${p.name}; ++i) {\n        std::cin >> ${p.name}[i];\n    }`
+            `${sizeDecl}    std::vector<std::string> ${p.name}(${sizeVar});\n    for(int i = 0; i < ${sizeVar}; ++i) {\n        std::cin >> ${p.name}[i];\n    }`
           );
         } else if (p.type === "int[][]") {
           lines.push(
@@ -170,12 +178,20 @@ public:
             `        boolean ${p.name} = Boolean.parseBoolean(readNextToken(reader));`
           );
         } else if (p.type === "int[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `        int size_${p.name} = Integer.parseInt(readNextToken(reader));\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `        int size_${p.name} = Integer.parseInt(readNextToken(reader));\n        int[] ${p.name} = new int[size_${p.name}];\n        for(int i = 0; i < size_${p.name}; i++) {\n            ${p.name}[i] = Integer.parseInt(readNextToken(reader));\n        }`
+            `${sizeDecl}        int[] ${p.name} = new int[${sizeVar}];\n        for(int i = 0; i < ${sizeVar}; i++) {\n            ${p.name}[i] = Integer.parseInt(readNextToken(reader));\n        }`
           );
         } else if (p.type === "string[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `        int size_${p.name} = Integer.parseInt(readNextToken(reader));\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `        int size_${p.name} = Integer.parseInt(readNextToken(reader));\n        String[] ${p.name} = new String[size_${p.name}];\n        for(int i = 0; i < size_${p.name}; i++) {\n            ${p.name}[i] = readNextToken(reader);\n        }`
+            `${sizeDecl}        String[] ${p.name} = new String[${sizeVar}];\n        for(int i = 0; i < ${sizeVar}; i++) {\n            ${p.name}[i] = readNextToken(reader);\n        }`
           );
         } else if (p.type === "int[][]") {
           lines.push(
@@ -194,12 +210,20 @@ public:
             `    ${p.name} = next_token().lower() in ("true", "1")`
           );
         } else if (p.type === "int[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    size_${p.name} = int(next_token())\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    size_${p.name} = int(next_token())\n    ${p.name} = [int(next_token()) for _ in range(size_${p.name})]`
+            `${sizeDecl}    ${p.name} = [int(next_token()) for _ in range(${sizeVar})]`
           );
         } else if (p.type === "string[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    size_${p.name} = int(next_token())\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    size_${p.name} = int(next_token())\n    ${p.name} = [next_token() for _ in range(size_${p.name})]`
+            `${sizeDecl}    ${p.name} = [next_token() for _ in range(${sizeVar})]`
           );
         } else if (p.type === "int[][]") {
           lines.push(
@@ -218,12 +242,20 @@ public:
             `    const ${p.name} = nextToken().toLowerCase() === "true" || nextToken() === "1";`
           );
         } else if (p.type === "int[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    const size_${p.name} = parseInt(nextToken(), 10);\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    const size_${p.name} = parseInt(nextToken(), 10);\n    const ${p.name} = [];\n    for(let i = 0; i < size_${p.name}; i++) {\n        ${p.name}.push(parseInt(nextToken(), 10));\n    }`
+            `${sizeDecl}    const ${p.name} = [];\n    for(let i = 0; i < ${sizeVar}; i++) {\n        ${p.name}.push(parseInt(nextToken(), 10));\n    }`
           );
         } else if (p.type === "string[]") {
+          const pIndex = sig.parameters.indexOf(p);
+          const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
+          const sizeDecl = precedingSizeParam ? "" : `    const size_${p.name} = parseInt(nextToken(), 10);\n`;
+          const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `    const size_${p.name} = parseInt(nextToken(), 10);\n    const ${p.name} = [];\n    for(let i = 0; i < size_${p.name}; i++) {\n        ${p.name}.push(nextToken());\n    }`
+            `${sizeDecl}    const ${p.name} = [];\n    for(let i = 0; i < ${sizeVar}; i++) {\n        ${p.name}.push(nextToken());\n    }`
           );
         } else if (p.type === "int[][]") {
           lines.push(
