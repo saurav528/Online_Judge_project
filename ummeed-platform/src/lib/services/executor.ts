@@ -267,8 +267,19 @@ export class Judge0Executor implements SubmissionExecutor {
         default: dbStatus = SubmissionStatus.FAILED; dbVerdict = Verdict.INTERNAL_ERROR; break;
       }
 
-      const executionTimeMs = time ? Math.round(parseFloat(time) * 1000) : null;
-      const memoryUsedKb = memory ? Math.round(parseFloat(memory)) : null;
+      // Calculate passed test cases count
+      let passedCount = 0;
+      if (dbVerdict === Verdict.ACCEPTED) {
+        passedCount = problem.testCases.length;
+      } else if (dbVerdict === Verdict.WRONG_ANSWER) {
+        const expectedLines = consolidatedOutput.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+        const actualLines = decodeBase64(stdout).split("\n").map(l => l.trim()).filter(l => l.length > 0);
+        for (let i = 0; i < expectedLines.length; i++) {
+          if (actualLines[i] === expectedLines[i]) {
+            passedCount++;
+          }
+        }
+      }
 
       // 6. Update submission record with execution results synchronously
       const updatedSubmission = await prisma.submission.update({
@@ -282,6 +293,7 @@ export class Judge0Executor implements SubmissionExecutor {
           compileOutput: decodeBase64(compile_output),
           runtimeOutput: decodeBase64(stdout),
           errorOutput: decodeBase64(stderr),
+          score: passedCount,
         },
       });
 
