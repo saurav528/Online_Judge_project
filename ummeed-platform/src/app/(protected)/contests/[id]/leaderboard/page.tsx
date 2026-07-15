@@ -35,6 +35,46 @@ export default async function LeaderboardPage({
 
   if (!contest) notFound();
 
+  const isEnded = new Date() > new Date(contest.endTime);
+  const isAdmin = user.role === "ADMIN";
+
+  if (!isEnded && !isAdmin) {
+    return (
+      <div
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "3rem 2rem",
+          borderRadius: "0.75rem",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          maxWidth: "600px",
+          margin: "3rem auto",
+        }}
+      >
+        <h2 style={{ color: "#111827", margin: "0 0 1rem", fontSize: "1.5rem" }}>🔒 Leaderboard is Locked</h2>
+        <p style={{ color: "#4b5563", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
+          The leaderboard for this contest will become available once the contest has officially ended.
+        </p>
+        <Link
+          href={`/contests/${id}`}
+          style={{
+            display: "inline-block",
+            padding: "0.55rem 1.4rem",
+            backgroundColor: "#2563eb",
+            color: "#ffffff",
+            textDecoration: "none",
+            borderRadius: "0.4rem",
+            fontWeight: 700,
+            fontSize: "0.9rem",
+          }}
+        >
+          Return to Contest Detail
+        </Link>
+      </div>
+    );
+  }
+
   const { rows } = leaderboard;
 
   return (
