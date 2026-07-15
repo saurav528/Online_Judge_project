@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/problems",    label: "Problems",     icon: "📋" },
   { href: "/contests",    label: "Contests",     icon: "🏆" },
   { href: "/submissions", label: "Submissions",  icon: "📜" },
+  { href: "/duels",        label: "1v1 Duels",    icon: "⚔️" },
 ];
 
 export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
