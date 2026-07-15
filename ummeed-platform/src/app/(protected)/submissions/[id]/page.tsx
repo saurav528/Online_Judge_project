@@ -182,6 +182,16 @@ export default async function SubmissionDetailPage({ params }: SubmissionDetailP
 
           {submission.status === "COMPLETED" && (
             <>
+              {submission.score !== null && (
+                <div>
+                  <span style={{ display: "block", fontSize: "0.8rem", color: "#6b7280", fontWeight: "bold" }}>
+                    Test Cases Passed:
+                  </span>
+                  <strong style={{ color: submission.verdict === "ACCEPTED" ? "#16a34a" : "#dc2626" }}>
+                    {submission.score} / {submission.problem.testCases.length} Passed
+                  </strong>
+                </div>
+              )}
               <div>
                 <span style={{ display: "block", fontSize: "0.8rem", color: "#6b7280", fontWeight: "bold" }}>
                   Execution Time:

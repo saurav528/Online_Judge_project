@@ -127,10 +127,11 @@ export default async function DashboardPage() {
         <h3 style={{ margin: "0 0 1rem", fontSize: "1rem", fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           Quick Access
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
           {[
             { href: "/problems", icon: "📋", title: "Practice Problems", desc: `${totalProblems} problems available`, color: "#1a56db", bg: "linear-gradient(135deg, #dbeafe, #eff6ff)" },
             { href: "/contests", icon: "🏟️", title: "Contest Hub",       desc: `${runningContests.length} live now`, color: "#16a34a", bg: "linear-gradient(135deg, #dcfce7, #f0fdf4)" },
+            { href: "/duels",    icon: "⚔️", title: "1v1 Duels",         desc: "Real-time matchmaking", color: "#dc2626", bg: "linear-gradient(135deg, #fee2e2, #fef2f2)" },
             { href: "/submissions", icon: "📜", title: "My Submissions",  desc: `${totalSubmissions} total submissions`, color: "#7c3aed", bg: "linear-gradient(135deg, #ede9fe, #f5f3ff)" },
             { href: "/leaderboard", icon: "🏆", title: "Leaderboard",    desc: "See top performers", color: "#d97706", bg: "linear-gradient(135deg, #fef3c7, #fffbeb)" },
           ].map((card) => (
