@@ -1,4 +1,4 @@
-import { ProblemSignature, LanguageDefinition } from "./types";
+import { ProblemSignature } from "./types";
 import { LANGUAGE_REGISTRY } from "./languages";
 
 export class BoilerplateGenerator {

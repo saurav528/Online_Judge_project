@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth-utils";
-import { prisma } from "@/lib/prisma";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
+import { prisma } from "@/config/db";
 
 export default async function AdminPage() {
   const user = await getCurrentUser();

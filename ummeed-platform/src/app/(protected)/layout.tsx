@@ -1,5 +1,5 @@
 import React from "react";
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth } from "@/lib/auth/auth-utils";
 import { UserProvider, AuthUser } from "@/components/providers/user-provider";
 import { Navbar } from "@/components/app-shell/navbar";
 import { Sidebar } from "@/components/app-shell/sidebar";

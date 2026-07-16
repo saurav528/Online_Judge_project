@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { deleteContestAction } from "@/app/actions/contests";
 
 // Server action wrapper to handle delete from the list directly

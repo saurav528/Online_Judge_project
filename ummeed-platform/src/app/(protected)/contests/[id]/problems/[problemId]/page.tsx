@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/config/db";
+import { requireAuth } from "@/lib/auth/auth-utils";
 import { ContestService } from "@/lib/services/contest";
 import { getProblemContent } from "@/lib/problems-fs";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";

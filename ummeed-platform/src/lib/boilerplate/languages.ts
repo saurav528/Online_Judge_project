@@ -1,4 +1,4 @@
-import { LanguageDefinition, ParamType } from "./types";
+import { LanguageDefinition } from "./types";
 
 export const LANGUAGE_REGISTRY: Record<string, LanguageDefinition> = {
   CPP: {

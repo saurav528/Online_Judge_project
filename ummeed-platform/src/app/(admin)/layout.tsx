@@ -1,5 +1,5 @@
 import React from "react";
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin } from "@/lib/auth/auth-utils";
 import { UserProvider, AuthUser } from "@/components/providers/user-provider";
 import { Navbar } from "@/components/app-shell/navbar";
 import { Sidebar } from "@/components/app-shell/sidebar";

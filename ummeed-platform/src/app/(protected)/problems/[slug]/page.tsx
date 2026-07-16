@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { getProblemContent } from "@/lib/problems-fs";
 import Link from "next/link";
 import { SubmissionForm } from "@/components/problems/submission-form";
@@ -8,7 +8,7 @@ import { ProblemSubmissions } from "@/components/problems/problem-submissions";
 import { AIHintPanel } from "@/components/problems/ai-hint-panel";
 import { TabPanel } from "@/components/ui/tab-panel";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth } from "@/lib/auth/auth-utils";
 import { RichText } from "@/components/rich-text";
 
 export default async function StudentProblemDetailsPage({

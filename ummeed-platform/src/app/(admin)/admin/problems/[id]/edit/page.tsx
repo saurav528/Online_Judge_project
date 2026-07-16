@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { getProblemContent } from "@/lib/problems-fs";
 import { ProblemForm } from "@/components/admin/problem-form";
 

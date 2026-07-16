@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { deleteProblemAction } from "@/app/actions/problems";
 import { revalidatePath } from "next/cache";
 

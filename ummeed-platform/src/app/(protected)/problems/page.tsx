@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { ProblemSearchSchema } from "@/lib/validation";
-import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/config/db";
+import { ProblemSearchSchema } from "@/lib/validation/problem";
+import { requireAuth } from "@/lib/auth/auth-utils";
 
 interface StudentProblemsPageProps {
   searchParams: Promise<{

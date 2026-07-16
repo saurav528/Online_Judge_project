@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useUser } from "../providers/user-provider";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { logoutAdminAction } from "@/app/actions/admin-auth";

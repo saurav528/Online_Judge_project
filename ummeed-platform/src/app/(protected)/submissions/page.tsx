@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { SubmissionService } from "@/lib/services/submission";
 
 interface SubmissionsPageProps {

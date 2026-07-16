@@ -11,8 +11,7 @@ export function RichText({ children, text, style }: RichTextProps) {
 
   if (!content) return null;
 
-  // Process text transformations
-  let processed = content
+  const processed = content
     .replace(/\\times/g, "×")
     .replace(/\\dots/g, "…")
     .replace(/\\le/g, "≤")
