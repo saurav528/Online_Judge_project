@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-export const DifficultySchema = z.enum(["EASY", "MEDIUM", "HARD"]);
+import { DifficultySchema } from "./shared";
 
 export const ProblemExampleSchema = z.object({
   input: z.string().min(1, "Input is required"),
@@ -39,7 +38,6 @@ export const ProblemFormSchema = z.object({
   testCases: z.array(ProblemTestCaseSchema).min(1, "At least one testcase is required"),
 });
 
-// Search and filter validations
 export const ProblemSearchSchema = z.object({
   q: z.string().optional(),
   difficulty: DifficultySchema.or(z.literal("")).optional(),
@@ -47,34 +45,3 @@ export const ProblemSearchSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().default(10),
 });
-
-export const LanguageSchema = z.enum(["CPP", "PYTHON", "JAVA", "JAVASCRIPT"]);
-
-export const SubmissionCreateSchema = z.object({
-  problemId: z.string().uuid("Invalid problem ID format"),
-  language: LanguageSchema,
-  sourceCode: z
-    .string()
-    .min(10, "Source code must be at least 10 characters")
-    .max(65536, "Source code cannot exceed 64 KB"),
-});
-
-export const ContestProblemFormSchema = z.object({
-  problemId: z.string().uuid("Invalid problem ID format"),
-  points: z.number().int().positive("Points must be positive").default(100),
-  sequence: z.number().int().nonnegative("Sequence must be non-negative"),
-});
-
-export const ContestFormSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters").max(100),
-  description: z.string().optional().nullable(),
-  startTime: z.coerce.date(),
-  endTime: z.coerce.date(),
-  published: z.boolean().default(false),
-  problems: z.array(ContestProblemFormSchema).default([]),
-}).refine((data) => data.endTime > data.startTime, {
-  message: "End time must be after start time",
-  path: ["endTime"],
-});
-
-
