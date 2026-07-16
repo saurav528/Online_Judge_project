@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ummeed Coding Platform",
+  title: "Umeed Coding Platform",
   description: "A competitive programming platform for students",
 };
 

@@ -126,8 +126,8 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
           fontSize: "0.75rem", color: "#9ca3af", textAlign: "center",
           paddingTop: "1rem", borderTop: "1px solid #f3f4f6",
         }}>
-          Ummeed Platform<br />
-          <span style={{ color: "#d1d5db" }}>by iCFDR</span>
+          Umeed Platform<br />
+          <span style={{ color: "#d1d5db" }}>Coding Platform</span>
         </div>
       </div>
     </aside>

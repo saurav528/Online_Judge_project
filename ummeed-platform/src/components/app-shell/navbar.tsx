@@ -39,7 +39,7 @@ export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
           alignItems: "center",
           justifyContent: "center",
         }}>
-          <Image src="/icfdr-logo.png" alt="iCFDR" width={36} height={28} style={{ objectFit: "contain" }} />
+          <Image src="/umeed-logo.png" alt="Umeed" width={36} height={28} style={{ objectFit: "contain" }} />
         </div>
         <div>
           <span style={{ fontWeight: 800, fontSize: "1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>

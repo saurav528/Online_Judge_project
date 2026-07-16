@@ -57,7 +57,7 @@ export default function LoginPage() {
         <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "250px", height: "250px", borderRadius: "50%", background: "rgba(255,107,0,0.1)", zIndex: 0 }} />
 
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "420px" }}>
-          {/* iCFDR Logo */}
+          {/* Umeed Logo */}
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -68,11 +68,11 @@ export default function LoginPage() {
             marginBottom: "2rem",
             boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
           }}>
-            <Image src="/icfdr-logo.png" alt="iCFDR Logo" width={180} height={100} style={{ objectFit: "contain" }} priority />
+            <Image src="/umeed-logo.png" alt="Umeed Logo" width={180} height={100} style={{ objectFit: "contain" }} priority />
           </div>
 
           <h1 style={{ color: "#ffffff", fontSize: "2rem", fontWeight: 800, marginBottom: "0.75rem", letterSpacing: "-0.02em" }}>
-            Ummeed Coding Platform
+            Umeed Coding Platform
           </h1>
           <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2.5rem" }}>
             Sharpen your skills. Compete in contests.<br />Build your coding future.
@@ -140,7 +140,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-input"
-                placeholder="you@ummeed.org"
+                placeholder="you@umeed.org"
                 required
                 disabled={loading}
                 autoComplete="email"

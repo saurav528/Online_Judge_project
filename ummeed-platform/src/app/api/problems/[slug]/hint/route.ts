@@ -32,7 +32,7 @@ export async function POST(
     // Initialize the official new unified Google Gen AI client
     const ai = new GoogleGenAI({ apiKey });
 
-    const systemPrompt = `You are a helpful coding tutor on a competitive programming platform called Ummeed Coding Platform.
+    const systemPrompt = `You are a helpful coding tutor on a competitive programming platform called Umeed Coding Platform.
 Your job is to give a student a constructive hint based on their current progress.
 Rules:
 1. NEVER write any complete code or solution blocks for the student.
