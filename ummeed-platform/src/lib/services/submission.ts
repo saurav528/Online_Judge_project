@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { Language, SubmissionStatus, Verdict } from "@prisma/client";
 import { submissionExecutor } from "./executor";
 
@@ -45,7 +45,15 @@ export class SubmissionService {
       where: { id },
       include: {
         user: { select: { id: true, name: true, email: true, role: true } },
-        problem: { select: { id: true, title: true, slug: true, difficulty: true } },
+        problem: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            difficulty: true,
+            testCases: { select: { id: true } },
+          },
+        },
       },
     });
   }

@@ -1,14 +1,14 @@
 "use server";
 
-import { requireAuth } from "@/lib/auth-utils";
-import { SubmissionCreateSchema } from "@/lib/validation";
+import { requireAuth } from "@/lib/auth/auth-utils";
+import { SubmissionCreateSchema } from "@/lib/validation/submission";
 import { SubmissionService } from "@/lib/services/submission";
 import { revalidatePath } from "next/cache";
 import { WrapperService } from "@/lib/services/wrapper";
 import { LANGUAGE_REGISTRY } from "@/lib/boilerplate/languages";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
 import { getProblemContent } from "@/lib/problems-fs";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 
 export async function createSubmissionAction(payload: any) {
   const user = await requireAuth();
@@ -74,6 +74,7 @@ export async function runCodeAction(payload: any) {
     // 3. Consolidate inputs & expected outputs
     let consolidatedInput = signature ? `${testCases.length}\n` : "";
     let consolidatedOutput = "";
+    const testcaseDetails = [];
 
     for (const tc of testCases) {
       const inputFullPath = path.join(process.cwd(), "..", tc.inputPath);
@@ -83,8 +84,16 @@ export async function runCodeAction(payload: any) {
         throw new Error(`Missing testcase files at ${tc.inputPath}`);
       }
 
-      consolidatedInput += fs.readFileSync(inputFullPath, "utf-8").trim() + "\n";
-      consolidatedOutput += fs.readFileSync(outputFullPath, "utf-8").trim() + "\n";
+      const inputContent = fs.readFileSync(inputFullPath, "utf-8").trim();
+      const outputContent = fs.readFileSync(outputFullPath, "utf-8").trim();
+
+      consolidatedInput += inputContent + "\n";
+      consolidatedOutput += outputContent + "\n";
+
+      testcaseDetails.push({
+        input: inputContent,
+        expected: outputContent,
+      });
     }
 
     // 4. Wrap the code if a signature is present
@@ -132,11 +141,13 @@ export async function runCodeAction(payload: any) {
     return {
       success: true,
       compileOutput: decodeBase64(data.compile_output),
-      runtimeOutput: decodeBase64(data.stdout),
-      errorOutput: decodeBase64(data.stderr),
+      stdout: decodeBase64(data.stdout),
+      stderr: decodeBase64(data.stderr),
       time: data.time,
       memory: data.memory,
-      status: data.status?.description || "Unknown",
+      statusDescription: data.status?.description || "Unknown",
+      statusId: data.status?.id,
+      testcases: testcaseDetails,
     };
 
   } catch (error: any) {

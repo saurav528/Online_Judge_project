@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { DuelStatus, Verdict, Difficulty } from "@prisma/client";
 
 export class DuelService {
@@ -85,7 +85,7 @@ export class DuelService {
     const isPlayer1 = room.player1Id === userId;
 
     // Update user score to 100 in the room
-    const updatedRoom = await prisma.duelRoom.update({
+    await prisma.duelRoom.update({
       where: { id: room.id },
       data: isPlayer1 ? { player1Score: 100 } : { player2Score: 100 },
     });

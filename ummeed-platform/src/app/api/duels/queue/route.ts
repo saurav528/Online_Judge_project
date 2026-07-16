@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { DuelService } from "@/lib/services/duel";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { Difficulty } from "@prisma/client";
 
 export async function POST(request: NextRequest) {

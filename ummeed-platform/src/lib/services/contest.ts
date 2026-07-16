@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 
 const PENALTY_PER_WRONG = 20; // minutes per wrong submission before AC
 
@@ -220,5 +220,83 @@ export class ContestService {
         }),
       })),
     };
+  }
+
+  /**
+   * Creates a new contest record in the database.
+   */
+  static async createContest(data: any) {
+    const now = new Date();
+    let status: "UPCOMING" | "RUNNING" | "ENDED" = "UPCOMING";
+    if (now >= data.endTime) {
+      status = "ENDED";
+    } else if (now >= data.startTime) {
+      status = "RUNNING";
+    }
+
+    return prisma.contest.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        status,
+        published: data.published,
+        problems: {
+          create: data.problems.map((p: any) => ({
+            problem: { connect: { id: p.problemId } },
+            points: p.points,
+            sequence: p.sequence,
+          })),
+        },
+      },
+    });
+  }
+
+  /**
+   * Updates an existing contest record and updates the list of contest problems in a transaction.
+   */
+  static async updateContest(id: string, data: any) {
+    const now = new Date();
+    let status: "UPCOMING" | "RUNNING" | "ENDED" = "UPCOMING";
+    if (now >= data.endTime) {
+      status = "ENDED";
+    } else if (now >= data.startTime) {
+      status = "RUNNING";
+    }
+
+    // Check if contest exists
+    const existing = await prisma.contest.findUnique({ where: { id } });
+    if (!existing) {
+      throw new Error("Contest not found.");
+    }
+
+    // Delete existing relation records and update contest in a transaction
+    await prisma.$transaction(async (tx) => {
+      // Clear current problems linked to this contest
+      await tx.contestProblem.deleteMany({
+        where: { contestId: id },
+      });
+
+      // Update contest and link new problems
+      await tx.contest.update({
+        where: { id },
+        data: {
+          title: data.title,
+          description: data.description,
+          startTime: data.startTime,
+          endTime: data.endTime,
+          status,
+          published: data.published,
+          problems: {
+            create: data.problems.map((p: any) => ({
+              problem: { connect: { id: p.problemId } },
+              points: p.points,
+              sequence: p.sequence,
+            })),
+          },
+        },
+      });
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { getProblemContent } from "@/lib/problems-fs";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { GoogleGenAI } from "@google/genai";
 
 export async function POST(

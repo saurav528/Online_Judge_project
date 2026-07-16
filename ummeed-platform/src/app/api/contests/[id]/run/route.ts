@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth } from "@/lib/auth/auth-utils";
 import { ContestService } from "@/lib/services/contest";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { WrapperService } from "@/lib/services/wrapper";
 import { LANGUAGE_REGISTRY } from "@/lib/boilerplate/languages";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { SubmissionService } from "@/lib/services/submission";
 import { SubmissionStatus, Verdict } from "@prisma/client";
 

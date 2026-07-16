@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/config/db";
 import { SubmissionStatus, Verdict } from "@prisma/client";
 import fs from "fs";
 import path from "path";
@@ -235,12 +235,14 @@ export class Judge0Executor implements SubmissionExecutor {
       const resBody = await response.json();
       
       const { token, status, stdout, stderr, compile_output, time, memory } = resBody;
+      const executionTimeMs = time ? Math.round(parseFloat(time) * 1000) : undefined;
+      const memoryUsedKb = memory ? (typeof memory === "string" ? parseInt(memory) : memory) : undefined;
 
       function decodeBase64(str: string | null | undefined): string {
         if (!str) return "";
         try {
           return Buffer.from(str, "base64").toString("utf-8");
-        } catch (e) {
+        } catch {
           return str;
         }
       }

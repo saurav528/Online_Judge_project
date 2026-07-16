@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { DuelService } from "@/lib/services/duel";
 
 export async function GET(

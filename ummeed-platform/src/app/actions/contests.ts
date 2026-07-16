@@ -1,26 +1,14 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth-utils";
-import { ContestFormSchema } from "@/lib/validation";
+import { prisma } from "@/config/db";
+import { requireAdmin } from "@/lib/auth/auth-utils";
+import { ContestFormSchema } from "@/lib/validation/contest";
+import { ContestService } from "@/lib/services/contest";
 import { revalidatePath } from "next/cache";
 
 /**
- * Helper to determine ContestStatus based on times.
- */
-function getContestStatus(startTime: Date, endTime: Date): "UPCOMING" | "RUNNING" | "ENDED" {
-  const now = new Date();
-  if (now >= endTime) {
-    return "ENDED";
-  }
-  if (now >= startTime) {
-    return "RUNNING";
-  }
-  return "UPCOMING";
-}
-
-/**
  * Server action to create a new contest.
+ * Authenticates, validates inputs, and delegates to ContestService.
  */
 export async function createContestAction(formData: any) {
   await requireAdmin();
@@ -31,39 +19,20 @@ export async function createContestAction(formData: any) {
     return { success: false, errors: result.error.flatten().fieldErrors };
   }
 
-  const data = result.data;
-  const status = getContestStatus(data.startTime, data.endTime);
-
   try {
-    const contest = await prisma.contest.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        startTime: data.startTime,
-        endTime: data.endTime,
-        status,
-        published: data.published,
-        problems: {
-          create: data.problems.map((p) => ({
-            problem: { connect: { id: p.problemId } },
-            points: p.points,
-            sequence: p.sequence,
-          })),
-        },
-      },
-    });
+    const contest = await ContestService.createContest(result.data);
 
     revalidatePath("/admin/contests");
     revalidatePath("/contests");
     return { success: true, contestId: contest.id };
   } catch (e: any) {
-    console.error("Database write failed for contest creation:", e);
-    return { success: false, error: "Failed to save contest to the database." };
+    return { success: false, error: e.message || "Failed to save contest to the database." };
   }
 }
 
 /**
  * Server action to update an existing contest.
+ * Authenticates, validates schema, and delegates to ContestService.
  */
 export async function updateContestAction(id: string, formData: any) {
   await requireAdmin();
@@ -74,43 +43,8 @@ export async function updateContestAction(id: string, formData: any) {
     return { success: false, errors: result.error.flatten().fieldErrors };
   }
 
-  const data = result.data;
-  const status = getContestStatus(data.startTime, data.endTime);
-
   try {
-    // Check if contest exists
-    const existing = await prisma.contest.findUnique({ where: { id } });
-    if (!existing) {
-      return { success: false, error: "Contest not found." };
-    }
-
-    // Delete existing relation records and update contest in a transaction
-    await prisma.$transaction(async (tx) => {
-      // Clear current problems linked to this contest
-      await tx.contestProblem.deleteMany({
-        where: { contestId: id },
-      });
-
-      // Update contest and link new problems
-      await tx.contest.update({
-        where: { id },
-        data: {
-          title: data.title,
-          description: data.description,
-          startTime: data.startTime,
-          endTime: data.endTime,
-          status,
-          published: data.published,
-          problems: {
-            create: data.problems.map((p) => ({
-              problem: { connect: { id: p.problemId } },
-              points: p.points,
-              sequence: p.sequence,
-            })),
-          },
-        },
-      });
-    });
+    await ContestService.updateContest(id, result.data);
 
     revalidatePath("/admin/contests");
     revalidatePath(`/admin/contests/${id}/edit`);
@@ -118,13 +52,13 @@ export async function updateContestAction(id: string, formData: any) {
     revalidatePath(`/contests/${id}`);
     return { success: true };
   } catch (e: any) {
-    console.error("Database update failed for contest:", e);
-    return { success: false, error: "Failed to update contest in database." };
+    return { success: false, error: e.message || "Failed to update contest in database." };
   }
 }
 
 /**
  * Server action to delete a contest.
+ * Authenticates and deletes contest.
  */
 export async function deleteContestAction(id: string) {
   await requireAdmin();
