@@ -29,32 +29,17 @@ export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
     }}>
       {/* Left: Logo */}
-      <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-        <div style={{
-          background: "#fff",
-          borderRadius: "8px",
-          padding: "3px",
-          border: "1px solid #e5e7eb",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}>
-          <Image src="/umeed-logo.png" alt="Umeed" width={36} height={28} style={{ objectFit: "contain" }} />
-        </div>
-        <div>
-          <span style={{ fontWeight: 800, fontSize: "1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>
-            Ummeed
+      <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <Image src="/umeed-logo.png" alt="Umeed" width={90} height={30} style={{ objectFit: "contain", display: "block" }} />
+        {isAdmin && (
+          <span style={{
+            fontSize: "0.7rem", fontWeight: 700,
+            background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
+            borderRadius: "4px",
+          }}>
+            ADMIN
           </span>
-          {isAdmin && (
-            <span style={{
-              marginLeft: "0.5rem", fontSize: "0.7rem", fontWeight: 700,
-              background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
-              borderRadius: "4px",
-            }}>
-              ADMIN
-            </span>
-          )}
-        </div>
+        )}
       </Link>
 
       {/* Center: Navigation Links */}

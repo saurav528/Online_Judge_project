@@ -62,13 +62,13 @@ export default function LoginPage() {
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(255,255,255,0.97)",
-            borderRadius: "24px",
-            padding: "1.5rem 2rem",
+            background: "rgba(255,255,255,0.95)",
+            borderRadius: "16px",
+            padding: "1rem 2rem",
             marginBottom: "2rem",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
           }}>
-            <Image src="/umeed-logo.png" alt="Umeed Logo" width={180} height={100} style={{ objectFit: "contain" }} priority />
+            <Image src="/umeed-logo.png" alt="Umeed Logo" width={160} height={50} style={{ objectFit: "contain" }} priority />
           </div>
 
           <h1 style={{ color: "#ffffff", fontSize: "2rem", fontWeight: 800, marginBottom: "0.75rem", letterSpacing: "-0.02em" }}>
