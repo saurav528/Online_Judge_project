@@ -218,7 +218,7 @@ export default async function ContestProblemPage({
                       </div>
                       {ex.explanation && (
                         <div style={{ padding: "0.6rem 0.75rem", borderTop: "1px solid #e5e7eb", fontSize: "0.85rem", color: "#6b7280" }}>
-                          💡 {ex.explanation}
+                          💡 <RichText>{ex.explanation}</RichText>
                         </div>
                       )}
                     </div>

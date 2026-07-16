@@ -211,6 +211,8 @@ export default async function ContestHubPage() {
         boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
         fontFamily: "sans-serif",
         maxWidth: "900px",
+        margin: "0 auto",
+        width: "100%",
       }}
     >
       <div style={{ marginBottom: "2rem" }}>

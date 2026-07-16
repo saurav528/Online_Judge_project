@@ -44,6 +44,9 @@ export default async function SubmissionDetailPage({ params }: SubmissionDetailP
         gap: "1.5rem",
         fontFamily: "sans-serif",
         color: "#374151",
+        maxWidth: "1000px",
+        margin: "0 auto",
+        width: "100%",
       }}
     >
       {/* Conditionally inject meta-refresh tag for polling if processing */}

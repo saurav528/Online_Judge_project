@@ -141,7 +141,7 @@ export default function DuelArenaPage() {
   const myScore = duel.isPlayer1 ? duel.player1Score : duel.player2Score;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "1250px", position: "relative" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "1250px", margin: "0 auto", width: "100%", position: "relative" }}>
       
       {/* 🏆 Duel Winner Backdrop Overlay */}
       {duel.status === "FINISHED" && (

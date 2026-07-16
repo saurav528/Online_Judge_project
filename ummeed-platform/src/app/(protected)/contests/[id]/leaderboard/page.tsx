@@ -86,6 +86,8 @@ export default async function LeaderboardPage({
         boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
         fontFamily: "sans-serif",
         maxWidth: "1100px",
+        margin: "0 auto",
+        width: "100%",
         overflowX: "auto",
       }}
     >

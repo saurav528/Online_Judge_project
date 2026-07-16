@@ -108,7 +108,7 @@ export default async function StudentProblemDetailsPage({
                 </div>
                 {ex.explanation && (
                   <div style={{ padding: "0.65rem 1rem", background: "#f9fafb", borderTop: "1px solid #e5e7eb", fontSize: "0.85rem", color: "#4b5563" }}>
-                    💡 <strong>Explanation:</strong> {ex.explanation}
+                    💡 <strong>Explanation:</strong> <RichText>{ex.explanation}</RichText>
                   </div>
                 )}
               </div>
@@ -119,7 +119,9 @@ export default async function StudentProblemDetailsPage({
       {fileContent.explanation && (
         <section>
           <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Explanation</h3>
-          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.explanation}</p>
+          <div style={{ fontSize: "0.9rem" }}>
+            <RichText>{fileContent.explanation}</RichText>
+          </div>
         </section>
       )}
     </div>

@@ -34,7 +34,7 @@ export default async function GlobalLeaderboardPage() {
   const RANK_MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
   return (
-    <div style={{ maxWidth: "800px", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+    <div style={{ maxWidth: "800px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       <div>
         <h2 style={{ margin: 0, fontSize: "1.4rem", fontWeight: 800, color: "#111827" }}>🏆 Global Leaderboard</h2>
         <p style={{ margin: "0.25rem 0 0", color: "#6b7280", fontSize: "0.88rem" }}>Top students ranked by Elo rating</p>

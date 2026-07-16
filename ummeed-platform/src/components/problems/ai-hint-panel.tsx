@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { RichText } from "@/components/rich-text";
 
 interface AIHintPanelProps {
   problemId: string;
@@ -150,14 +151,11 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
             <span>Tutor Feedback</span>
             <span>gemini-3.5-flash</span>
           </div>
-          {/* Output markdown text simply styled */}
           <div style={{
             fontSize: "0.92rem",
-            whiteSpace: "pre-wrap",
-            fontFamily: "var(--font-sans)",
             color: "#1f2937",
           }}>
-            {hint}
+            <RichText>{hint}</RichText>
           </div>
         </div>
       )}

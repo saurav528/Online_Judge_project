@@ -43,6 +43,9 @@ export default async function SubmissionsPage({ searchParams }: SubmissionsPageP
         borderRadius: "0.5rem",
         boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
         fontFamily: "sans-serif",
+        maxWidth: "1000px",
+        margin: "0 auto",
+        width: "100%",
       }}
     >
       <h2 style={{ marginTop: 0, marginBottom: "1.5rem", color: "#111827" }}>

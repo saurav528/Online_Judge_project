@@ -68,7 +68,7 @@ export default function LoginPage() {
             marginBottom: "2rem",
             boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
           }}>
-            <Image src="/umeed-logo.png" alt="Umeed Logo" width={160} height={50} style={{ objectFit: "contain" }} priority />
+            <Image src="/umeed_logo1.png" alt="Umeed Logo" width={160} height={50} style={{ objectFit: "contain" }} priority />
           </div>
 
           <h1 style={{ color: "#ffffff", fontSize: "2rem", fontWeight: 800, marginBottom: "0.75rem", letterSpacing: "-0.02em" }}>

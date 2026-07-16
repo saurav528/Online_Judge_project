@@ -28,22 +28,8 @@ export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       borderBottom: "1px solid #e5e7eb",
       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
     }}>
-      {/* Left: Logo */}
       <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <div style={{
-          width: "32px", height: "32px",
-          borderRadius: "8px",
-          background: "linear-gradient(135deg, #1a56db, #6d28d9)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          color: "#fff", fontWeight: 900, fontSize: "1rem",
-          letterSpacing: "-0.02em",
-          flexShrink: 0,
-        }}>
-          U
-        </div>
-        <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "#1a56db", letterSpacing: "-0.01em" }}>
-          Umeed
-        </span>
+        <Image src="/umeed_logo1.png" alt="Umeed" width={110} height={32} style={{ objectFit: "contain" }} priority />
         {isAdmin && (
           <span style={{
             fontSize: "0.7rem", fontWeight: 700,

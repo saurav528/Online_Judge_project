@@ -55,7 +55,7 @@ export default async function DashboardPage() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem", maxWidth: "1100px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem", maxWidth: "1100px", margin: "0 auto", width: "100%" }}>
 
       {/* Welcome Banner */}
       <div style={{

@@ -72,7 +72,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
   const solvedCount = problems.filter((p) => solvedProblemIds.has(p.id)).length;
 
   return (
-    <div style={{ maxWidth: "1000px", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+    <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
         <div>
