@@ -25,69 +25,8 @@ services:
     restart: unless-stopped
 
   # Judge0 task queue broker
-  judge0-redis:
-    image: redis:7-alpine
-    container_name: judge0_redis
-    command: redis-server --save "" --appendonly no
-    restart: unless-stopped
-
-  # Judge0 internal status database
-  judge0-db:
-    image: postgres:16-alpine
-    container_name: judge0_db
-    environment:
-      POSTGRES_USER: judge0_db_user
-      POSTGRES_PASSWORD: judge0_db_secure_password
-      POSTGRES_DB: judge0_internal
-    volumes:
-      - judge0_db_data:/var/lib/postgresql/data
-    restart: unless-stopped
-
-  # Judge0 API server endpoints
-  judge0-server:
-    image: judge0/judge0:1.13.0
-    container_name: judge0_server
-    volumes:
-      - ./judge0.conf:/etc/judge0.conf:ro
-    ports:
-      - "2358:2358"
-    environment:
-      REDIS_HOST: judge0-redis
-      REDIS_PORT: 6379
-      POSTGRES_HOST: judge0-db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: judge0_db_user
-      POSTGRES_PASSWORD: judge0_db_secure_password
-      POSTGRES_DB: judge0_internal
-    depends_on:
-      - judge0-redis
-      - judge0-db
-    restart: unless-stopped
-
-  # Judge0 sandbox worker runner
-  judge0-worker:
-    image: judge0/judge0:1.13.0
-    container_name: judge0_worker
-    command: ["./scripts/workers"]
-    privileged: true # Sandbox isolation requires privileged container access to map cgroups
-    volumes:
-      - ./judge0.conf:/etc/judge0.conf:ro
-      - /lib/modules:/lib/modules:ro
-      - type: tmpfs
-        target: /sys/fs/cgroup/memory
-    environment:
-      REDIS_HOST: judge0-redis
-      REDIS_PORT: 6379
-      POSTGRES_HOST: judge0-db
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: judge0_db_user
-      POSTGRES_PASSWORD: judge0_db_secure_password
-      POSTGRES_DB: judge0_internal
-    depends_on:
-      - judge0-redis
-      - judge0-db
-    restart: unless-stopped
+  # judge0-redis, judge0-db, judge0-server, judge0-worker removed —
+  # project uses Judge0 RapidAPI (external cloud API key) instead of self-hosted Docker.
 
 volumes:
   postgres_data:
-  judge0_db_data:

@@ -110,15 +110,6 @@ export class SubmissionService {
     };
   }
 
-  /**
-   * Updates only the execution status of a submission (e.g. QUEUED, RUNNING).
-   */
-  static async updateSubmissionStatus(id: string, status: SubmissionStatus) {
-    return prisma.submission.update({
-      where: { id },
-      data: { status },
-    });
-  }
 
   /**
    * Finalizes the compilation and test case results for a submission.
