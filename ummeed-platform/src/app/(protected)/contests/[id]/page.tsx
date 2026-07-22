@@ -150,10 +150,10 @@ export default async function ContestDetailPage({
           marginBottom: "1.75rem",
         }}
       >
-        <span>🕐 Start: <strong>{formatDate(contest.startTime)}</strong></span>
-        <span>🏁 End: <strong>{formatDate(contest.endTime)}</strong></span>
-        <span>⏱ Duration: <strong>{getDuration(contest.startTime, contest.endTime)}</strong></span>
-        <span>👥 <strong>{contest._count.participants}</strong> registered</span>
+        <span>Start: <strong>{formatDate(contest.startTime)}</strong></span>
+        <span>End: <strong>{formatDate(contest.endTime)}</strong></span>
+        <span>Duration: <strong>{getDuration(contest.startTime, contest.endTime)}</strong></span>
+        <span><strong>{contest._count.participants}</strong> registered</span>
       </div>
 
       {/* Registration / Actions */}
@@ -174,7 +174,7 @@ export default async function ContestDetailPage({
             href={`/contests/${id}/leaderboard`}
             style={{
               padding: "0.55rem 1.4rem",
-              backgroundColor: "#374151",
+              backgroundColor: "var(--brand-primary)",
               color: "#ffffff",
               textDecoration: "none",
               borderRadius: "0.4rem",
@@ -182,7 +182,7 @@ export default async function ContestDetailPage({
               fontWeight: 700,
             }}
           >
-            🏆 View Leaderboard
+            View Leaderboard
           </Link>
         )}
         {isEnded && (
@@ -280,13 +280,14 @@ export default async function ContestDetailPage({
           style={{
             marginTop: "1.5rem",
             padding: "0.85rem 1rem",
-            backgroundColor: "#eff6ff",
+            backgroundColor: "var(--surface-elevated)",
+            border: "1px solid var(--gray-200)",
             borderRadius: "0.5rem",
-            color: "#1d4ed8",
+            color: "var(--gray-700)",
             fontSize: "0.9rem",
           }}
         >
-          📋 Register now to be ready when the contest starts. Problems will unlock automatically at start time.
+          Register now to be ready when the contest starts. Problems will unlock automatically at start time.
         </p>
       )}
     </div>

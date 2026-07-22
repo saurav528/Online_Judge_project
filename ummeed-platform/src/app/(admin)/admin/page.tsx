@@ -47,7 +47,7 @@ export default async function AdminPage() {
             display: "inline-block",
           }}
         >
-          ✓ Authorized Session: SYSTEM ADMINISTRATOR
+          Authorized Session: SYSTEM ADMINISTRATOR
         </span>
       </div>
 

@@ -65,18 +65,18 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "1rem",
-        background: "linear-gradient(135deg, #f5f3ff, #ede9fe)",
-        border: "1px solid #ddd6fe",
+        background: "linear-gradient(135deg, var(--gray-100), var(--gray-50))",
+        border: "1px solid var(--gray-300)",
         borderRadius: "12px",
         marginBottom: "1.5rem",
         flexWrap: "wrap",
         gap: "0.75rem",
       }}>
         <div>
-          <h4 style={{ margin: 0, color: "#5b21b6", fontSize: "0.95rem", fontWeight: 700 }}>
-            🤖 AI Coding Tutor
+          <h4 style={{ margin: 0, color: "var(--brand-primary)", fontSize: "0.95rem", fontWeight: 700 }}>
+            AI Coding Tutor
           </h4>
-          <p style={{ margin: "0.15rem 0 0", color: "#6d28d9", fontSize: "0.78rem" }}>
+          <p style={{ margin: "0.15rem 0 0", color: "var(--gray-400)", fontSize: "0.78rem" }}>
             Stuck? Get personalized algorithmic hints without spoiling the answer.
           </p>
         </div>
@@ -87,10 +87,10 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
             style={{
               padding: "0.35rem 0.65rem",
               fontSize: "0.8rem",
-              border: "1.5px solid #c084fc",
+              border: "1.5px solid var(--gray-300)",
               borderRadius: "6px",
-              background: "#fff",
-              color: "#5b21b6",
+              background: "var(--surface-card)",
+              color: "var(--gray-900)",
               fontWeight: 600,
             }}
           >
@@ -101,8 +101,8 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
             disabled={loading}
             className="btn"
             style={{
-              background: "#6d28d9",
-              color: "#fff",
+              background: "var(--brand-primary)",
+              color: "var(--gray-50)",
               padding: "0.35rem 1rem",
               fontSize: "0.82rem",
               borderRadius: "6px",
@@ -115,8 +115,8 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
 
       {loading && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "3rem 1rem", gap: "1rem" }}>
-          <div className="spinner" style={{ borderTopColor: "#6d28d9", width: "24px", height: "24px" }} />
-          <p style={{ color: "#6b7280", fontSize: "0.85rem", animation: "pulse-dot 1.2s infinite" }}>
+          <div className="spinner" style={{ borderTopColor: "var(--brand-primary)", width: "24px", height: "24px" }} />
+          <p style={{ color: "var(--gray-500)", fontSize: "0.85rem", animation: "pulse-dot 1.2s infinite" }}>
             Analyzing your current solution code and statement...
           </p>
         </div>
@@ -124,7 +124,7 @@ export function AIHintPanel({ problemId, problemSlug }: AIHintPanelProps) {
 
       {error && (
         <div className="alert alert-error" style={{ fontSize: "0.88rem" }}>
-          <span>⚠️</span> {error}
+          {error}
         </div>
       )}
 

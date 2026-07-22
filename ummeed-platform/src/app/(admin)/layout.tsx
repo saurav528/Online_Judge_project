@@ -43,7 +43,7 @@ export default async function AdminLayout({
                 border: "1px solid #fca5a5",
               }}
             >
-              ⚠️ Administrative Control Area — Restricted Access
+              Administrative Control Area — Restricted Access
             </div>
             {children}
           </main>

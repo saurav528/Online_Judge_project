@@ -101,14 +101,13 @@ export default function DuelLobbyPage() {
     <div style={{ maxWidth: "600px", margin: "2rem auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Header card */}
       <div className="card" style={{
-        background: "linear-gradient(135deg, #1e1b4b 0%, #311042 100%)",
+        background: "linear-gradient(135deg, #0c2511 0%, #000000 100%)",
         color: "#fff",
         padding: "2rem",
         textAlign: "center",
         borderRadius: "16px",
-        boxShadow: "0 10px 30px rgba(30, 27, 75, 0.25)",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
       }}>
-        <div style={{ fontSize: "3rem", marginBottom: "0.5rem" }}>⚔️</div>
         <h2 style={{ fontSize: "1.75rem", fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
           1v1 Coding Duel
         </h2>
@@ -119,7 +118,7 @@ export default function DuelLobbyPage() {
 
       {error && (
         <div className="alert alert-error">
-          <span>⚠️</span> {error}
+          {error}
         </div>
       )}
 
@@ -127,7 +126,7 @@ export default function DuelLobbyPage() {
       <div className="card" style={{ padding: "2rem", textAlign: "center" }}>
         {!inQueue ? (
           <div>
-            <h3 style={{ margin: "0 0 1.25rem", color: "#111827", fontSize: "1.1rem", fontWeight: 700 }}>
+            <h3 style={{ margin: "0 0 1.25rem", color: "var(--gray-900)", fontSize: "1.1rem", fontWeight: 700 }}>
               Choose Match Difficulty
             </h3>
             
@@ -137,16 +136,15 @@ export default function DuelLobbyPage() {
                   key={diff}
                   onClick={() => setDifficulty(diff)}
                   style={{
-                    flex: 1,
-                    padding: "0.75rem 1rem",
-                    borderRadius: "10px",
+                    padding: "0.55rem 1.25rem",
+                    borderRadius: "8px",
                     fontWeight: 700,
                     fontSize: "0.85rem",
-                    cursor: "pointer",
                     border: "2px solid",
-                    borderColor: difficulty === diff ? (diff === "EASY" ? "#16a34a" : diff === "MEDIUM" ? "#d97706" : "#dc2626") : "#e5e7eb",
-                    background: difficulty === diff ? (diff === "EASY" ? "#dcfce7" : diff === "MEDIUM" ? "#fef3c7" : "#fee2e2") : "#fff",
-                    color: difficulty === diff ? (diff === "EASY" ? "#15803d" : diff === "MEDIUM" ? "#b45309" : "#b91c1c") : "#6b7280",
+                    borderColor: difficulty === diff ? (diff === "EASY" ? "#22c55e" : diff === "MEDIUM" ? "#eab308" : "#ef4444") : "var(--gray-200)",
+                    background: difficulty === diff ? (diff === "EASY" ? "rgba(34,197,94,0.15)" : diff === "MEDIUM" ? "rgba(234,179,8,0.15)" : "rgba(239,68,68,0.15)") : "var(--surface-card)",
+                    color: difficulty === diff ? (diff === "EASY" ? "#22c55e" : diff === "MEDIUM" ? "#eab308" : "#ef4444") : "var(--gray-500)",
+                    cursor: "pointer",
                     transition: "all 150ms ease",
                   }}
                 >
@@ -163,11 +161,11 @@ export default function DuelLobbyPage() {
                 padding: "0.85rem",
                 fontSize: "1.05rem",
                 borderRadius: "12px",
-                background: "linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%)",
-                boxShadow: "0 4px 14px rgba(109, 40, 217, 0.3)",
+                background: "var(--brand-primary)",
+                boxShadow: "0 4px 14px rgba(34, 197, 94, 0.3)",
               }}
             >
-              Find Match 🔍
+              Find Match
             </button>
           </div>
         ) : (
@@ -177,22 +175,15 @@ export default function DuelLobbyPage() {
                 position: "absolute", inset: 0,
                 width: "100%", height: "100%",
                 borderWidth: "4px",
-                borderTopColor: "#6d28d9",
+                borderTopColor: "var(--brand-primary)",
               }} />
-              <div style={{
-                position: "absolute", inset: 0,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "1.5rem",
-              }}>
-                🔍
-              </div>
             </div>
 
-            <h3 style={{ margin: "0 0 0.5rem", color: "#111827", fontSize: "1.2rem", fontWeight: 700 }}>
+            <h3 style={{ margin: "0 0 0.5rem", color: "var(--gray-900)", fontSize: "1.2rem", fontWeight: 700 }}>
               Finding Opponent...
             </h3>
-            <p style={{ color: "#6b7280", fontSize: "0.9rem", margin: "0 0 1.5rem" }}>
-              Difficulty: <strong style={{ color: "#6d28d9" }}>{difficulty}</strong> · Time elapsed: {formatTime(matchingTime)}
+            <p style={{ color: "var(--gray-500)", fontSize: "0.9rem", margin: "0 0 1.5rem" }}>
+              Difficulty: <strong style={{ color: "var(--brand-primary)" }}>{difficulty}</strong> · Time elapsed: {formatTime(matchingTime)}
             </p>
 
             <button
@@ -208,10 +199,10 @@ export default function DuelLobbyPage() {
 
       {/* Rules list */}
       <div className="card" style={{ padding: "1.25rem 1.5rem" }}>
-        <h4 style={{ margin: "0 0 0.6rem", color: "#374151", fontSize: "0.9rem", fontWeight: 700 }}>
-          ⚔️ Duel Rules
+        <h4 style={{ margin: "0 0 0.6rem", color: "var(--gray-800)", fontSize: "0.9rem", fontWeight: 700 }}>
+          Duel Rules
         </h4>
-        <ul style={{ paddingLeft: "1.25rem", margin: 0, fontSize: "0.82rem", color: "#6b7280", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+        <ul style={{ paddingLeft: "1.25rem", margin: 0, fontSize: "0.82rem", color: "var(--gray-500)", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
           <li>Both coders solve the exact same random problem at the same time.</li>
           <li>First coder to get all test cases correct (**100 points**) wins instantly.</li>
           <li>If the 15-minute timer runs out, the coder with the highest score wins.</li>

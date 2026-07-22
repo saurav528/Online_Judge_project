@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/config/db";
-import { ProblemSearchSchema } from "@/lib/validation/problem";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { prisma } from "@/lib/prisma";
+import { ProblemSearchSchema } from "@/lib/validation";
+import { requireAuth } from "@/lib/auth-utils";
 
 interface StudentProblemsPageProps {
   searchParams: Promise<{
@@ -72,7 +72,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
   const solvedCount = problems.filter((p) => solvedProblemIds.has(p.id)).length;
 
   return (
-    <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+    <div style={{ maxWidth: "1000px", display: "flex", flexDirection: "column", gap: "1.25rem", margin: "0 auto", width: "100%" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
         <div>
@@ -93,7 +93,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
             type="text"
             name="q"
             defaultValue={q || ""}
-            placeholder="🔍 Search problems..."
+            placeholder="Search problems..."
             className="form-input"
             style={{ flex: 1, padding: "0.5rem 0.85rem" }}
           />
@@ -135,14 +135,14 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
                 key={t.id}
                 href={getFilterUrl({ tag: tag === t.name ? undefined : t.name })}
                 style={{
-                  padding: "0.25rem 0.6rem",
+                  padding: "0.25rem 0.6",
                   borderRadius: "999px",
                   fontSize: "0.75rem",
                   fontWeight: 600,
                   textDecoration: "none",
-                  background: tag === t.name ? "#eff6ff" : "#f9fafb",
-                  color: tag === t.name ? "#1a56db" : "#6b7280",
-                  border: `1px solid ${tag === t.name ? "#bfdbfe" : "#e5e7eb"}`,
+                  background: tag === t.name ? "var(--gray-200)" : "var(--gray-100)",
+                  color: tag === t.name ? "var(--brand-primary)" : "var(--gray-500)",
+                  border: `1px solid ${tag === t.name ? "var(--brand-primary)" : "var(--gray-200)"}`,
                   transition: "all 150ms ease",
                 }}
               >
@@ -150,8 +150,8 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
               </Link>
             ))}
             {tag && (
-              <Link href={getFilterUrl({ tag: undefined })} style={{ padding: "0.25rem 0.6rem", borderRadius: "999px", fontSize: "0.75rem", fontWeight: 600, textDecoration: "none", background: "#fef2f2", color: "#dc2626", border: "1px solid #fca5a5" }}>
-                ✕ Clear tag
+              <Link href={getFilterUrl({ tag: undefined })} style={{ padding: "0.25rem 0.65rem", borderRadius: "999px", fontSize: "0.75rem", fontWeight: 600, textDecoration: "none", background: "var(--verdict-wa-bg)", color: "var(--brand-red)", border: "1px solid var(--brand-red)" }}>
+                Clear tag
               </Link>
             )}
           </div>
@@ -161,10 +161,10 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
       {/* Problems Table */}
       <div className="card" style={{ overflow: "hidden" }}>
         {problems.length === 0 ? (
-          <div style={{ padding: "3rem", textAlign: "center", color: "#9ca3af" }}>
-            <div style={{ fontSize: "2.5rem", marginBottom: "0.75rem" }}>🔍</div>
-            <p style={{ fontSize: "0.95rem" }}>No problems match your filters.</p>
-            <Link href="/problems" style={{ color: "#1a56db", fontWeight: 600, textDecoration: "none", fontSize: "0.88rem" }}>Clear filters →</Link>
+          <div style={{ padding: "3rem", textAlign: "center", color: "var(--gray-500)" }}>
+            <div style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: "0.75rem", color: "var(--gray-400)" }}>No Problems Found</div>
+            <p style={{ fontSize: "0.95rem", marginBottom: "0.5rem" }}>No problems match your filters.</p>
+            <Link href="/problems" style={{ color: "var(--brand-primary)", fontWeight: 600, textDecoration: "none", fontSize: "0.88rem" }}>Clear filters →</Link>
           </div>
         ) : (
           <table className="data-table">
@@ -192,17 +192,17 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
                     </td>
                     <td style={{ textAlign: "center" }}>
                       {isSolved ? (
-                        <span title="Solved" style={{ fontSize: "1.1rem" }}>✅</span>
+                        <span title="Solved" style={{ fontSize: "0.9rem", color: "var(--brand-primary)" }}>✓</span>
                       ) : isAttempted ? (
-                        <span title="Attempted" style={{ fontSize: "1.1rem" }}>🟡</span>
+                        <span title="Attempted" style={{ fontSize: "0.9rem", color: "var(--verdict-tle)" }}>•</span>
                       ) : (
-                        <span title="Not attempted" style={{ fontSize: "1.1rem", opacity: 0.25 }}>○</span>
+                        <span title="Not attempted" style={{ fontSize: "0.9rem", opacity: 0.25 }}>○</span>
                       )}
                     </td>
                     <td>
                       <Link
                         href={`/problems/${problem.slug}`}
-                        style={{ fontWeight: 600, color: isSolved ? "#16a34a" : "#1a56db", textDecoration: "none", fontSize: "0.92rem" }}
+                        style={{ fontWeight: 600, color: isSolved ? "var(--brand-primary)" : "var(--gray-900)", textDecoration: "none", fontSize: "0.92rem" }}
                       >
                         {problem.title}
                       </Link>
@@ -215,7 +215,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
                     <td>
                       <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
                         {problem.tags.slice(0, 3).map((t) => (
-                          <span key={t.id} style={{ fontSize: "0.72rem", background: "#f3f4f6", color: "#6b7280", padding: "0.1rem 0.45rem", borderRadius: "999px" }}>
+                          <span key={t.id} style={{ fontSize: "0.72rem", background: "var(--gray-100)", color: "var(--gray-500)", padding: "0.1rem 0.45rem", borderRadius: "999px" }}>
                             {t.name}
                           </span>
                         ))}

@@ -39,19 +39,19 @@ export default async function DashboardPage() {
   const solveRate = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
   const VERDICT_STYLE: Record<string, { bg: string; color: string; icon: string }> = {
-    ACCEPTED:          { bg: "#dcfce7", color: "#16a34a", icon: "✓" },
-    WRONG_ANSWER:      { bg: "#fee2e2", color: "#dc2626", icon: "✗" },
-    TIME_LIMIT_EXCEEDED:{ bg: "#fef3c7", color: "#d97706", icon: "⏱" },
-    TLE:               { bg: "#fef3c7", color: "#d97706", icon: "⏱" },
-    RUNTIME_ERROR:     { bg: "#fce7f3", color: "#db2777", icon: "💥" },
-    COMPILATION_ERROR: { bg: "#ede9fe", color: "#7c3aed", icon: "⚙" },
-    PENDING:           { bg: "#f3f4f6", color: "#6b7280", icon: "…" },
+    ACCEPTED:          { bg: "var(--verdict-ac-bg)", color: "var(--verdict-ac)", icon: "✓" },
+    WRONG_ANSWER:      { bg: "var(--verdict-wa-bg)", color: "var(--verdict-wa)", icon: "✗" },
+    TIME_LIMIT_EXCEEDED:{ bg: "var(--verdict-tle-bg)", color: "var(--verdict-tle)", icon: "" },
+    TLE:               { bg: "var(--verdict-tle-bg)", color: "var(--verdict-tle)", icon: "" },
+    RUNTIME_ERROR:     { bg: "var(--verdict-re-bg)", color: "var(--verdict-re)", icon: "" },
+    COMPILATION_ERROR: { bg: "var(--verdict-ce-bg)", color: "var(--verdict-ce)", icon: "" },
+    PENDING:           { bg: "var(--verdict-pending-bg)", color: "var(--verdict-pending)", icon: "…" },
   };
 
   const DIFF_STYLE: Record<string, { color: string }> = {
-    EASY:   { color: "#16a34a" },
-    MEDIUM: { color: "#d97706" },
-    HARD:   { color: "#dc2626" },
+    EASY:   { color: "#22c55e" },
+    MEDIUM: { color: "#eab308" },
+    HARD:   { color: "#ef4444" },
   };
 
   return (
@@ -59,20 +59,20 @@ export default async function DashboardPage() {
 
       {/* Welcome Banner */}
       <div style={{
-        background: "linear-gradient(135deg, #1a56db 0%, #0e3fa5 100%)",
+        background: "linear-gradient(135deg, #0c2511 0%, #000000 100%)",
         borderRadius: "16px",
         padding: "1.75rem 2rem",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         color: "#fff",
-        boxShadow: "0 8px 32px rgba(26,86,219,0.3)",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
         flexWrap: "wrap",
         gap: "1rem",
       }}>
         <div>
           <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
-            Welcome back, {user.name.split(" ")[0]}! 👋
+            Welcome back, {user.name.split(" ")[0]}!
           </h2>
           <p style={{ margin: "0.3rem 0 0", opacity: 0.8, fontSize: "0.95rem" }}>
             {solvedCount > 0
@@ -96,27 +96,20 @@ export default async function DashboardPage() {
       {/* Stats Row */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
         {[
-          { label: "Problems Solved", value: solvedCount, total: totalProblems, icon: "✅", color: "#16a34a", bg: "#dcfce7" },
-          { label: "Attempted",       value: attemptedCount, total: totalProblems, icon: "🎯", color: "#1a56db", bg: "#dbeafe" },
-          { label: "Total Submissions",value: totalSubmissions, icon: "📤", color: "#7c3aed", bg: "#ede9fe" },
-          { label: "Solve Rate",      value: `${solveRate}%`, icon: "📈", color: "#d97706", bg: "#fef3c7" },
+          { label: "Problems Solved", value: solvedCount, total: totalProblems, color: "var(--brand-primary)", bg: "var(--gray-100)" },
+          { label: "Attempted",       value: attemptedCount, total: totalProblems, color: "var(--brand-accent)", bg: "var(--gray-100)" },
+          { label: "Total Submissions",value: totalSubmissions, color: "var(--gray-800)", bg: "var(--gray-100)" },
+          { label: "Solve Rate",      value: `${solveRate}%`, color: "var(--verdict-tle)", bg: "var(--gray-100)" },
         ].map((stat, i) => (
           <div key={i} className="card" style={{ padding: "1.25rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{
-              width: "44px", height: "44px", borderRadius: "12px",
-              background: stat.bg, display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "1.25rem", flexShrink: 0,
-            }}>
-              {stat.icon}
-            </div>
             <div>
               <div style={{ fontSize: "1.5rem", fontWeight: 800, color: stat.color, lineHeight: 1 }}>
                 {stat.value}
                 {stat.total !== undefined && (
-                  <span style={{ fontSize: "0.85rem", color: "#9ca3af", fontWeight: 500 }}>/{stat.total}</span>
+                  <span style={{ fontSize: "0.85rem", color: "var(--gray-400)", fontWeight: 500 }}>/{stat.total}</span>
                 )}
               </div>
-              <div style={{ fontSize: "0.8rem", color: "#6b7280", marginTop: "0.2rem" }}>{stat.label}</div>
+              <div style={{ fontSize: "0.8rem", color: "var(--gray-500)", marginTop: "0.2rem" }}>{stat.label}</div>
             </div>
           </div>
         ))}
@@ -124,16 +117,16 @@ export default async function DashboardPage() {
 
       {/* Quick Navigation Cards */}
       <div>
-        <h3 style={{ margin: "0 0 1rem", fontSize: "1rem", fontWeight: 700, color: "#374151", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+        <h3 style={{ margin: "0 0 1rem", fontSize: "1rem", fontWeight: 700, color: "var(--gray-800)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
           Quick Access
         </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
           {[
-            { href: "/problems", icon: "📋", title: "Practice Problems", desc: `${totalProblems} problems available`, color: "#1a56db", bg: "linear-gradient(135deg, #dbeafe, #eff6ff)" },
-            { href: "/contests", icon: "🏟️", title: "Contest Hub",       desc: `${runningContests.length} live now`, color: "#16a34a", bg: "linear-gradient(135deg, #dcfce7, #f0fdf4)" },
-            { href: "/duels",    icon: "⚔️", title: "1v1 Duels",         desc: "Real-time matchmaking", color: "#dc2626", bg: "linear-gradient(135deg, #fee2e2, #fef2f2)" },
-            { href: "/submissions", icon: "📜", title: "My Submissions",  desc: `${totalSubmissions} total submissions`, color: "#7c3aed", bg: "linear-gradient(135deg, #ede9fe, #f5f3ff)" },
-            { href: "/leaderboard", icon: "🏆", title: "Leaderboard",    desc: "See top performers", color: "#d97706", bg: "linear-gradient(135deg, #fef3c7, #fffbeb)" },
+            { href: "/problems", title: "Practice Problems", desc: `${totalProblems} problems available` },
+            { href: "/contests", title: "Contest Hub",       desc: `${runningContests.length} live now` },
+            { href: "/duels",    title: "1v1 Duels",         desc: "Real-time matchmaking" },
+            { href: "/submissions", title: "My Submissions",  desc: `${totalSubmissions} total submissions` },
+            { href: "/leaderboard", title: "Leaderboard",    desc: "See top performers" },
           ].map((card) => (
             <Link
               key={card.href}
@@ -144,15 +137,14 @@ export default async function DashboardPage() {
                 className="card interactive-card"
                 style={{
                   padding: "1.5rem",
-                  background: card.bg,
+                  background: "var(--surface-card)",
                   borderRadius: "14px",
                   cursor: "pointer",
-                  border: "1px solid rgba(255,255,255,0.8)",
+                  border: "1px solid var(--gray-200)",
                 }}
               >
-                <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>{card.icon}</div>
-                <div style={{ fontSize: "1rem", fontWeight: 700, color: "#111827", marginBottom: "0.25rem" }}>{card.title}</div>
-                <div style={{ fontSize: "0.82rem", color: "#6b7280" }}>{card.desc}</div>
+                <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--gray-900)", marginBottom: "0.25rem" }}>{card.title}</div>
+                <div style={{ fontSize: "0.82rem", color: "var(--gray-500)" }}>{card.desc}</div>
               </div>
             </Link>
           ))}
@@ -162,14 +154,14 @@ export default async function DashboardPage() {
       {/* Live Contests Banner */}
       {runningContests.length > 0 && (
         <div style={{
-          background: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
-          border: "1px solid #bbf7d0",
+          background: "linear-gradient(135deg, var(--gray-100), var(--gray-50))",
+          border: "1px solid var(--brand-primary)",
           borderRadius: "14px",
           padding: "1.25rem 1.5rem",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.85rem" }}>
             <span className="live-dot" />
-            <span style={{ fontWeight: 700, color: "#15803d", fontSize: "0.95rem" }}>
+            <span style={{ fontWeight: 700, color: "var(--brand-primary)", fontSize: "0.95rem" }}>
               {runningContests.length} Contest{runningContests.length > 1 ? "s" : ""} Live Right Now!
             </span>
           </div>
@@ -177,12 +169,12 @@ export default async function DashboardPage() {
             {runningContests.map((c) => (
               <Link key={c.id} href={`/contests/${c.id}`} style={{ textDecoration: "none" }}>
                 <div className="contest-pill-hover" style={{
-                  background: "#fff", borderRadius: "10px", padding: "0.65rem 1.1rem",
-                  border: "1px solid #bbf7d0", fontSize: "0.88rem", fontWeight: 600,
-                  color: "#15803d", display: "flex", alignItems: "center", gap: "0.5rem",
+                  background: "var(--surface-elevated)", borderRadius: "10px", padding: "0.65rem 1.1rem",
+                  border: "1px solid var(--brand-primary)", fontSize: "0.88rem", fontWeight: 600,
+                  color: "var(--brand-primary)", display: "flex", alignItems: "center", gap: "0.5rem",
                 }}
                 >
-                  🏁 {c.title} →
+                  {c.title} →
                 </div>
               </Link>
             ))}
@@ -195,13 +187,12 @@ export default async function DashboardPage() {
 
         {/* Recent Submissions */}
         <div className="card" style={{ overflow: "hidden" }}>
-          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ margin: 0, fontSize: "0.95rem", fontWeight: 700, color: "#111827" }}>Recent Submissions</h3>
-            <Link href="/submissions" style={{ fontSize: "0.82rem", color: "#1a56db", fontWeight: 600, textDecoration: "none" }}>View all →</Link>
+          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ margin: 0, fontSize: "0.95rem", fontWeight: 700, color: "var(--gray-900)" }}>Recent Submissions</h3>
+            <Link href="/submissions" style={{ fontSize: "0.82rem", color: "var(--brand-primary)", fontWeight: 600, textDecoration: "none" }}>View all →</Link>
           </div>
           {recentSubmissions.length === 0 ? (
-            <div style={{ padding: "2rem", textAlign: "center", color: "#9ca3af" }}>
-              <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🚀</div>
+            <div style={{ padding: "2rem", textAlign: "center", color: "var(--gray-500)" }}>
               <p style={{ fontSize: "0.9rem" }}>No submissions yet. Start coding!</p>
               <Link href="/problems" className="btn btn-primary" style={{ display: "inline-flex", marginTop: "0.75rem", fontSize: "0.85rem", padding: "0.5rem 1rem" }}>Browse Problems</Link>
             </div>
@@ -214,11 +205,11 @@ export default async function DashboardPage() {
                   <Link key={sub.id} href={`/submissions/${sub.id}`} style={{ textDecoration: "none" }}>
                     <div className="list-item-hover" style={{
                       display: "flex", alignItems: "center", justifyContent: "space-between",
-                      padding: "0.85rem 1.5rem", borderBottom: "1px solid #f9fafb",
+                      padding: "0.85rem 1.5rem", borderBottom: "1px solid var(--gray-100)",
                     }}
                     >
                       <div>
-                        <div style={{ fontWeight: 600, color: "#111827", fontSize: "0.88rem" }}>{sub.problem.title}</div>
+                        <div style={{ fontWeight: 600, color: "var(--gray-900)", fontSize: "0.88rem" }}>{sub.problem.title}</div>
                         <div style={{ fontSize: "0.76rem", color: ds.color, fontWeight: 600, marginTop: "0.1rem" }}>{sub.problem.difficulty} • {sub.language}</div>
                       </div>
                       <span style={{
@@ -237,13 +228,12 @@ export default async function DashboardPage() {
 
         {/* Upcoming Contests */}
         <div className="card" style={{ overflow: "hidden" }}>
-          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ margin: 0, fontSize: "0.95rem", fontWeight: 700, color: "#111827" }}>Upcoming Contests</h3>
-            <Link href="/contests" style={{ fontSize: "0.82rem", color: "#1a56db", fontWeight: 600, textDecoration: "none" }}>View all →</Link>
+          <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--gray-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ margin: 0, fontSize: "0.95rem", fontWeight: 700, color: "var(--gray-900)" }}>Upcoming Contests</h3>
+            <Link href="/contests" style={{ fontSize: "0.82rem", color: "var(--brand-primary)", fontWeight: 600, textDecoration: "none" }}>View all →</Link>
           </div>
           {upcomingContests.length === 0 ? (
-            <div style={{ padding: "2rem", textAlign: "center", color: "#9ca3af" }}>
-              <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📅</div>
+            <div style={{ padding: "2rem", textAlign: "center", color: "var(--gray-500)" }}>
               <p style={{ fontSize: "0.9rem" }}>No upcoming contests scheduled.</p>
             </div>
           ) : (
@@ -251,15 +241,15 @@ export default async function DashboardPage() {
               {upcomingContests.map((c) => (
                 <Link key={c.id} href={`/contests/${c.id}`} style={{ textDecoration: "none" }}>
                   <div className="list-item-hover" style={{
-                    padding: "1rem 1.5rem", borderBottom: "1px solid #f9fafb",
+                    padding: "1rem 1.5rem", borderBottom: "1px solid var(--gray-100)",
                   }}
                   >
-                    <div style={{ fontWeight: 600, color: "#111827", fontSize: "0.88rem", marginBottom: "0.25rem" }}>{c.title}</div>
-                    <div style={{ fontSize: "0.78rem", color: "#6b7280" }}>
-                      📅 {new Date(c.startTime).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                    <div style={{ fontWeight: 600, color: "var(--gray-900)", fontSize: "0.88rem", marginBottom: "0.25rem" }}>{c.title}</div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--gray-500)" }}>
+                      {new Date(c.startTime).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                     </div>
                     <div style={{ marginTop: "0.4rem" }}>
-                      <span style={{ fontSize: "0.75rem", fontWeight: 700, background: "#eff6ff", color: "#1a56db", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
+                      <span style={{ fontSize: "0.75rem", fontWeight: 700, background: "var(--gray-200)", color: "var(--brand-primary)", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
                         UPCOMING
                       </span>
                     </div>

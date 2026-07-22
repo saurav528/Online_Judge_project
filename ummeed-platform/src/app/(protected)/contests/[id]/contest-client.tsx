@@ -83,14 +83,14 @@ export function RegisterButton({ contestId, isRegistered: initialRegistered }: R
           alignItems: "center",
           gap: "0.4rem",
           padding: "0.5rem 1.2rem",
-          backgroundColor: "#dcfce7",
-          color: "#15803d",
+          backgroundColor: "var(--verdict-ac-bg)",
+          color: "var(--brand-primary)",
           borderRadius: "0.4rem",
           fontWeight: 700,
           fontSize: "0.9rem",
         }}
       >
-        ✓ Registered
+        Registered
       </span>
     );
   }

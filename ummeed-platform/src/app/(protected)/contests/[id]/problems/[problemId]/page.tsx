@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { prisma } from "@/config/db";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/auth-utils";
 import { ContestService } from "@/lib/services/contest";
 import { getProblemContent } from "@/lib/problems-fs";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
@@ -72,17 +72,17 @@ export default async function ContestProblemPage({
               ← Contest Hub
             </Link>
             {" / "}
-            <Link href={`/contests/${contestId}`} style={{ color: "#2563eb", textDecoration: "none" }}>
+            <Link href={`/contests/${contestId}`} style={{ color: "var(--brand-primary)", textDecoration: "none" }}>
               {contest.title}
             </Link>
             {" / "}
-            <strong style={{ color: "#111827" }}>{problem.title}</strong>
+            <strong style={{ color: "var(--gray-900)" }}>{problem.title}</strong>
           </div>
 
           {/* Time Remaining Timer */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", padding: "0.3rem 0.6rem", backgroundColor: "#fef2f2", border: "1px solid #fee2e2", borderRadius: "6px", fontSize: "0.8rem", color: "#dc2626", fontWeight: 700 }}>
-            <span>⏱️ Time Left:</span>
-            <ContestCountdown endTime={contest.endTime.toISOString()} style={{ fontSize: "0.85rem", color: "#dc2626" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", padding: "0.3rem 0.6rem", backgroundColor: "var(--verdict-wa-bg)", border: "1px solid var(--brand-red)", borderRadius: "6px", fontSize: "0.8rem", color: "var(--brand-red)", fontWeight: 700 }}>
+            <span>Time Left:</span>
+            <ContestCountdown endTime={contest.endTime.toISOString()} style={{ fontSize: "0.85rem", color: "var(--brand-red)" }} />
           </div>
         </div>
 
@@ -148,35 +148,35 @@ export default async function ContestProblemPage({
                     fontWeight: 700,
                     padding: "0.2rem 0.55rem",
                     borderRadius: "999px",
-                    backgroundColor: "#eff6ff",
-                    color: "#1d4ed8",
+                    backgroundColor: "var(--gray-200)",
+                    color: "var(--brand-primary)",
                   }}
                 >
                   {contestProblem.points} pts
                 </span>
               </div>
             </div>
-            <div style={{ fontSize: "0.82rem", color: "#6b7280" }}>
-              <div>⏱ {problem.timeLimit} ms</div>
-              <div>💾 {problem.memoryLimit} MB</div>
+            <div style={{ fontSize: "0.82rem", color: "var(--gray-500)" }}>
+              <div>Time Limit: {problem.timeLimit} ms</div>
+              <div>Memory Limit: {problem.memoryLimit} MB</div>
             </div>
           </div>
 
           {content ? (
             <>
               <section style={{ marginBottom: "1.5rem" }}>
-                <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Problem Statement</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.7 }}><RichText>{content.statement}</RichText></p>
+                <h4 style={{ color: "var(--gray-800)", marginBottom: "0.5rem" }}>Problem Statement</h4>
+                <p style={{ color: "var(--gray-600)", lineHeight: 1.7 }}><RichText>{content.statement}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
-                <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Input</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.6 }}><RichText>{content.inputSpecification}</RichText></p>
+                <h4 style={{ color: "var(--gray-800)", marginBottom: "0.5rem" }}>Input</h4>
+                <p style={{ color: "var(--gray-600)", lineHeight: 1.6 }}><RichText>{content.inputSpecification}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
-                <h4 style={{ color: "#374151", marginBottom: "0.5rem" }}>Output</h4>
-                <p style={{ color: "#4b5563", lineHeight: 1.6 }}><RichText>{content.outputSpecification}</RichText></p>
+                <h4 style={{ color: "var(--gray-800)", marginBottom: "0.5rem" }}>Output</h4>
+                <p style={{ color: "var(--gray-600)", lineHeight: 1.6 }}><RichText>{content.outputSpecification}</RichText></p>
               </section>
 
               <section style={{ marginBottom: "1.5rem" }}>
@@ -218,7 +218,7 @@ export default async function ContestProblemPage({
                       </div>
                       {ex.explanation && (
                         <div style={{ padding: "0.6rem 0.75rem", borderTop: "1px solid #e5e7eb", fontSize: "0.85rem", color: "#6b7280" }}>
-                          💡 <RichText>{ex.explanation}</RichText>
+                          {ex.explanation}
                         </div>
                       )}
                     </div>

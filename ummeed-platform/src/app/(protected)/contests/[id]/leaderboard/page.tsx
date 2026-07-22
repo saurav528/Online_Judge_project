@@ -8,9 +8,9 @@ import { prisma } from "@/config/db";
 const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];
 
 const RANK_STYLES: Record<number, { bg: string; color: string; label: string }> = {
-  1: { bg: "#fef9c3", color: "#854d0e", label: "🥇" },
-  2: { bg: "#f1f5f9", color: "#374151", label: "🥈" },
-  3: { bg: "#fff7ed", color: "#9a3412", label: "🥉" },
+  1: { bg: "var(--surface-elevated)", color: "var(--brand-primary)", label: "1" },
+  2: { bg: "var(--surface-elevated)", color: "var(--gray-700)", label: "2" },
+  3: { bg: "var(--surface-elevated)", color: "var(--gray-600)", label: "3" },
 };
 
 export default async function LeaderboardPage({
@@ -52,7 +52,7 @@ export default async function LeaderboardPage({
           margin: "3rem auto",
         }}
       >
-        <h2 style={{ color: "#111827", margin: "0 0 1rem", fontSize: "1.5rem" }}>🔒 Leaderboard is Locked</h2>
+        <h2 style={{ color: "var(--gray-900)", margin: "0 0 1rem", fontSize: "1.5rem" }}>Leaderboard is Locked</h2>
         <p style={{ color: "#4b5563", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
           The leaderboard for this contest will become available once the contest has officially ended.
         </p>
@@ -105,8 +105,8 @@ export default async function LeaderboardPage({
 
       {/* Header */}
       <div style={{ marginBottom: "1.75rem" }}>
-        <h2 style={{ margin: 0, color: "#111827", fontSize: "1.5rem" }}>
-          🏆 {contest.title} — Leaderboard
+        <h2 style={{ margin: 0, color: "var(--gray-900)", fontSize: "1.5rem" }}>
+          {contest.title} — Leaderboard
         </h2>
         <p style={{ margin: "0.3rem 0 0", color: "#6b7280", fontSize: "0.9rem" }}>
           Ranked by total score (descending), then penalty minutes (ascending). Each wrong submission before AC adds 20 min penalty.
@@ -238,7 +238,7 @@ export default async function LeaderboardPage({
                               fontSize: "0.8rem",
                             }}
                           >
-                            ✓ AC
+                            AC
                           </span>
                           {ps.attempts > 1 && (
                             <div style={{ fontSize: "0.7rem", color: "#dc2626", marginTop: "0.15rem" }}>
@@ -258,7 +258,7 @@ export default async function LeaderboardPage({
                             fontSize: "0.8rem",
                           }}
                         >
-                          ✗ ×{ps.attempts}
+                          ×{ps.attempts}
                         </span>
                       ) : (
                         <span style={{ color: "#d1d5db", fontSize: "0.9rem" }}>—</span>
@@ -287,8 +287,8 @@ export default async function LeaderboardPage({
           flexWrap: "wrap",
         }}
       >
-        <span>✓ AC = Accepted (full points earned)</span>
-        <span>✗ ×N = N wrong submissions (no points yet)</span>
+        <span>AC = Accepted (full points earned)</span>
+        <span>×N = N wrong submissions (no points yet)</span>
         <span>Penalty = wrong attempts before AC × 20 min</span>
       </div>
     </div>

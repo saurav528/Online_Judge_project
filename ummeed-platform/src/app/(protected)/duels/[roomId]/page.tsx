@@ -128,7 +128,7 @@ export default function DuelArenaPage() {
   if (error || !duel) {
     return (
       <div className="alert alert-error" style={{ maxWidth: "600px", margin: "2rem auto" }}>
-        <span>⚠️</span> {error || "Duel not found"}
+        {error || "Duel not found"}
       </div>
     );
   }
@@ -154,35 +154,32 @@ export default function DuelArenaPage() {
           <div className="card" style={{
             width: "100%", maxWidth: "440px", padding: "2.5rem 2rem", textAlign: "center",
             boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
-            background: "#fff", borderRadius: "16px",
+            background: "var(--surface-card)", borderRadius: "16px",
           }}>
             {duel.winnerId === (duel.isPlayer1 ? duel.player1Id : duel.player2Id) ? (
               <div>
-                <span style={{ fontSize: "4.5rem" }}>🎉</span>
-                <h2 style={{ fontSize: "1.8rem", color: "#16a34a", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
+                <h2 style={{ fontSize: "1.8rem", color: "var(--brand-primary)", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
                   VICTORY!
                 </h2>
-                <p style={{ color: "#4b5563", fontSize: "0.95rem", marginBottom: "2rem" }}>
+                <p style={{ color: "var(--gray-500)", fontSize: "0.95rem", marginBottom: "2rem" }}>
                   You solved the problem fastest and won the match! New Rating Elo points gained.
                 </p>
               </div>
             ) : duel.winnerId === null ? (
               <div>
-                <span style={{ fontSize: "4.5rem" }}>🤝</span>
-                <h2 style={{ fontSize: "1.8rem", color: "#d97706", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
+                <h2 style={{ fontSize: "1.8rem", color: "var(--verdict-tle)", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
                   DRAW!
                 </h2>
-                <p style={{ color: "#4b5563", fontSize: "0.95rem", marginBottom: "2rem" }}>
+                <p style={{ color: "var(--gray-500)", fontSize: "0.95rem", marginBottom: "2rem" }}>
                   Time ran out! Both players ended with the same score.
                 </p>
               </div>
             ) : (
               <div>
-                <span style={{ fontSize: "4.5rem" }}>😢</span>
-                <h2 style={{ fontSize: "1.8rem", color: "#dc2626", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
+                <h2 style={{ fontSize: "1.8rem", color: "var(--brand-red)", fontWeight: 800, margin: "1rem 0 0.5rem" }}>
                   DEFEAT
                 </h2>
-                <p style={{ color: "#4b5563", fontSize: "0.95rem", marginBottom: "2rem" }}>
+                <p style={{ color: "var(--gray-500)", fontSize: "0.95rem", marginBottom: "2rem" }}>
                   Your opponent got 100% correct code before you. Keep practicing to bounce back!
                 </p>
               </div>
@@ -190,19 +187,19 @@ export default function DuelArenaPage() {
 
             <div style={{ display: "flex", gap: "0.75rem" }}>
               <Link href="/duels" className="btn btn-primary" style={{ flex: 1, padding: "0.75rem", borderRadius: "10px", textDecoration: "none" }}>
-                Play Again ⚔️
+                Play Again
               </Link>
               <Link href="/dashboard" className="btn btn-ghost" style={{ flex: 1, padding: "0.75rem", borderRadius: "10px", textDecoration: "none" }}>
-                Dashboard 🏠
+                Dashboard
               </Link>
             </div>
           </div>
         </div>
       )}
 
-      {/* ⚔️ Duel Header Scoreboard */}
+      {/* Duel Header Scoreboard */}
       <div className="card" style={{
-        background: "linear-gradient(135deg, #1e1b4b 0%, #311042 100%)",
+        background: "linear-gradient(135deg, #0c2511 0%, #000000 100%)",
         color: "#fff",
         padding: "1.25rem 2rem",
         display: "flex",
@@ -217,11 +214,11 @@ export default function DuelArenaPage() {
             width: "44px", height: "44px", borderRadius: "50%", background: "#4f46e5",
             display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.1rem"
           }}>
-            👤
+            U
           </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: "0.95rem" }}>You</div>
-            <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>⭐ {duel.isPlayer1 ? duel.player1Rating : duel.player2Rating}</div>
+            <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>Elo: {duel.isPlayer1 ? duel.player1Rating : duel.player2Rating}</div>
           </div>
           <div style={{ fontSize: "1.75rem", fontWeight: 800, marginLeft: "1.5rem", color: myScore === 100 ? "#10b981" : "#fff" }}>
             {myScore} pts
@@ -247,11 +244,11 @@ export default function DuelArenaPage() {
             width: "44px", height: "44px", borderRadius: "50%", background: "#dc2626",
             display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "1.1rem"
           }}>
-            🤖
+            P
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontWeight: 700, fontSize: "0.95rem" }}>{opponentName}</div>
-            <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>⭐ {duel.isPlayer1 ? duel.player2Rating : duel.player1Rating}</div>
+            <div style={{ fontSize: "0.75rem", opacity: 0.7 }}>Elo: {duel.isPlayer1 ? duel.player2Rating : duel.player1Rating}</div>
           </div>
           <div style={{ fontSize: "1.75rem", fontWeight: 800, marginRight: "1.5rem", color: opponentScore === 100 ? "#10b981" : "#fff" }}>
             {opponentScore} pts

@@ -82,15 +82,15 @@ export default async function SubmissionDetailPage({ params }: SubmissionDetailP
           <div
             style={{
               padding: "0.5rem 1rem",
-              backgroundColor: "#fef3c7",
-              color: "#b45309",
+              backgroundColor: "var(--verdict-tle-bg)",
+              color: "var(--verdict-tle)",
               borderRadius: "0.25rem",
               fontWeight: "600",
               fontSize: "0.9rem",
               animation: "pulse 1.5s infinite",
             }}
           >
-            ⏳ Processing... Auto-Refreshing
+            Processing... Auto-Refreshing
           </div>
         )}
       </div>

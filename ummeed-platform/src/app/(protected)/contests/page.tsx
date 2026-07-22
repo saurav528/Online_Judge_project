@@ -76,11 +76,11 @@ export default async function ContestHubPage() {
         </p>
 
         {/* Meta row */}
-        <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.82rem", color: "#6b7280", flexWrap: "wrap" }}>
-          <span>🕐 Start: {formatDate(contest.startTime)}</span>
-          <span>⏱ Duration: {getDuration(contest.startTime, contest.endTime)}</span>
-          <span>📋 {contest.problems.length} Problems</span>
-          <span>👥 {contest._count.participants} Registered</span>
+        <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.82rem", color: "var(--gray-500)", flexWrap: "wrap" }}>
+          <span>Start: {formatDate(contest.startTime)}</span>
+          <span>Duration: {getDuration(contest.startTime, contest.endTime)}</span>
+          <span>{contest.problems.length} Problems</span>
+          <span>{contest._count.participants} Registered</span>
         </div>
 
         {/* Problem labels */}
@@ -134,16 +134,16 @@ export default async function ContestHubPage() {
               href={`/contests/${contest.id}/leaderboard`}
               style={{
                 padding: "0.45rem 1.1rem",
-                backgroundColor: "#f3f4f6",
-                color: "#374151",
+                backgroundColor: "var(--gray-200)",
+                color: "var(--gray-800)",
                 textDecoration: "none",
                 borderRadius: "0.4rem",
                 fontSize: "0.9rem",
                 fontWeight: 600,
-                border: "1px solid #d1d5db",
+                border: "1px solid var(--gray-300)",
               }}
             >
-              🏆 Leaderboard
+              Leaderboard
             </Link>
           )}
         </div>
@@ -205,26 +205,27 @@ export default async function ContestHubPage() {
   return (
     <div
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--surface-card)",
         padding: "2rem",
         borderRadius: "0.75rem",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
         fontFamily: "sans-serif",
         maxWidth: "900px",
+        border: "1px solid var(--gray-200)",
         margin: "0 auto",
         width: "100%",
       }}
     >
       <div style={{ marginBottom: "2rem" }}>
-        <h2 style={{ margin: 0, color: "#111827", fontSize: "1.5rem" }}>🏟 Contest Hub</h2>
-        <p style={{ margin: "0.4rem 0 0", color: "#6b7280", fontSize: "0.95rem" }}>
+        <h2 style={{ margin: 0, color: "var(--gray-900)", fontSize: "1.5rem" }}>Contest Hub</h2>
+        <p style={{ margin: "0.4rem 0 0", color: "var(--gray-500)", fontSize: "0.95rem" }}>
           Compete in timed coding contests and climb the leaderboard!
         </p>
       </div>
 
-      <Section title="Live Now" icon="🔴" items={running} emptyMsg="No contests are currently running." />
-      <Section title="Upcoming" icon="📅" items={upcoming} emptyMsg="No upcoming contests scheduled yet." />
-      <Section title="Past Contests" icon="📜" items={ended} emptyMsg="No past contests yet." />
+      <Section title="Live Now" icon="" items={running} emptyMsg="No contests are currently running." />
+      <Section title="Upcoming" icon="" items={upcoming} emptyMsg="No upcoming contests scheduled yet." />
+      <Section title="Past Contests" icon="" items={ended} emptyMsg="No past contests yet." />
     </div>
   );
 }

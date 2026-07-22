@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/config/db";
+import { prisma } from "@/lib/prisma";
 import { getProblemContent } from "@/lib/problems-fs";
 import Link from "next/link";
 import { SubmissionForm } from "@/components/problems/submission-form";
@@ -8,7 +8,7 @@ import { ProblemSubmissions } from "@/components/problems/problem-submissions";
 import { AIHintPanel } from "@/components/problems/ai-hint-panel";
 import { TabPanel } from "@/components/ui/tab-panel";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { requireAuth } from "@/lib/auth-utils";
 import { RichText } from "@/components/rich-text";
 
 export default async function StudentProblemDetailsPage({
@@ -107,8 +107,8 @@ export default async function StudentProblemDetailsPage({
                   </div>
                 </div>
                 {ex.explanation && (
-                  <div style={{ padding: "0.65rem 1rem", background: "#f9fafb", borderTop: "1px solid #e5e7eb", fontSize: "0.85rem", color: "#4b5563" }}>
-                    💡 <strong>Explanation:</strong> <RichText>{ex.explanation}</RichText>
+                  <div style={{ padding: "0.65rem 1rem", background: "var(--gray-100)", borderTop: "1px solid var(--gray-200)", fontSize: "0.85rem", color: "var(--gray-600)" }}>
+                    <strong>Explanation:</strong> {ex.explanation}
                   </div>
                 )}
               </div>
@@ -119,9 +119,7 @@ export default async function StudentProblemDetailsPage({
       {fileContent.explanation && (
         <section>
           <h3 style={{ color: "#111827", fontSize: "1rem", fontWeight: 700, marginBottom: "0.6rem" }}>Explanation</h3>
-          <div style={{ fontSize: "0.9rem" }}>
-            <RichText>{fileContent.explanation}</RichText>
-          </div>
+          <p style={{ whiteSpace: "pre-wrap", fontSize: "0.9rem" }}>{fileContent.explanation}</p>
         </section>
       )}
     </div>
@@ -132,7 +130,7 @@ export default async function StudentProblemDetailsPage({
       {/* Header */}
       <div className="card" style={{ padding: "1.25rem 1.5rem" }}>
         <div style={{ marginBottom: "0.5rem", fontSize: "0.82rem" }}>
-          <Link href="/problems" style={{ color: "#1a56db", textDecoration: "none", fontWeight: 500 }}>
+          <Link href="/problems" style={{ color: "var(--brand-primary)", textDecoration: "none", fontWeight: 500 }}>
             ← Problems
           </Link>
         </div>
@@ -149,20 +147,20 @@ export default async function StudentProblemDetailsPage({
                 {problem.difficulty}
               </span>
               {problem.tags.map((t) => (
-                <span key={t.id} style={{ fontSize: "0.75rem", background: "#f3f4f6", color: "#4b5563", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
+                <span key={t.id} style={{ fontSize: "0.75rem", background: "var(--gray-100)", color: "var(--gray-600)", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
                   {t.name}
                 </span>
               ))}
               {solved && (
-                <span style={{ fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.65rem", borderRadius: "999px", background: "#dcfce7", color: "#16a34a" }}>
-                  ✓ Solved
+                <span style={{ fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.65rem", borderRadius: "999px", background: "var(--verdict-ac-bg)", color: "var(--verdict-ac)" }}>
+                  Solved
                 </span>
               )}
             </div>
           </div>
-          <div style={{ display: "flex", gap: "1.25rem", fontSize: "0.82rem", color: "#9ca3af" }}>
-            <span>⏱ {problem.timeLimit} ms</span>
-            <span>💾 {problem.memoryLimit} MB</span>
+          <div style={{ display: "flex", gap: "1.25rem", fontSize: "0.82rem", color: "var(--gray-400)" }}>
+            <span>Time Limit: {problem.timeLimit} ms</span>
+            <span>Memory Limit: {problem.memoryLimit} MB</span>
           </div>
         </div>
       </div>
@@ -173,9 +171,9 @@ export default async function StudentProblemDetailsPage({
         <div className="card" style={{ padding: "1.5rem" }}>
           <TabPanel
             tabs={[
-              { id: "statement",   label: "Problem",     icon: "📋" },
-              { id: "submissions", label: "My Submissions", icon: "📜", count: submissionCount },
-              { id: "ai_hint",     label: "AI Hint",     icon: "🤖" },
+              { id: "statement",   label: "Problem" },
+              { id: "submissions", label: "My Submissions", count: submissionCount },
+              { id: "ai_hint",     label: "AI Hint" },
             ]}
             defaultTab="statement"
           >

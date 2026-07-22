@@ -8,13 +8,13 @@ interface ProblemSubmissionsProps {
 }
 
 const VERDICT_STYLE: Record<string, { bg: string; color: string; icon: string }> = {
-  ACCEPTED:           { bg: "#dcfce7", color: "#16a34a", icon: "✓" },
-  WRONG_ANSWER:       { bg: "#fee2e2", color: "#dc2626", icon: "✗" },
-  TIME_LIMIT_EXCEEDED:{ bg: "#fef3c7", color: "#d97706", icon: "⏱" },
-  TLE:                { bg: "#fef3c7", color: "#d97706", icon: "⏱" },
-  RUNTIME_ERROR:      { bg: "#fce7f3", color: "#db2777", icon: "💥" },
-  COMPILATION_ERROR:  { bg: "#ede9fe", color: "#7c3aed", icon: "⚙" },
-  PENDING:            { bg: "#f3f4f6", color: "#6b7280", icon: "…" },
+  ACCEPTED:           { bg: "var(--verdict-ac-bg)", color: "var(--verdict-ac)", icon: "✓" },
+  WRONG_ANSWER:       { bg: "var(--verdict-wa-bg)", color: "var(--verdict-wa)", icon: "✗" },
+  TIME_LIMIT_EXCEEDED:{ bg: "var(--verdict-tle-bg)", color: "var(--verdict-tle)", icon: "" },
+  TLE:                { bg: "var(--verdict-tle-bg)", color: "var(--verdict-tle)", icon: "" },
+  RUNTIME_ERROR:      { bg: "var(--verdict-re-bg)", color: "var(--verdict-re)", icon: "" },
+  COMPILATION_ERROR:  { bg: "var(--verdict-ce-bg)", color: "var(--verdict-ce)", icon: "" },
+  PENDING:            { bg: "var(--verdict-pending-bg)", color: "var(--verdict-pending)", icon: "..." },
 };
 
 function timeSince(date: Date): string {
@@ -34,8 +34,7 @@ export async function ProblemSubmissions({ problemId, userId }: ProblemSubmissio
 
   if (submissions.length === 0) {
     return (
-      <div style={{ textAlign: "center", padding: "2rem", color: "#9ca3af" }}>
-        <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>📭</div>
+      <div style={{ textAlign: "center", padding: "2rem", color: "var(--gray-500)" }}>
         <p style={{ fontSize: "0.9rem" }}>No submissions yet for this problem.</p>
       </div>
     );
@@ -85,10 +84,10 @@ export async function ProblemSubmissions({ problemId, userId }: ProblemSubmissio
                   <Link
                     href={`/submissions/${sub.id}`}
                     style={{
-                      fontSize: "0.78rem", color: "#1a56db", fontWeight: 600,
+                      fontSize: "0.78rem", color: "var(--brand-primary)", fontWeight: 600,
                       textDecoration: "none", padding: "0.2rem 0.65rem",
-                      border: "1px solid #dbeafe", borderRadius: "6px",
-                      background: "#eff6ff",
+                      border: "1px solid var(--gray-200)", borderRadius: "6px",
+                      background: "var(--gray-100)",
                     }}
                   >
                     View →
