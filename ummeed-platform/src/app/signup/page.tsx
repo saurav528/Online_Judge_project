@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -41,7 +41,7 @@ export default function SignupPage() {
       minHeight: "100vh",
       display: "flex",
       fontFamily: "var(--font-sans)",
-      background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%)",
+      background: "linear-gradient(135deg, #000000 0%, #0c2511 50%, #000000 100%)",
     }}>
       {/* Left panel — Branding */}
       <div style={{
@@ -55,8 +55,8 @@ export default function SignupPage() {
         overflow: "hidden",
       }}>
         {/* Decorative circles */}
-        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "350px", height: "350px", borderRadius: "50%", background: "rgba(26,86,219,0.15)", zIndex: 0 }} />
-        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "250px", height: "250px", borderRadius: "50%", background: "rgba(255,107,0,0.1)", zIndex: 0 }} />
+        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "350px", height: "350px", borderRadius: "50%", background: "rgba(34,197,94,0.1)", zIndex: 0 }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "250px", height: "250px", borderRadius: "50%", background: "rgba(34,197,94,0.05)", zIndex: 0 }} />
 
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", maxWidth: "420px" }}>
           {/* Umeed Logo */}
@@ -64,13 +64,13 @@ export default function SignupPage() {
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "rgba(255,255,255,0.95)",
-            borderRadius: "16px",
-            padding: "1rem 2rem",
+            background: "rgba(255,255,255,0.97)",
+            borderRadius: "24px",
+            padding: "1.5rem 2rem",
             marginBottom: "2rem",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
           }}>
-            <Image src="/umeed_logo1.png" alt="Umeed Logo" width={160} height={50} style={{ objectFit: "contain" }} priority />
+            <Image src="/umeed-logo.jpg" alt="Umeed Logo" width={180} height={100} style={{ objectFit: "contain" }} priority />
           </div>
 
           <h1 style={{ color: "#ffffff", fontSize: "2rem", fontWeight: 800, marginBottom: "0.75rem", letterSpacing: "-0.02em" }}>
@@ -82,9 +82,9 @@ export default function SignupPage() {
 
           {/* Feature highlights */}
           {[
-            { icon: "⚡", text: "Real-time code execution in C++, Python, Java & JS" },
-            { icon: "🏆", text: "Compete in live contests with ICPC-style rankings" },
-            { icon: "📊", text: "Track your progress on every problem you attempt" },
+            { text: "Real-time code execution in C++, Python, Java & JS" },
+            { text: "Compete in live contests with ICPC-style rankings" },
+            { text: "Track your progress on every problem you attempt" },
           ].map((feat, i) => (
             <div key={i} style={{
               display: "flex",
@@ -98,7 +98,6 @@ export default function SignupPage() {
               backdropFilter: "blur(4px)",
               border: "1px solid rgba(255,255,255,0.12)",
             }}>
-              <span style={{ fontSize: "1.3rem" }}>{feat.icon}</span>
               <span style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.9rem" }}>{feat.text}</span>
             </div>
           ))}
@@ -108,33 +107,33 @@ export default function SignupPage() {
       {/* Right panel — Signup Form */}
       <div style={{
         flex: "0 0 460px",
-        background: "#ffffff",
+        background: "var(--surface-card)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "3rem 3.5rem",
-        boxShadow: "-20px 0 60px rgba(0,0,0,0.2)",
+        boxShadow: "-20px 0 60px rgba(0,0,0,0.5)",
       }}>
         <div style={{ width: "100%", maxWidth: "360px" }}>
           <div style={{ marginBottom: "2rem" }}>
-            <h2 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#0f172a", letterSpacing: "-0.02em", marginBottom: "0.4rem" }}>
-              Create Account 🚀
+            <h2 style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--gray-900)", letterSpacing: "-0.02em", marginBottom: "0.4rem" }}>
+              Create Account
             </h2>
-            <p style={{ color: "#64748b", fontSize: "0.95rem" }}>
-              Join Umeed to start competing today
+            <p style={{ color: "var(--gray-500)", fontSize: "0.95rem" }}>
+              Join Ummeed to start competing today
             </p>
           </div>
 
           {error && (
             <div className="alert alert-error" style={{ marginBottom: "1.25rem" }}>
-              <span>⚠️</span> {error}
+              {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#374151", marginBottom: "0.4rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--gray-700)", marginBottom: "0.4rem" }}>
                 Full Name
               </label>
               <input
@@ -150,7 +149,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#374151", marginBottom: "0.4rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--gray-700)", marginBottom: "0.4rem" }}>
                 Email Address
               </label>
               <input
@@ -158,7 +157,7 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-input"
-                placeholder="you@umeed.org"
+                placeholder="you@ummeed.org"
                 required
                 disabled={loading}
                 autoComplete="email"
@@ -166,7 +165,7 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "#374151", marginBottom: "0.4rem" }}>
+              <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 600, color: "var(--gray-700)", marginBottom: "0.4rem" }}>
                 Password
               </label>
               <div style={{ position: "relative" }}>
@@ -186,11 +185,11 @@ export default function SignupPage() {
                   onClick={() => setShowPass(!showPass)}
                   style={{
                     position: "absolute", right: "0.75rem", top: "50%", transform: "translateY(-50%)",
-                    background: "none", border: "none", cursor: "pointer", color: "#9ca3af", fontSize: "1rem",
+                    background: "none", border: "none", cursor: "pointer", color: "var(--gray-400)", fontSize: "1rem",
                     padding: "0.25rem",
                   }}
                 >
-                  {showPass ? "🙈" : "👁️"}
+                  {showPass ? "Hide" : "Show"}
                 </button>
               </div>
             </div>

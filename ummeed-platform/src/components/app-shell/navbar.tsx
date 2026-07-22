@@ -6,11 +6,11 @@ import Link from "next/link";
 import { UserMenu } from "./user-menu";
 
 const NAV_LINKS = [
-  { href: "/dashboard",   label: "Home",        icon: "🏠" },
-  { href: "/problems",    label: "Problems",     icon: "📋" },
-  { href: "/contests",    label: "Contests",     icon: "🏆" },
-  { href: "/submissions", label: "Submissions",  icon: "📜" },
-  { href: "/duels",        label: "1v1 Duels",    icon: "⚔️" },
+  { href: "/dashboard",   label: "Home" },
+  { href: "/problems",    label: "Problems" },
+  { href: "/contests",    label: "Contests" },
+  { href: "/submissions", label: "Submissions" },
+  { href: "/duels",        label: "1v1 Duels" },
 ];
 
 export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
@@ -24,21 +24,37 @@ export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
       justifyContent: "space-between",
       padding: "0 1.5rem",
       height: "60px",
-      backgroundColor: "#ffffff",
-      borderBottom: "1px solid #e5e7eb",
-      boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+      backgroundColor: "var(--surface-card)",
+      borderBottom: "1px solid var(--gray-200)",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.5)",
     }}>
-      <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-        <Image src="/umeed_logo1.png" alt="Umeed" width={110} height={32} style={{ objectFit: "contain" }} priority />
-        {isAdmin && (
-          <span style={{
-            fontSize: "0.7rem", fontWeight: 700,
-            background: "#fee2e2", color: "#dc2626", padding: "0.1rem 0.4rem",
-            borderRadius: "4px",
-          }}>
-            ADMIN
+      {/* Left: Logo */}
+      <Link href="/dashboard" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{
+          background: "var(--surface-card)",
+          borderRadius: "8px",
+          padding: "3px",
+          border: "1px solid var(--gray-200)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+          <Image src="/umeed-logo.jpg" alt="Umeed" width={36} height={28} style={{ objectFit: "contain" }} />
+        </div>
+        <div>
+          <span style={{ fontWeight: 800, fontSize: "1rem", color: "var(--brand-primary)", letterSpacing: "-0.01em" }}>
+            Ummeed
           </span>
-        )}
+          {isAdmin && (
+            <span style={{
+              marginLeft: "0.5rem", fontSize: "0.7rem", fontWeight: 700,
+              background: "var(--verdict-wa-bg)", color: "var(--brand-red)", padding: "0.1rem 0.4rem",
+              borderRadius: "4px",
+            }}>
+              ADMIN
+            </span>
+          )}
+        </div>
       </Link>
 
       {/* Center: Navigation Links */}
@@ -75,18 +91,18 @@ function NavLink({ href, label, adminStyle }: { href: string; label: string; adm
         padding: "0 0.9rem",
         fontSize: "0.88rem",
         fontWeight: 500,
-        color: adminStyle ? "#dc2626" : "#4b5563",
+        color: adminStyle ? "var(--brand-red)" : "var(--gray-500)",
         textDecoration: "none",
         borderBottom: "2px solid transparent",
         transition: "color 150ms ease, border-color 150ms ease",
         whiteSpace: "nowrap",
       }}
       onMouseOver={(e) => {
-        e.currentTarget.style.color = adminStyle ? "#991b1b" : "#1a56db";
-        e.currentTarget.style.borderBottomColor = adminStyle ? "#991b1b" : "#1a56db";
+        e.currentTarget.style.color = adminStyle ? "var(--brand-red)" : "var(--brand-primary)";
+        e.currentTarget.style.borderBottomColor = adminStyle ? "var(--brand-red)" : "var(--brand-primary)";
       }}
       onMouseOut={(e) => {
-        e.currentTarget.style.color = adminStyle ? "#dc2626" : "#4b5563";
+        e.currentTarget.style.color = adminStyle ? "var(--brand-red)" : "var(--gray-500)";
         e.currentTarget.style.borderBottomColor = "transparent";
       }}
     >

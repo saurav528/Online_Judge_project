@@ -28,31 +28,31 @@ function SidebarLink({ href, icon, label, badge }: SidebarLinkProps) {
           textDecoration: "none",
           fontSize: "0.9rem",
           fontWeight: isActive ? 600 : 400,
-          color: isActive ? "#1a56db" : "#4b5563",
-          background: isActive ? "#eff6ff" : "transparent",
+          color: isActive ? "var(--brand-primary)" : "var(--gray-500)",
+          background: isActive ? "var(--gray-100)" : "transparent",
           transition: "all 150ms ease",
           position: "relative",
         }}
         onMouseOver={(e) => {
           if (!isActive) {
-            e.currentTarget.style.background = "#f3f4f6";
-            e.currentTarget.style.color = "#111827";
+            e.currentTarget.style.background = "var(--gray-100)";
+            e.currentTarget.style.color = "var(--gray-900)";
           }
         }}
         onMouseOut={(e) => {
           if (!isActive) {
             e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.color = "#4b5563";
+            e.currentTarget.style.color = "var(--gray-500)";
           }
         }}
       >
-        <span style={{ fontSize: "1rem", width: "20px", textAlign: "center", flexShrink: 0 }}>{icon}</span>
+        {icon && <span style={{ fontSize: "1rem", width: "20px", textAlign: "center", flexShrink: 0 }}>{icon}</span>}
         <span style={{ flex: 1 }}>{label}</span>
         {badge !== undefined && (
           <span style={{
             fontSize: "0.7rem", fontWeight: 700,
-            background: isActive ? "#dbeafe" : "#e5e7eb",
-            color: isActive ? "#1a56db" : "#6b7280",
+            background: isActive ? "var(--gray-200)" : "var(--gray-100)",
+            color: isActive ? "var(--brand-primary)" : "var(--gray-500)",
             padding: "0.1rem 0.45rem", borderRadius: "999px",
           }}>
             {badge}
@@ -61,7 +61,7 @@ function SidebarLink({ href, icon, label, badge }: SidebarLinkProps) {
         {isActive && (
           <div style={{
             position: "absolute", left: 0, top: "25%", height: "50%",
-            width: "3px", background: "#1a56db", borderRadius: "0 3px 3px 0",
+            width: "3px", background: "var(--brand-primary)", borderRadius: "0 3px 3px 0",
           }} />
         )}
       </Link>
@@ -74,8 +74,8 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
     <aside style={{
       width: "220px",
       flexShrink: 0,
-      borderRight: "1px solid #e5e7eb",
-      backgroundColor: "#ffffff",
+      borderRight: "1px solid var(--gray-200)",
+      backgroundColor: "var(--surface-card)",
       padding: "1.25rem 0.85rem",
       display: "flex",
       flexDirection: "column",
@@ -88,17 +88,17 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
         <div>
           <p style={{
             textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700,
-            color: "#9ca3af", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
+            color: "var(--gray-400)", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
           }}>
             Main
           </p>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            <SidebarLink href="/dashboard"    icon="🏠" label="Home" />
-            <SidebarLink href="/problems"     icon="📋" label="Problems" />
-            <SidebarLink href="/contests"     icon="🏆" label="Contest Hub" />
-            <SidebarLink href="/submissions"  icon="📜" label="My Submissions" />
-            <SidebarLink href="/leaderboard"  icon="🥇" label="Leaderboard" />
-            <SidebarLink href="/duels"        icon="⚔️" label="1v1 Duels" />
+            <SidebarLink href="/dashboard"    icon="" label="Home" />
+            <SidebarLink href="/problems"     icon="" label="Problems" />
+            <SidebarLink href="/contests"     icon="" label="Contest Hub" />
+            <SidebarLink href="/submissions"  icon="" label="My Submissions" />
+            <SidebarLink href="/leaderboard"  icon="" label="Leaderboard" />
+            <SidebarLink href="/duels"        icon="" label="1v1 Duels" />
           </ul>
         </div>
       )}
@@ -108,14 +108,14 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
         <div>
           <p style={{
             textTransform: "uppercase", fontSize: "0.7rem", fontWeight: 700,
-            color: "#f87171", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
+            color: "var(--brand-red)", letterSpacing: "0.08em", margin: "0 0 0.5rem 0.85rem",
           }}>
             Admin
           </p>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            <SidebarLink href="/admin" icon="⚙️" label="Overview" />
-            <SidebarLink href="/admin/problems" icon="📋" label="Manage Problems" />
-            <SidebarLink href="/admin/contests" icon="🏆" label="Manage Contests" />
+            <SidebarLink href="/admin" icon="" label="Overview" />
+            <SidebarLink href="/admin/problems" icon="" label="Manage Problems" />
+            <SidebarLink href="/admin/contests" icon="" label="Manage Contests" />
           </ul>
         </div>
       )}
@@ -123,11 +123,11 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
       {/* Bottom section */}
       <div style={{ marginTop: "auto", padding: "0 0.5rem" }}>
         <div style={{
-          fontSize: "0.75rem", color: "#9ca3af", textAlign: "center",
-          paddingTop: "1rem", borderTop: "1px solid #f3f4f6",
+          fontSize: "0.75rem", color: "var(--gray-400)", textAlign: "center",
+          paddingTop: "1rem", borderTop: "1px solid var(--gray-200)",
         }}>
-          Umeed Platform<br />
-          <span style={{ color: "#d1d5db" }}>Coding Platform</span>
+          Ummeed Platform<br />
+          <span style={{ color: "var(--gray-500)" }}>by iCFDR</span>
         </div>
       </div>
     </aside>
