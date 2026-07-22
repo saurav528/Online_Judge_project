@@ -28,7 +28,7 @@ export async function loginAdminAction(data: unknown) {
     cookieStore.set("admin_session", "authenticated", {
       path: "/",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       sameSite: "strict",
       maxAge: 86400, // 24 hours
     });

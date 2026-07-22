@@ -26,8 +26,8 @@ export function TabPanel({ tabs, defaultTab, children }: TabPanelProps) {
             {tab.count !== undefined && (
               <span style={{
                 marginLeft: "0.4rem", fontSize: "0.7rem", fontWeight: 700,
-                background: active === tab.id ? "#dbeafe" : "#f3f4f6",
-                color: active === tab.id ? "#1a56db" : "#9ca3af",
+                background: active === tab.id ? "var(--gray-200)" : "var(--gray-100)",
+                color: active === tab.id ? "var(--brand-primary)" : "var(--gray-500)",
                 padding: "0.1rem 0.4rem", borderRadius: "999px",
               }}>
                 {tab.count}

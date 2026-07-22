@@ -96,7 +96,7 @@ export default function AdminLoginPage() {
             fontSize: "0.85rem",
             marginBottom: "1.5rem",
           }}>
-            ⚠️ {error}
+            {error}
           </div>
         )}
 
