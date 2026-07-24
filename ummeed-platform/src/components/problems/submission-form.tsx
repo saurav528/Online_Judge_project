@@ -112,7 +112,7 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
   };
 
   const [runLoading, setRunLoading] = useState(false);
-  const [runOutput, setRunOutput] = useState<string | null>(null);
+  const [runResult, setRunResult] = useState<any | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +133,7 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
 
   const handleRun = async () => {
     setRunLoading(true);
-    setRunOutput(null);
+    setRunResult(null);
     setErrors({});
     setGlobalError("");
     
@@ -146,20 +146,7 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
       return;
     }
     
-    let output = "";
-    if (res.status) output += `Status: ${res.status}\n`;
-    if (res.time) output += `Time: ${res.time}s\n`;
-    if (res.memory) output += `Memory: ${res.memory}KB\n\n`;
-    
-    if (res.compileOutput) output += `[Compilation Output]\n${res.compileOutput}\n\n`;
-    if (res.runtimeOutput) output += `[Runtime Output]\n${res.runtimeOutput}\n\n`;
-    if (res.errorOutput) output += `[Error Output]\n${res.errorOutput}\n\n`;
-    
-    if (!res.compileOutput && !res.runtimeOutput && !res.errorOutput) {
-      output += "No output.";
-    }
-    
-    setRunOutput(output.trim());
+    setRunResult(res);
   };
 
   const lineCount = sourceCode.split("\n").length;
@@ -358,27 +345,114 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
           </div>
         </div>
 
-        {/* Run Output Terminal */}
-        {runOutput && (
+        {/* Run Output Test Cases Panel */}
+        {runResult && (
           <div style={{
-            background: "#1e1e1e",
-            color: "#d4d4d4",
-            padding: "1rem 1.25rem",
-            fontFamily: "var(--font-mono, monospace)",
+            background: "#ffffff",
+            color: "var(--gray-900)",
+            padding: "1.25rem",
             fontSize: "0.85rem",
-            borderTop: "1px solid #333",
+            borderTop: "1px solid var(--gray-200)",
           }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#858585" }}>
-              <span style={{ fontWeight: 600 }}>Terminal Output</span>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", alignItems: "center" }}>
+              <span style={{ fontWeight: 700, color: "var(--gray-800)", fontSize: "0.95rem" }}>Execution Results</span>
               <button 
                 type="button" 
-                onClick={() => setRunOutput(null)}
-                style={{ background: "none", border: "none", color: "#858585", cursor: "pointer", fontSize: "0.85rem" }}
+                onClick={() => setRunResult(null)}
+                style={{ background: "none", border: "none", color: "var(--gray-500)", cursor: "pointer", fontSize: "0.85rem", fontWeight: 600 }}
               >
                 Close
               </button>
             </div>
-            <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{runOutput}</pre>
+
+            <div style={{ display: "flex", gap: "1rem", marginBottom: "1.25rem", flexWrap: "wrap", alignItems: "center" }}>
+              <span style={{ 
+                fontWeight: 700, fontSize: "0.82rem", padding: "0.25rem 0.75rem", borderRadius: "999px",
+                backgroundColor: runResult.statusId === 3 ? "rgba(34, 197, 94, 0.12)" : "rgba(239, 68, 68, 0.12)",
+                color: runResult.statusId === 3 ? "#16a34a" : "#ef4444"
+              }}>
+                {runResult.statusDescription || "Finished"}
+              </span>
+              {runResult.time && <span style={{ fontSize: "0.82rem", color: "var(--gray-500)", fontWeight: 600 }}>{Math.round(parseFloat(runResult.time) * 1000)} ms</span>}
+              {runResult.memory && <span style={{ fontSize: "0.82rem", color: "var(--gray-500)", fontWeight: 600 }}>{runResult.memory} KB</span>}
+            </div>
+
+            {runResult.compileOutput && (
+              <div style={{ marginBottom: "1rem" }}>
+                <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "#ef4444", marginBottom: "0.4rem" }}>Compilation Output</div>
+                <pre style={{ margin: 0, padding: "0.75rem", background: "#fee2e2", color: "#991b1b", borderRadius: "8px", fontFamily: "var(--font-mono)", fontSize: "0.8rem", overflowX: "auto", whiteSpace: "pre-wrap", border: "1px solid #fca5a5" }}>{runResult.compileOutput}</pre>
+              </div>
+            )}
+
+            {runResult.stderr && (
+              <div style={{ marginBottom: "1rem" }}>
+                <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "#ef4444", marginBottom: "0.4rem" }}>Runtime Error</div>
+                <pre style={{ margin: 0, padding: "0.75rem", background: "#fee2e2", color: "#991b1b", borderRadius: "8px", fontFamily: "var(--font-mono)", fontSize: "0.8rem", overflowX: "auto", whiteSpace: "pre-wrap", border: "1px solid #fca5a5" }}>{runResult.stderr}</pre>
+              </div>
+            )}
+
+            {runResult.testcases && runResult.testcases.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                {runResult.testcases.map((tc: any, index: number) => {
+                  const stdoutLines = runResult.stdout ? runResult.stdout.trim().split("\n") : [];
+                  const actualOutput = stdoutLines[index] || "";
+                  const isCorrect = actualOutput.trim() === tc.expected.trim();
+                  
+                  return (
+                    <div key={index} style={{ border: "1px solid var(--gray-200)", borderRadius: "8px", overflow: "hidden", fontSize: "0.85rem", background: "#ffffff" }}>
+                      {/* Case Header */}
+                      <div style={{ 
+                        padding: "0.6rem 0.85rem", 
+                        background: "var(--gray-50)", 
+                        borderBottom: "1px solid var(--gray-200)",
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        alignItems: "center" 
+                      }}>
+                        <span style={{ fontWeight: 700, color: "var(--gray-800)" }}>Test Case {index + 1}</span>
+                        <span style={{ 
+                          fontWeight: 700, 
+                          color: isCorrect ? "#16a34a" : "#ef4444",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.25rem"
+                        }}>
+                          {isCorrect ? "✓ Passed" : "✗ Failed"}
+                        </span>
+                      </div>
+                      
+                      {/* Case Details */}
+                      <div style={{ padding: "0.85rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                        <div>
+                          <div style={{ fontWeight: 600, color: "var(--gray-500)", marginBottom: "0.25rem", fontSize: "0.78rem" }}>Input</div>
+                          <pre style={{ margin: 0, padding: "0.5rem", background: "var(--gray-50)", borderRadius: "6px", fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--gray-800)", border: "1px solid var(--gray-200)" }}>{tc.input}</pre>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                          <div>
+                            <div style={{ fontWeight: 600, color: "var(--gray-500)", marginBottom: "0.25rem", fontSize: "0.78rem" }}>Expected Output</div>
+                            <pre style={{ margin: 0, padding: "0.5rem", background: "var(--gray-50)", borderRadius: "6px", fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--gray-800)", border: "1px solid var(--gray-200)" }}>{tc.expected}</pre>
+                          </div>
+                          <div>
+                            <div style={{ fontWeight: 600, color: "var(--gray-500)", marginBottom: "0.25rem", fontSize: "0.78rem" }}>Your Output</div>
+                            <pre style={{ 
+                              margin: 0, 
+                              padding: "0.5rem", 
+                              background: isCorrect ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)", 
+                              borderRadius: "6px", 
+                              fontFamily: "var(--font-mono)", 
+                              fontSize: "0.8rem", 
+                              color: isCorrect ? "#16a34a" : "#ef4444", 
+                              fontWeight: 600,
+                              border: isCorrect ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(239,68,68,0.3)"
+                            }}>{actualOutput || "(No output)"}</pre>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
       </form>

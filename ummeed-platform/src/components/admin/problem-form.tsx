@@ -3,6 +3,17 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createProblemAction, updateProblemAction } from "@/app/actions/problems";
+import { ParamType, Parameter, ProblemSignature } from "@/lib/boilerplate/types";
+
+const PARAM_TYPES: ParamType[] = [
+  "int",
+  "double",
+  "string",
+  "boolean",
+  "int[]",
+  "string[]",
+  "int[][]",
+];
 
 interface ProblemFormProps {
   initialData?: {
@@ -31,6 +42,7 @@ interface ProblemFormProps {
       input: string;
       output: string;
     }[];
+    signature?: ProblemSignature;
   };
 }
 
@@ -46,6 +58,17 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
   const [published, setPublished] = useState(initialData?.published || false);
   const [tagsInput, setTagsInput] = useState(initialData?.tags.join(", ") || "");
 
+  // Signature state (LeetCode style code generation)
+  const [className, setClassName] = useState(initialData?.signature?.className || "Solution");
+  const [functionName, setFunctionName] = useState(initialData?.signature?.functionName || "solve");
+  const [returnType, setReturnType] = useState<ParamType>(initialData?.signature?.returnType || "int");
+  const [parameters, setParameters] = useState<Parameter[]>(
+    initialData?.signature?.parameters || [
+      { name: "a", type: "int" },
+      { name: "b", type: "int" },
+    ]
+  );
+
   // Git-backed content
   const [statement, setStatement] = useState(initialData?.statement || "");
   const [inputSpec, setInputSpec] = useState(initialData?.inputSpecification || "");
@@ -58,14 +81,34 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
     initialData?.examples || [{ input: "", output: "", explanation: "", displayOrder: 1 }]
   );
 
-  // Test cases
+  // Test cases (default to 3 test cases for new problem creation)
   const [testCases, setTestCases] = useState(
-    initialData?.testCases || [{ order: 1, isSample: true, input: "", output: "" }]
+    initialData?.testCases || [
+      { order: 1, isSample: true, input: "", output: "" },
+      { order: 2, isSample: true, input: "", output: "" },
+      { order: 3, isSample: false, input: "", output: "" },
+    ]
   );
 
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [globalError, setGlobalError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Signature parameter management
+  const addParameter = () => {
+    const nextIndex = parameters.length + 1;
+    setParameters([...parameters, { name: `param${nextIndex}`, type: "int" }]);
+  };
+
+  const removeParameter = (index: number) => {
+    setParameters(parameters.filter((_, i) => i !== index));
+  };
+
+  const updateParameter = (index: number, key: keyof Parameter, val: string) => {
+    setParameters(
+      parameters.map((p, i) => (i === index ? { ...p, [key]: val } : p))
+    );
+  };
 
   // Example management
   const addExample = () => {
@@ -83,10 +126,14 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
     setTestCases([...testCases, { order: testCases.length + 1, isSample: false, input: "", output: "" }]);
   };
   const removeTestCase = (index: number) => {
+    if (testCases.length <= 3) {
+      setGlobalError("A problem must have at least 3 test cases for valid evaluation.");
+      return;
+    }
     setTestCases(
       testCases
         .filter((_, i) => i !== index)
-        .map((tc, idx) => ({ ...tc, order: idx + 1 })) // Re-index order sequences
+        .map((tc, idx) => ({ ...tc, order: idx + 1 }))
     );
   };
   const updateTestCase = (index: number, key: string, val: any) => {
@@ -95,9 +142,17 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setErrors({});
     setGlobalError("");
+
+    // Validate minimum 3 testcases restriction
+    if (testCases.length < 3) {
+      setErrors({ testCases: ["A problem must have at least 3 test cases."] });
+      setGlobalError("Validation Failed: You must add at least 3 test cases.");
+      return;
+    }
+
+    setLoading(true);
 
     // Prepare tags
     const tags = tagsInput
@@ -113,6 +168,12 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
       memoryLimit: Number(memoryLimit),
       published,
       tags,
+      signature: {
+        className: className.trim() || "Solution",
+        functionName: functionName.trim() || "solve",
+        returnType,
+        parameters,
+      },
       statement,
       inputSpecification: inputSpec,
       outputSpecification: outputSpec,
@@ -159,7 +220,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
-            placeholder="e.g. Add Two Numbers"
+            placeholder="e.g. Multiply Two Numbers"
             required
           />
           {errors.title && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.title[0]}</span>}
@@ -171,7 +232,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
-            placeholder="e.g. add-two-numbers"
+            placeholder="e.g. multiply-two-numbers"
             required
           />
           {errors.slug && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.slug[0]}</span>}
@@ -240,6 +301,115 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
 
       <hr style={{ border: "0", borderTop: "1px solid #e5e7eb" }} />
 
+      {/* Function Signature Builder (LeetCode Style Code Generation) */}
+      <div style={{ border: "1px solid #cbd5e1", borderRadius: "0.5rem", padding: "1.25rem", backgroundColor: "#f8fafc" }}>
+        <div style={{ marginBottom: "1rem" }}>
+          <h3 style={{ margin: "0 0 0.25rem 0", color: "#0f172a", fontSize: "1.1rem" }}>
+            ⚙️ Function Signature Configuration (LeetCode Style)
+          </h3>
+          <p style={{ margin: 0, color: "#64748b", fontSize: "0.85rem" }}>
+            Defines the function stub shown to students in C++, Python, Java, & JS, and configures automated I/O drivers for evaluation.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: "1.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: "180px" }}>
+            <label style={{ display: "block", fontWeight: "600", fontSize: "0.85rem", marginBottom: "0.35rem" }}>Class Name</label>
+            <input
+              type="text"
+              value={className}
+              onChange={(e) => setClassName(e.target.value)}
+              style={{ width: "100%", padding: "0.4rem", fontFamily: "monospace" }}
+              placeholder="Solution"
+              required
+            />
+          </div>
+
+          <div style={{ flex: 1, minWidth: "180px" }}>
+            <label style={{ display: "block", fontWeight: "600", fontSize: "0.85rem", marginBottom: "0.35rem" }}>Function Name</label>
+            <input
+              type="text"
+              value={functionName}
+              onChange={(e) => setFunctionName(e.target.value)}
+              style={{ width: "100%", padding: "0.4rem", fontFamily: "monospace" }}
+              placeholder="e.g. multiply"
+              required
+            />
+          </div>
+
+          <div style={{ flex: 1, minWidth: "180px" }}>
+            <label style={{ display: "block", fontWeight: "600", fontSize: "0.85rem", marginBottom: "0.35rem" }}>Return Type</label>
+            <select
+              value={returnType}
+              onChange={(e) => setReturnType(e.target.value as ParamType)}
+              style={{ width: "100%", padding: "0.4rem", fontFamily: "monospace" }}
+            >
+              {PARAM_TYPES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Function Parameters */}
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+            <label style={{ fontWeight: "600", fontSize: "0.85rem", color: "#334155" }}>Input Parameters</label>
+            <button
+              type="button"
+              onClick={addParameter}
+              style={{ padding: "0.2rem 0.6rem", fontSize: "0.8rem", cursor: "pointer", backgroundColor: "#e2e8f0", border: "1px solid #cbd5e1", borderRadius: "0.25rem" }}
+            >
+              + Add Parameter
+            </button>
+          </div>
+
+          {parameters.length === 0 && (
+            <div style={{ color: "#94a3b8", fontSize: "0.85rem", fontStyle: "italic", padding: "0.5rem 0" }}>
+              No parameters defined (Function will take zero arguments).
+            </div>
+          )}
+
+          {parameters.map((param, index) => (
+            <div key={index} style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "0.5rem" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: "600", color: "#64748b", minWidth: "20px" }}>
+                #{index + 1}
+              </span>
+              <input
+                type="text"
+                value={param.name}
+                onChange={(e) => updateParameter(index, "name", e.target.value)}
+                placeholder="paramName"
+                style={{ flex: 1, padding: "0.35rem", fontFamily: "monospace", fontSize: "0.85rem" }}
+                required
+              />
+              <select
+                value={param.type}
+                onChange={(e) => updateParameter(index, "type", e.target.value as ParamType)}
+                style={{ flex: 1, padding: "0.35rem", fontFamily: "monospace", fontSize: "0.85rem" }}
+              >
+                {PARAM_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => removeParameter(index)}
+                style={{ color: "#dc2626", border: "none", background: "none", cursor: "pointer", fontSize: "0.85rem", fontWeight: "bold" }}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr style={{ border: "0", borderTop: "1px solid #e5e7eb" }} />
+
       {/* Statement Specs (Markdown Supported) */}
       <div>
         <label style={{ display: "block", fontWeight: "600", marginBottom: "0.5rem" }}>Problem Statement</label>
@@ -248,7 +418,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
           onChange={(e) => setStatement(e.target.value)}
           rows={6}
           style={{ width: "100%", padding: "0.5rem", fontFamily: "monospace", boxSizing: "border-box" }}
-          placeholder="Detailed problem statement markdown..."
+          placeholder="Detailed problem description. Supports Markdown & LaTeX math notation ($A + B = C$)."
           required
         />
         {errors.statement && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.statement[0]}</span>}
@@ -261,8 +431,8 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={inputSpec}
             onChange={(e) => setInputSpec(e.target.value)}
             rows={3}
-            style={{ width: "100%", padding: "0.5rem", fontFamily: "monospace", boxSizing: "border-box" }}
-            placeholder="Format of input details..."
+            style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
+            placeholder="e.g. First line contains two space-separated integers A and B."
             required
           />
           {errors.inputSpecification && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.inputSpecification[0]}</span>}
@@ -273,8 +443,8 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={outputSpec}
             onChange={(e) => setOutputSpec(e.target.value)}
             rows={3}
-            style={{ width: "100%", padding: "0.5rem", fontFamily: "monospace", boxSizing: "border-box" }}
-            placeholder="Format of output details..."
+            style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
+            placeholder="e.g. Print a single integer representing the sum."
             required
           />
           {errors.outputSpecification && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.outputSpecification[0]}</span>}
@@ -288,8 +458,8 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={constraints}
             onChange={(e) => setConstraints(e.target.value)}
             rows={3}
-            style={{ width: "100%", padding: "0.5rem", fontFamily: "monospace", boxSizing: "border-box" }}
-            placeholder="Constraints info..."
+            style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
+            placeholder="e.g. -10^9 <= A, B <= 10^9"
             required
           />
           {errors.constraints && <span style={{ color: "#dc2626", fontSize: "0.85rem" }}>{errors.constraints[0]}</span>}
@@ -300,8 +470,8 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             value={explanation}
             onChange={(e) => setExplanation(e.target.value)}
             rows={3}
-            style={{ width: "100%", padding: "0.5rem", fontFamily: "monospace", boxSizing: "border-box" }}
-            placeholder="Explanation notes..."
+            style={{ width: "100%", padding: "0.5rem", boxSizing: "border-box" }}
+            placeholder="Additional notes for students."
           />
         </div>
       </div>
@@ -311,7 +481,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
       {/* Examples Form Section */}
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-          <h3 style={{ margin: 0 }}>Examples</h3>
+          <h3 style={{ margin: 0 }}>Examples (Displayed on Problem Page)</h3>
           <button
             type="button"
             onClick={addExample}
@@ -370,8 +540,13 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
 
       {/* Test Cases Form Section */}
       <div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-          <h3 style={{ margin: 0 }}>Test Cases</h3>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+          <div>
+            <h3 style={{ margin: 0 }}>Test Cases</h3>
+            <span style={{ fontSize: "0.8rem", color: "#64748b" }}>
+              (At least 3 test cases required for Judge0 submission & evaluation)
+            </span>
+          </div>
           <button
             type="button"
             onClick={addTestCase}
@@ -380,7 +555,11 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
             + Add Test Case
           </button>
         </div>
-        {errors.testCases && <div style={{ color: "#dc2626", fontSize: "0.85rem", marginBottom: "0.5rem" }}>{errors.testCases[0]}</div>}
+        {errors.testCases && (
+          <div style={{ color: "#dc2626", fontSize: "0.85rem", fontWeight: "600", marginBottom: "0.5rem" }}>
+            ⚠️ {errors.testCases[0]}
+          </div>
+        )}
         {testCases.map((tc, index) => (
           <div key={index} style={{ border: "1px solid #d1d5db", padding: "1rem", borderRadius: "0.25rem", marginBottom: "1rem", backgroundColor: "#f9fafb" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
@@ -394,7 +573,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
                   />
                   Is Sample Example
                 </label>
-                {testCases.length > 1 && (
+                {testCases.length > 3 && (
                   <button type="button" onClick={() => removeTestCase(index)} style={{ color: "#dc2626", cursor: "pointer", fontSize: "0.8rem", border: "0", background: "none" }}>
                     Remove
                   </button>
@@ -429,7 +608,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
 
       <hr style={{ border: "0", borderTop: "1px solid #e5e7eb" }} />
 
-      <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
+      <div style={{ display: "flex", gap: "1.5rem", justifyContent: "flex-end" }}>
         <button
           type="button"
           onClick={() => router.push("/admin/problems")}
@@ -440,7 +619,7 @@ export function ProblemForm({ initialData }: ProblemFormProps) {
         </button>
         <button
           type="submit"
-          style={{ padding: "0.5rem 1rem", cursor: "pointer", backgroundColor: "#2563eb", color: "#ffffff", border: "0" }}
+          style={{ padding: "0.5rem 1rem", cursor: "pointer", backgroundColor: "#2563eb", color: "#ffffff", border: "0", fontWeight: "600" }}
           disabled={loading}
         >
           {loading ? "Saving..." : isEdit ? "Save Changes" : "Create Problem"}

@@ -48,6 +48,7 @@ export default async function EditProblemPage({ params }: EditProblemPageProps) 
     explanation: fileContent.explanation || "",
     examples: fileContent.examples,
     testCases: fileContent.testCases,
+    signature: fileContent.signature,
   };
 
   return (

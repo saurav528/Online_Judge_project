@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
-import { ProblemSearchSchema } from "@/lib/validation";
-import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/config/db";
+import { ProblemSearchSchema } from "@/lib/validation/problem";
+import { requireAuth } from "@/lib/auth/auth-utils";
 
 interface StudentProblemsPageProps {
   searchParams: Promise<{
@@ -43,9 +43,9 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
     prisma.problem.count({ where }),
     prisma.tag.findMany({ orderBy: { name: "asc" } }),
     // Problems this user solved
-    prisma.submission.findMany({ where: { userId: user.id, verdict: "ACCEPTED" }, select: { problemId: true }, distinct: ["problemId"] }).then((r) => new Set(r.map((s) => s.problemId))),
+    prisma.submission.findMany({ where: { userId: user.id, verdict: "ACCEPTED" }, select: { problemId: true }, distinct: ["problemId"] }).then((r: any) => new Set(r.map((s: any) => s.problemId))),
     // Problems this user attempted (any submission)
-    prisma.submission.findMany({ where: { userId: user.id }, select: { problemId: true }, distinct: ["problemId"] }).then((r) => new Set(r.map((s) => s.problemId))),
+    prisma.submission.findMany({ where: { userId: user.id }, select: { problemId: true }, distinct: ["problemId"] }).then((r: any) => new Set(r.map((s: any) => s.problemId))),
   ]);
 
   const totalPages = Math.ceil(totalCount / limit);
@@ -69,7 +69,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
     return `/problems?${params.toString()}`;
   };
 
-  const solvedCount = problems.filter((p) => solvedProblemIds.has(p.id)).length;
+  const solvedCount = problems.filter((p: any) => solvedProblemIds.has(p.id)).length;
 
   return (
     <div style={{ maxWidth: "1000px", display: "flex", flexDirection: "column", gap: "1.25rem", margin: "0 auto", width: "100%" }}>
@@ -130,7 +130,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
         {/* Tag filter */}
         {allTags.length > 0 && (
           <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
-            {allTags.slice(0, 8).map((t) => (
+            {allTags.slice(0, 8).map((t: any) => (
               <Link
                 key={t.id}
                 href={getFilterUrl({ tag: tag === t.name ? undefined : t.name })}
@@ -180,7 +180,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
               </tr>
             </thead>
             <tbody>
-              {problems.map((problem, idx) => {
+              {problems.map((problem: any, idx: number) => {
                 const isSolved    = solvedProblemIds.has(problem.id);
                 const isAttempted = attemptedProblemIds.has(problem.id);
                 const ds = DIFF_STYLE[problem.difficulty] ?? DIFF_STYLE.EASY;
@@ -214,7 +214,7 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
                     </td>
                     <td>
                       <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
-                        {problem.tags.slice(0, 3).map((t) => (
+                        {problem.tags.slice(0, 3).map((t: any) => (
                           <span key={t.id} style={{ fontSize: "0.72rem", background: "var(--gray-100)", color: "var(--gray-500)", padding: "0.1rem 0.45rem", borderRadius: "999px" }}>
                             {t.name}
                           </span>

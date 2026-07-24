@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/config/db";
+import { requireAuth } from "@/lib/auth/auth-utils";
 import { ContestService } from "@/lib/services/contest";
 import { getProblemContent } from "@/lib/problems-fs";
 import { SEEDED_SIGNATURES } from "@/lib/services/executor";
@@ -88,7 +88,7 @@ export default async function ContestProblemPage({
 
         {/* Problem switcher */}
         <div style={{ display: "flex", gap: "0.4rem" }}>
-          {allContestProblems.map((cp, idx) => (
+          {allContestProblems.map((cp: any, idx: number) => (
             <Link
               key={cp.problemId}
               href={`/contests/${contestId}/problems/${cp.problemId}`}

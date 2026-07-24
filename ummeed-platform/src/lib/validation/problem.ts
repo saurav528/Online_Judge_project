@@ -15,6 +15,28 @@ export const ProblemTestCaseSchema = z.object({
   output: z.string().min(1, "Output is required"),
 });
 
+export const ParamTypeSchema = z.enum([
+  "int",
+  "double",
+  "string",
+  "boolean",
+  "int[]",
+  "string[]",
+  "int[][]",
+]);
+
+export const ParameterSchema = z.object({
+  name: z.string().min(1, "Parameter name is required"),
+  type: ParamTypeSchema,
+});
+
+export const ProblemSignatureSchema = z.object({
+  className: z.string().min(1, "Class name is required").default("Solution"),
+  functionName: z.string().min(1, "Function name is required"),
+  returnType: ParamTypeSchema,
+  parameters: z.array(ParameterSchema),
+});
+
 export const ProblemFormSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters").max(100),
   slug: z
@@ -35,7 +57,8 @@ export const ProblemFormSchema = z.object({
   constraints: z.string().min(1, "Constraints are required"),
   explanation: z.string().optional(),
   examples: z.array(ProblemExampleSchema).min(1, "At least one example is required"),
-  testCases: z.array(ProblemTestCaseSchema).min(1, "At least one testcase is required"),
+  testCases: z.array(ProblemTestCaseSchema).min(3, "At least 3 test cases are required"),
+  signature: ProblemSignatureSchema.optional(),
 });
 
 export const ProblemSearchSchema = z.object({

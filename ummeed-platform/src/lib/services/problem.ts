@@ -70,6 +70,7 @@ export class ProblemService {
         explanation: data.explanation,
         examples: data.examples,
         testCases: data.testCases,
+        signature: data.signature,
       });
     } catch (e) {
       console.error("Filesystem write failed, rolling back database changes...", e);
@@ -160,6 +161,7 @@ export class ProblemService {
         explanation: data.explanation,
         examples: data.examples,
         testCases: data.testCases,
+        signature: data.signature,
       });
     } catch (e) {
       console.error("Filesystem update failed:", e);

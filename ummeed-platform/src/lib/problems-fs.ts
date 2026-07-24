@@ -57,6 +57,7 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
     constraints: content.constraints,
     explanation: content.explanation,
     examples: content.examples,
+    signature: content.signature,
     // Store only test case references (without body text) in the JSON to keep it lightweight
     testCases: content.testCases.map((tc) => ({
       order: tc.order,
