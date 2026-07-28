@@ -9,6 +9,7 @@ interface ContestSubmissionFormProps {
   contestId: string;
   problemId: string;
   problemSignature?: ProblemSignature;
+  preloadedBoilerplate?: Record<string, string>;
 }
 
 type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT";
@@ -30,17 +31,11 @@ function loadCode(contestId: string, problemId: string, lang: Language): string 
   try { return localStorage.getItem(storageKey(contestId, problemId, lang)); } catch { return null; }
 }
 
-const DEFAULT_BOILERPLATES: Record<Language, string> = {
-  CPP: `#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}\n`,
-  PYTHON: `def main():\n    # Write your code here\n    pass\n\nif __name__ == "__main__":\n    main()\n`,
-  JAVA: `import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n`,
-  JAVASCRIPT: `// Write your code here\nconst fs = require('fs');\n\nfunction main() {\n    // Read input if needed\n    // const input = fs.readFileSync(0, 'utf-8');\n}\n\nmain();\n`,
-};
-
 export function ContestSubmissionForm({
   contestId,
   problemId,
   problemSignature,
+  preloadedBoilerplate,
 }: ContestSubmissionFormProps) {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>("CPP");
@@ -53,12 +48,22 @@ export function ContestSubmissionForm({
   const [isClient, setIsClient] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Helper to load boilerplate for selected language
+  const getBoilerplateCode = (lang: Language) => {
+    if (preloadedBoilerplate && preloadedBoilerplate[lang]) {
+      return preloadedBoilerplate[lang];
+    }
+    if (problemSignature) {
+      return BoilerplateGenerator.generateStudentBoilerplate(lang, problemSignature);
+    }
+    return BoilerplateGenerator.generateGenericBoilerplate(lang);
+  };
+
   useEffect(() => {
     setIsClient(true);
     const stored = loadCode(contestId, problemId, "CPP");
     if (stored) setSourceCode(stored);
-    else if (problemSignature) setSourceCode(BoilerplateGenerator.generateStudentBoilerplate("CPP", problemSignature));
-    else setSourceCode(DEFAULT_BOILERPLATES["CPP"]);
+    else setSourceCode(getBoilerplateCode("CPP"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -66,8 +71,7 @@ export function ContestSubmissionForm({
     if (!isClient) return;
     const stored = loadCode(contestId, problemId, language);
     if (stored) setSourceCode(stored);
-    else if (problemSignature) setSourceCode(BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature));
-    else setSourceCode(DEFAULT_BOILERPLATES[language]);
+    else setSourceCode(getBoilerplateCode(language));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, isClient]);
 

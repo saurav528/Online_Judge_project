@@ -35,6 +35,7 @@ interface ProblemContent {
   examples: Array<{ input: string; output: string; explanation?: string; displayOrder: number }>;
   explanation?: string;
   signature?: any;
+  boilerplate?: Record<string, string>;
 }
 
 export default function DuelArenaPage() {
@@ -321,6 +322,7 @@ export default function DuelArenaPage() {
               problemId={duel.problemId}
               problemSlug={duel.problem?.slug}
               problemSignature={problemContent?.signature}
+              preloadedBoilerplate={problemContent?.boilerplate}
             />
           </div>
         )}

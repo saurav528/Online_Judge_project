@@ -237,6 +237,7 @@ export default async function ContestProblemPage({
             contestId={contestId}
             problemId={problemId}
             problemSignature={signature}
+            preloadedBoilerplate={content?.boilerplate}
           />
         </div>
       </div>

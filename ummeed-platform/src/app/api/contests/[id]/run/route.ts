@@ -60,7 +60,15 @@ export async function POST(
     let wrappedCode = sourceCode;
     if (signature) {
       try {
-        wrappedCode = WrapperService.wrapSolution(sourceCode, signature, language);
+        let preloadedWrapper: string | undefined = undefined;
+        const langDef = LANGUAGE_REGISTRY[language as keyof typeof LANGUAGE_REGISTRY];
+        if (langDef) {
+          const bpFullPath = path.join(process.cwd(), "..", "problems", problem.slug, "boilerplate_full", `${language}.${langDef.extension}`);
+          if (fs.existsSync(bpFullPath)) {
+            preloadedWrapper = fs.readFileSync(bpFullPath, "utf-8");
+          }
+        }
+        wrappedCode = WrapperService.wrapSolution(sourceCode, signature, language, preloadedWrapper);
       } catch (e: any) {
         return NextResponse.json({ error: `Code wrapping failed: ${e.message || e}` }, { status: 400 });
       }
