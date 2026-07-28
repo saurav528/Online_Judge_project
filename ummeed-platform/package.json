@@ -12,18 +12,20 @@
     "@google/genai": "^2.10.0",
     "@google/generative-ai": "^0.24.1",
     "@monaco-editor/react": "^4.7.0",
-    "@next/swc-win32-x64-msvc": "^16.2.12",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@tailwindcss/oxide-win32-x64-msvc": "^4.3.3",
     "better-auth": "^1.6.23",
     "lightningcss": "^1.33.0",
-    "lightningcss-win32-x64-msvc": "^1.33.0",
     "next": "16.2.10",
     "pg": "^8.22.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
+  },
+  "optionalDependencies": {
+    "@next/swc-win32-x64-msvc": "^16.2.12",
+    "@tailwindcss/oxide-win32-x64-msvc": "^4.3.3",
+    "lightningcss-win32-x64-msvc": "^1.33.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
