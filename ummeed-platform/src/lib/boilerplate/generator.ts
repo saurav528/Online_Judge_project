@@ -200,34 +200,34 @@ public:
         }
       } else if (langKey === "PYTHON") {
         if (p.type === "int") {
-          lines.push(`    ${p.name} = int(next_token())`);
+          lines.push(`        ${p.name} = int(next_token())`);
         } else if (p.type === "double") {
-          lines.push(`    ${p.name} = float(next_token())`);
+          lines.push(`        ${p.name} = float(next_token())`);
         } else if (p.type === "string") {
-          lines.push(`    ${p.name} = next_token()`);
+          lines.push(`        ${p.name} = next_token()`);
         } else if (p.type === "boolean") {
           lines.push(
-            `    ${p.name} = next_token().lower() in ("true", "1")`
+            `        ${p.name} = next_token().lower() in ("true", "1")`
           );
         } else if (p.type === "int[]") {
           const pIndex = sig.parameters.indexOf(p);
           const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
-          const sizeDecl = precedingSizeParam ? "" : `    size_${p.name} = int(next_token())\n`;
+          const sizeDecl = precedingSizeParam ? "" : `        size_${p.name} = int(next_token())\n`;
           const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `${sizeDecl}    ${p.name} = [int(next_token()) for _ in range(${sizeVar})]`
+            `${sizeDecl}        ${p.name} = [int(next_token()) for _ in range(${sizeVar})]`
           );
         } else if (p.type === "string[]") {
           const pIndex = sig.parameters.indexOf(p);
           const precedingSizeParam = sig.parameters.slice(0, pIndex).find((param) => param.type === "int");
-          const sizeDecl = precedingSizeParam ? "" : `    size_${p.name} = int(next_token())\n`;
+          const sizeDecl = precedingSizeParam ? "" : `        size_${p.name} = int(next_token())\n`;
           const sizeVar = precedingSizeParam ? precedingSizeParam.name : `size_${p.name}`;
           lines.push(
-            `${sizeDecl}    ${p.name} = [next_token() for _ in range(${sizeVar})]`
+            `${sizeDecl}        ${p.name} = [next_token() for _ in range(${sizeVar})]`
           );
         } else if (p.type === "int[][]") {
           lines.push(
-            `    rows_${p.name} = int(next_token())\n    cols_${p.name} = int(next_token())\n    ${p.name} = [[int(next_token()) for _ in range(cols_${p.name})] for _ in range(rows_${p.name})]`
+            `        rows_${p.name} = int(next_token())\n        cols_${p.name} = int(next_token())\n        ${p.name} = [[int(next_token()) for _ in range(cols_${p.name})] for _ in range(rows_${p.name})]`
           );
         }
       } else if (langKey === "JAVASCRIPT") {
@@ -282,7 +282,7 @@ public:
       case "JAVA":
         return `        ${sig.className} solver = new ${sig.className}();\n        ${LANGUAGE_REGISTRY.JAVA.typeMappings[sig.returnType]} result = solver.${sig.functionName}(${argsStr});`;
       case "PYTHON":
-        return `    solver = ${sig.className}()\n    result = solver.${sig.functionName}(${argsStr})`;
+        return `        solver = ${sig.className}()\n        result = solver.${sig.functionName}(${argsStr})`;
       case "JAVASCRIPT":
         return `    const solver = new ${sig.className}();\n    const result = solver.${sig.functionName}(${argsStr});`;
       default:
@@ -320,13 +320,13 @@ public:
 
       case "PYTHON": {
         if (sig.returnType === "boolean") {
-          return '    print(str(result).lower())';
+          return '        print(str(result).lower())';
         } else if (sig.returnType === "int[]" || sig.returnType === "string[]") {
-          return '    print(" ".join(map(str, result)))';
+          return '        print(" ".join(map(str, result)))';
         } else if (sig.returnType === "int[][]") {
-          return '    for row in result:\n        print(" ".join(map(str, row)))';
+          return '        for row in result:\n            print(" ".join(map(str, row)))';
         }
-        return "    print(result)";
+        return "        print(result)";
       }
 
       case "JAVASCRIPT": {
