@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Editor from "@monaco-editor/react";
 import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
 import { ProblemSignature } from "@/lib/boilerplate/types";
 
@@ -20,6 +21,13 @@ const LANGUAGES = [
   { value: "JAVA",       label: "Java 21" },
   { value: "JAVASCRIPT", label: "JavaScript (Node 22)" },
 ] as const;
+
+const MONACO_LANGUAGES: Record<Language, string> = {
+  CPP: "cpp",
+  PYTHON: "python",
+  JAVA: "java",
+  JAVASCRIPT: "javascript",
+};
 
 function storageKey(contestId: string, problemId: string, lang: Language) {
   return `ummeed:contest:${contestId}:${problemId}:${lang}`;
@@ -156,21 +164,29 @@ export function ContestSubmissionForm({
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ position: "relative" }}>
-          <div style={{ position: "absolute", top: 0, left: 0, width: "44px", bottom: 0, background: "#f9fafb", borderRight: "1px solid #e5e7eb", display: "flex", flexDirection: "column", alignItems: "flex-end", paddingTop: "0.85rem", paddingRight: "8px", userSelect: "none", pointerEvents: "none", overflow: "hidden" }}>
-            {Array.from({ length: Math.max(lineCount, 18) }, (_, i) => (
-              <span key={i} style={{ fontSize: "0.78rem", fontFamily: "var(--font-mono, monospace)", color: "#d1d5db", lineHeight: "1.65", minHeight: "1.65em" }}>{i + 1}</span>
-            ))}
-          </div>
-          <textarea
+        {/* Monaco Code Editor */}
+        <div style={{ borderRadius: "0 0 8px 8px", overflow: "hidden", borderTop: "1px solid #1e293b", background: "#1e1e1e" }}>
+          <Editor
+            height="440px"
+            language={MONACO_LANGUAGES[language]}
             value={sourceCode}
-            onChange={(e) => handleCodeChange(e.target.value)}
-            rows={20}
-            spellCheck={false}
-            placeholder="// Write your contest solution here..."
-            required
-            disabled={loading || runningCode}
-            style={{ display: "block", width: "100%", paddingTop: "0.85rem", paddingBottom: "0.85rem", paddingLeft: "56px", paddingRight: "1.25rem", fontFamily: "var(--font-mono, monospace)", fontSize: "0.875rem", lineHeight: "1.65", border: "none", outline: "none", resize: "vertical", minHeight: "340px", background: "#fdfdfd", color: "#1f2937", boxSizing: "border-box", tabSize: 4 }}
+            onChange={(value) => handleCodeChange(value || "")}
+            theme="vs-dark"
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              automaticLayout: true,
+              tabSize: 4,
+              insertSpaces: true,
+              autoClosingBrackets: "always",
+              autoClosingQuotes: "always",
+              autoIndent: "full",
+              formatOnType: true,
+              padding: { top: 12, bottom: 12 },
+              lineNumbersMinChars: 3,
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Courier New', monospace",
+            }}
           />
         </div>
 
