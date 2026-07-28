@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContestService } from "@/lib/services/contest";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { ContestCountdown, RegisterButton } from "./contest-client";
 
 const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];
@@ -38,12 +38,12 @@ export default async function ContestDetailPage({
   const { id } = await params;
   const [contest, user] = await Promise.all([
     ContestService.getContest(id),
-    requireAuth(),
+    getCurrentUser(),
   ]);
 
   if (!contest) notFound();
 
-  const isRegistered = await ContestService.isRegistered(id, user.id);
+  const isRegistered = user ? await ContestService.isRegistered(id, user.id) : false;
   const isRunning = contest.status === "RUNNING";
   const isUpcoming = contest.status === "UPCOMING";
   const isEnded = contest.status === "ENDED";
@@ -167,7 +167,24 @@ export default async function ContestDetailPage({
         }}
       >
         {(isRunning || isUpcoming) && (
-          <RegisterButton contestId={id} isRegistered={isRegistered} />
+          user ? (
+            <RegisterButton contestId={id} isRegistered={isRegistered} />
+          ) : (
+            <Link
+              href="/login"
+              style={{
+                padding: "0.55rem 1.4rem",
+                backgroundColor: "var(--brand-primary)",
+                color: "#ffffff",
+                textDecoration: "none",
+                borderRadius: "0.4rem",
+                fontWeight: 600,
+                fontSize: "0.9rem",
+              }}
+            >
+              Log In to Register
+            </Link>
+          )
         )}
         {isEnded && (
           <Link

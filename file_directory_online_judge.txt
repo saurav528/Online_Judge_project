@@ -1,0 +1,49 @@
+Online_Judge_project/
+│
+├── 📂 problems/                       <-- 1. RAW PROBLEM FILES (Storage & Seeds)
+│   ├── add-two-numbers/
+│   │   ├── problem.json               <-- Problem metadata, statement, signature & test mapping
+│   │   └── tests/                     <-- Testcase files (1.in, 1.out, 2.in, 2.out, etc.)
+│   ├── build-array-from-permutation/
+│   └── ... (12 hardcoded problem folders)
+│
+├── 📂 docs/                           <-- System Architecture & Walkthrough Documentation
+│
+└── 📂 ummeed-platform/                <-- 2. MAIN WEB APP (Next.js 15 + Prisma + Judge0)
+    │
+    ├── 📂 prisma/                     <-- DATABASE MODELS & MIGRATIONS
+    │   ├── schema.prisma              <-- Defines User, Problem, Submission, Contest, Duel models
+    │   └── seed.ts                    <-- Script that reads /problems/*.json and seeds the DB
+    │
+    └── 📂 src/                        <-- APPLICATION SOURCE CODE
+        │
+        ├── 📂 app/                    <-- ROUTING & SERVER CONTROLLERS
+        │   ├── 📂 (protected)/        <-- User Authenticated Pages (Problems list, Problem detail, Contests, Duels, Leaderboard)
+        │   ├── 📂 (admin)/            <-- Admin Portal Pages (Create/Edit Problem, Manage Contests)
+        │   ├── 📂 api/                <-- 🔵 BACKEND: REST API endpoints (Judge0 callbacks, Auth API, Webhooks)
+        │   ├── 📂 actions/            <-- 🔵 BACKEND: Server Actions (Form submissions, Run code, Submit solution)
+        │   └── layout.tsx & globals.css
+        │
+        ├── 📂 components/             <-- 🟢 FRONTEND: REUSABLE UI COMPONENTS
+        │   ├── 📂 problems/           <-- Code Editor (Monaco), Submission Form, Problem Description
+        │   ├── 📂 contests/           <-- Contest Timer, Leaderboard, Contest Problems
+        │   ├── 📂 duels/              <-- Real-time 1v1 Code Duel UI & Matchmaking
+        │   └── 📂 ui/                 <-- Buttons, Modals, Inputs, Cards
+        │
+        └── 📂 🧠 lib/                 <-- 🔵 BACKEND CORE BUSINESS LOGIC & SERVICES
+            │
+            ├── 📂 services/           <-- Core Backend Service Layer
+            │   ├── executor.ts        <-- Talks to Judge0 API (submits batch code, polls results)
+            │   ├── wrapper.ts         <-- Wraps student snippet with driver/main wrapper template
+            │   ├── problem.ts         <-- Queries/Mutates Problem data in PostgreSQL
+            │   ├── submission.ts     <-- Creates & tracks submission verdicts
+            │   ├── contest.ts        <-- Manages contest scoring, leaderboards, timing
+            │   └── duel.ts           <-- Handles 1v1 duel matches and ratings
+            │
+            ├── 📂 boilerplate/        <-- CODE GENERATION SYSTEM
+            │   ├── generator.ts       <-- Generates starter stub shown to student in editor
+            │   ├── languages.ts       <-- C++, Java, Python, JS driver templates & type maps
+            │   └── types.ts           <-- Type definitions (ProblemSignature, ParamType)
+            │
+            ├── 📂 auth/               <-- NextAuth / Authentication utilities & session handlers
+            └── problems-fs.ts        <-- Helper that reads raw problem JSON files from disk

@@ -15,6 +15,17 @@
       "displayOrder": 2
     }
   ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "convert",
+    "returnType": "double",
+    "parameters": [
+      {
+        "name": "c",
+        "type": "double"
+      }
+    ]
+  },
   "testCases": [
     {
       "order": 1,

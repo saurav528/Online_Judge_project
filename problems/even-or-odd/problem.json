@@ -15,6 +15,17 @@
       "displayOrder": 2
     }
   ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "check",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "n",
+        "type": "int"
+      }
+    ]
+  },
   "testCases": [
     {
       "order": 1,

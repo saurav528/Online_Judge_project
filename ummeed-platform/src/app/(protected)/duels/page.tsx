@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function DuelLobbyPage() {
   const router = useRouter();
@@ -9,6 +10,7 @@ export default function DuelLobbyPage() {
   const [inQueue, setInQueue] = useState(false);
   const [matchingTime, setMatchingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Poll matching status when in queue
   useEffect(() => {
@@ -69,6 +71,10 @@ export default function DuelLobbyPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ difficulty }),
       });
+      if (res.status === 401) {
+        setShowAuthModal(true);
+        return;
+      }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to join queue");
 
@@ -209,6 +215,59 @@ export default function DuelLobbyPage() {
           <li>Elo ratings are recalculated immediately based on the match outcome.</li>
         </ul>
       </div>
+
+      {/* Auth Required Modal Overlay for Guests */}
+      {showAuthModal && (
+        <div style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.65)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}>
+          <div style={{
+            backgroundColor: "#ffffff",
+            borderRadius: "16px",
+            padding: "2.25rem 2rem",
+            maxWidth: "420px",
+            width: "90%",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.08)",
+            textAlign: "center",
+          }}>
+            <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>⚔️</div>
+            <h3 style={{ margin: "0 0 0.5rem 0", fontSize: "1.25rem", color: "#111827", fontWeight: 800 }}>
+              Authentication Required
+            </h3>
+            <p style={{ margin: "0 0 1.5rem 0", color: "#6b7280", fontSize: "0.92rem", lineHeight: 1.5 }}>
+              Please log in or create an account to participate in 1v1 real-time coding duels.
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+              <button
+                type="button"
+                onClick={() => setShowAuthModal(false)}
+                style={{ padding: "0.5rem 1.1rem", borderRadius: "8px", border: "1px solid #d1d5db", background: "#f3f4f6", cursor: "pointer", fontWeight: 600, fontSize: "0.88rem" }}
+              >
+                Cancel
+              </button>
+              <Link
+                href="/login"
+                style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "var(--brand-primary)", color: "#ffffff", textDecoration: "none", fontWeight: 700, fontSize: "0.88rem" }}
+              >
+                Log In
+              </Link>
+              <Link
+                href="/signup"
+                style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "#111827", color: "#ffffff", textDecoration: "none", fontWeight: 700, fontSize: "0.88rem" }}
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

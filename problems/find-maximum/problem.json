@@ -15,6 +15,25 @@
       "displayOrder": 2
     }
   ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "max",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "int"
+      },
+      {
+        "name": "b",
+        "type": "int"
+      },
+      {
+        "name": "c",
+        "type": "int"
+      }
+    ]
+  },
   "testCases": [
     {
       "order": 1,

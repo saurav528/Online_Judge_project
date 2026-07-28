@@ -10,7 +10,8 @@ export class WrapperService {
   static wrapSolution(
     studentCode: string,
     signature: ProblemSignature,
-    language: string
+    language: string,
+    customExecutionWrapper?: string
   ): string {
     const langDef = LANGUAGE_REGISTRY[language];
     if (!langDef) {
@@ -25,8 +26,8 @@ export class WrapperService {
       throw new Error("Invalid problem signature metadata");
     }
 
-    // 1. Generate the standard execution driver wrapper for this signature
-    const executionWrapper = BoilerplateGenerator.generateExecutionWrapper(language, signature);
+    // 1. Use pre-saved execution wrapper template if available, otherwise generate dynamically
+    const executionWrapper = customExecutionWrapper || BoilerplateGenerator.generateExecutionWrapper(language, signature);
 
     // 2. Inject the student code snippet into the wrapper placeholder
     const finalSource = executionWrapper.replace("// INSERT_STUDENT_CODE_HERE", studentCode);

@@ -7,15 +7,10 @@ export async function middleware(request: NextRequest) {
   const hasSession = !!sessionCookie || adminSession === "authenticated";
 
   const isProtectedRoute =
-    request.nextUrl.pathname.startsWith("/dashboard") ||
     request.nextUrl.pathname.startsWith("/submissions") ||
     request.nextUrl.pathname === "/admin" ||
     request.nextUrl.pathname.startsWith("/admin/") ||
-    request.nextUrl.pathname.startsWith("/problems") ||
-    request.nextUrl.pathname.startsWith("/contests") ||
-    request.nextUrl.pathname.startsWith("/leaderboard") ||
-    request.nextUrl.pathname.startsWith("/duels");
-
+    request.nextUrl.pathname.startsWith("/duels/");
 
   const isAuthRoute =
     request.nextUrl.pathname.startsWith("/login") ||
@@ -38,20 +33,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-
   return NextResponse.next();
 }
 
-
 export const config = {
   matcher: [
-    "/dashboard/:path*",
     "/submissions/:path*",
     "/admin/:path*",
-    "/problems/:path*",
-    "/contests/:path*",
-    "/leaderboard/:path*",
-    "/duels/:path*",
+    "/duels/:path+",
     "/login",
     "/signup",
     "/admin-login",

@@ -1,40 +1,50 @@
 import React from "react";
 import Link from "next/link";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { prisma } from "@/config/db";
 
 export default async function DashboardPage() {
-  const user = await requireAuth();
+  const user = await getCurrentUser();
 
   // Fetch stats in parallel
   const [
     totalProblems,
-    solvedCount,
-    attemptedCount,
-    totalSubmissions,
-    recentSubmissions,
     runningContests,
     upcomingContests,
   ] = await Promise.all([
     prisma.problem.count({ where: { published: true } }),
-    prisma.submission.groupBy({
-      by: ["problemId"],
-      where: { userId: user.id, verdict: "ACCEPTED" },
-    }).then((r) => r.length),
-    prisma.submission.groupBy({
-      by: ["problemId"],
-      where: { userId: user.id },
-    }).then((r) => r.length),
-    prisma.submission.count({ where: { userId: user.id } }),
-    prisma.submission.findMany({
-      where: { userId: user.id },
-      include: { problem: { select: { title: true, slug: true, difficulty: true } } },
-      orderBy: { submittedAt: "desc" },
-      take: 5,
-    }),
     prisma.contest.findMany({ where: { status: "RUNNING", published: true }, take: 3 }),
     prisma.contest.findMany({ where: { status: "UPCOMING", published: true }, orderBy: { startTime: "asc" }, take: 3 }),
   ]);
+
+  let solvedCount = 0;
+  let attemptedCount = 0;
+  let totalSubmissions = 0;
+  let recentSubmissions: any[] = [];
+
+  if (user) {
+    const [sCount, aCount, tSubs, rSubs] = await Promise.all([
+      prisma.submission.groupBy({
+        by: ["problemId"],
+        where: { userId: user.id, verdict: "ACCEPTED" },
+      }).then((r) => r.length),
+      prisma.submission.groupBy({
+        by: ["problemId"],
+        where: { userId: user.id },
+      }).then((r) => r.length),
+      prisma.submission.count({ where: { userId: user.id } }),
+      prisma.submission.findMany({
+        where: { userId: user.id },
+        include: { problem: { select: { title: true, slug: true, difficulty: true } } },
+        orderBy: { submittedAt: "desc" },
+        take: 5,
+      }),
+    ]);
+    solvedCount = sCount;
+    attemptedCount = aCount;
+    totalSubmissions = tSubs;
+    recentSubmissions = rSubs;
+  }
 
   const solveRate = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
@@ -70,27 +80,75 @@ export default async function DashboardPage() {
         flexWrap: "wrap",
         gap: "1rem",
       }}>
-        <div>
+        <div style={{ maxWidth: "600px" }}>
           <h2 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
-            Welcome back, {user.name.split(" ")[0]}!
+            {user ? `Welcome back, ${user.name.split(" ")[0]}!` : "Welcome to Ummeed Online Judge 👋"}
           </h2>
-          <p style={{ margin: "0.3rem 0 0", opacity: 0.8, fontSize: "0.95rem" }}>
-            {solvedCount > 0
-              ? `You've solved ${solvedCount} problem${solvedCount !== 1 ? "s" : ""} so far. Keep going!`
-              : "Start solving problems and track your progress!"}
+          <p style={{ margin: "0.4rem 0 0", opacity: 0.85, fontSize: "0.95rem", lineHeight: 1.5 }}>
+            {user
+              ? solvedCount > 0
+                ? `You've solved ${solvedCount} problem${solvedCount !== 1 ? "s" : ""} so far. Keep going!`
+                : "Start solving problems and track your progress!"
+              : "Master coding algorithms, participate in live contests, and duel programmers in real-time. Join today to test your solutions!"}
           </p>
+          {!user && (
+            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1rem" }}>
+              <Link
+                href="/signup"
+                style={{
+                  padding: "0.5rem 1.25rem",
+                  borderRadius: "8px",
+                  background: "var(--brand-primary)",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "0.88rem",
+                  textDecoration: "none",
+                }}
+              >
+                Create Account
+              </Link>
+              <Link
+                href="/login"
+                style={{
+                  padding: "0.5rem 1.25rem",
+                  borderRadius: "8px",
+                  background: "rgba(255,255,255,0.15)",
+                  color: "#fff",
+                  fontWeight: 600,
+                  fontSize: "0.88rem",
+                  textDecoration: "none",
+                  border: "1px solid rgba(255,255,255,0.25)",
+                }}
+              >
+                Log In
+              </Link>
+            </div>
+          )}
         </div>
-        <div style={{
-          background: "rgba(255,255,255,0.15)",
-          borderRadius: "12px",
-          padding: "0.85rem 1.5rem",
-          backdropFilter: "blur(4px)",
-          textAlign: "center",
-          border: "1px solid rgba(255,255,255,0.2)",
-        }}>
-          <div style={{ fontSize: "1.75rem", fontWeight: 800 }}>{user.rating}</div>
-          <div style={{ fontSize: "0.78rem", opacity: 0.8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Elo Rating</div>
-        </div>
+        {user ? (
+          <div style={{
+            background: "rgba(255,255,255,0.15)",
+            borderRadius: "12px",
+            padding: "0.85rem 1.5rem",
+            backdropFilter: "blur(4px)",
+            textAlign: "center",
+            border: "1px solid rgba(255,255,255,0.2)",
+          }}>
+            <div style={{ fontSize: "1.75rem", fontWeight: 800 }}>{user.rating}</div>
+            <div style={{ fontSize: "0.78rem", opacity: 0.8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Elo Rating</div>
+          </div>
+        ) : (
+          <div style={{
+            background: "rgba(255,255,255,0.1)",
+            borderRadius: "12px",
+            padding: "0.85rem 1.5rem",
+            textAlign: "center",
+            border: "1px solid rgba(255,255,255,0.15)",
+          }}>
+            <div style={{ fontSize: "1.75rem", fontWeight: 800 }}>{totalProblems}</div>
+            <div style={{ fontSize: "0.78rem", opacity: 0.8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Problems Available</div>
+          </div>
+        )}
       </div>
 
       {/* Stats Row */}

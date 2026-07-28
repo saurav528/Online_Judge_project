@@ -18,6 +18,21 @@
       "displayOrder": 2
     }
   ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "add",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "int"
+      },
+      {
+        "name": "b",
+        "type": "int"
+      }
+    ]
+  },
   "testCases": [
     {
       "order": 1,

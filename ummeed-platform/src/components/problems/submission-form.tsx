@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createSubmissionAction, runCodeAction } from "@/app/actions/submissions";
 import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
 import { ProblemSignature } from "@/lib/boilerplate/types";
@@ -10,6 +11,7 @@ interface SubmissionFormProps {
   problemId: string;
   problemSlug?: string;
   problemSignature?: ProblemSignature;
+  preloadedBoilerplate?: Record<string, string>;
 }
 
 const LANGUAGES = [
@@ -45,16 +47,28 @@ const VERDICT_DISPLAY: Record<string, { color: string; icon: string; label: stri
   PENDING:            { color: "#6b7280", icon: "", label: "Pending" },
 };
 
-export function SubmissionForm({ problemId, problemSlug, problemSignature }: SubmissionFormProps) {
+export function SubmissionForm({ problemId, problemSlug, problemSignature, preloadedBoilerplate }: SubmissionFormProps) {
   const router = useRouter();
   const [language, setLanguage] = useState<Language>("CPP");
   const [sourceCode, setSourceCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [globalError, setGlobalError] = useState("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [savedIndicator, setSavedIndicator] = useState(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [isClient, setIsClient] = useState(false);
+
+  // Helper to load boilerplate for selected language
+  const getBoilerplateCode = (lang: Language) => {
+    if (preloadedBoilerplate && preloadedBoilerplate[lang]) {
+      return preloadedBoilerplate[lang];
+    }
+    if (problemSignature) {
+      return BoilerplateGenerator.generateStudentBoilerplate(lang, problemSignature);
+    }
+    return BoilerplateGenerator.generateGenericBoilerplate(lang);
+  };
 
   // Hydrate from localStorage on mount
   useEffect(() => {
@@ -62,10 +76,8 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
     const stored = loadCode(problemId, language);
     if (stored) {
       setSourceCode(stored);
-    } else if (problemSignature) {
-      setSourceCode(BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature));
     } else {
-      setSourceCode(BoilerplateGenerator.generateGenericBoilerplate(language));
+      setSourceCode(getBoilerplateCode(language));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,10 +88,8 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
     const stored = loadCode(problemId, language);
     if (stored) {
       setSourceCode(stored);
-    } else if (problemSignature) {
-      setSourceCode(BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature));
     } else {
-      setSourceCode(BoilerplateGenerator.generateGenericBoilerplate(language));
+      setSourceCode(getBoilerplateCode(language));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language, isClient]);
@@ -124,8 +134,13 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
 
     setLoading(false);
     if (!res.success) {
-      if (res.errors) setErrors(res.errors as Record<string, string[]>);
-      else if (res.error) setGlobalError(res.error);
+      if ((res as any).requireAuth) {
+        setShowAuthModal(true);
+      } else if (res.errors) {
+        setErrors(res.errors as Record<string, string[]>);
+      } else if (res.error) {
+        setGlobalError(res.error);
+      }
     } else {
       router.push(`/submissions/${res.submissionId}`);
     }
@@ -142,7 +157,11 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
     setRunLoading(false);
     
     if (!res.success) {
-      setGlobalError(res.error || "Failed to run code.");
+      if ((res as any).requireAuth) {
+        setShowAuthModal(true);
+      } else {
+        setGlobalError(res.error || "Failed to run code.");
+      }
       return;
     }
     
@@ -456,6 +475,59 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature }: Sub
           </div>
         )}
       </form>
+
+      {/* Auth Required Modal Overlay for Guests */}
+      {showAuthModal && (
+        <div style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.65)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+        }}>
+          <div style={{
+            backgroundColor: "#ffffff",
+            borderRadius: "16px",
+            padding: "2.25rem 2rem",
+            maxWidth: "420px",
+            width: "90%",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.08)",
+            textAlign: "center",
+          }}>
+            <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🔒</div>
+            <h3 style={{ margin: "0 0 0.5rem 0", fontSize: "1.25rem", color: "#111827", fontWeight: 800 }}>
+              Authentication Required
+            </h3>
+            <p style={{ margin: "0 0 1.5rem 0", color: "#6b7280", fontSize: "0.92rem", lineHeight: 1.5 }}>
+              Please log in or create an account to run test cases and submit code solutions.
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+              <button
+                type="button"
+                onClick={() => setShowAuthModal(false)}
+                style={{ padding: "0.5rem 1.1rem", borderRadius: "8px", border: "1px solid #d1d5db", background: "#f3f4f6", cursor: "pointer", fontWeight: 600, fontSize: "0.88rem" }}
+              >
+                Cancel
+              </button>
+              <Link
+                href="/login"
+                style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "var(--brand-primary)", color: "#ffffff", textDecoration: "none", fontWeight: 700, fontSize: "0.88rem" }}
+              >
+                Log In
+              </Link>
+              <Link
+                href="/signup"
+                style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "#111827", color: "#ffffff", textDecoration: "none", fontWeight: 700, fontSize: "0.88rem" }}
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

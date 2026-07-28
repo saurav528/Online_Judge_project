@@ -191,6 +191,7 @@ export default async function StudentProblemDetailsPage({
             problemId={problem.id}
             problemSlug={problem.slug}
             problemSignature={fileContent.signature || SEEDED_SIGNATURES[problem.slug]}
+            preloadedBoilerplate={fileContent.boilerplate}
           />
         </div>
       </div>

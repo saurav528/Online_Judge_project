@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { getCurrentUser } from "@/lib/auth/auth-utils";
 import { SubmissionCreateSchema } from "@/lib/validation/submission";
 import { SubmissionService } from "@/lib/services/submission";
 import { revalidatePath } from "next/cache";
@@ -11,7 +11,10 @@ import { getProblemContent } from "@/lib/problems-fs";
 import { prisma } from "@/config/db";
 
 export async function createSubmissionAction(payload: any) {
-  const user = await requireAuth();
+  const user = await getCurrentUser();
+  if (!user) {
+    return { success: false, requireAuth: true, error: "Please log in to submit your code." };
+  }
 
   // Validate request inputs using Zod
   const result = SubmissionCreateSchema.safeParse(payload);
@@ -41,7 +44,10 @@ export async function createSubmissionAction(payload: any) {
 }
 
 export async function runCodeAction(payload: any) {
-  const user = await requireAuth();
+  const user = await getCurrentUser();
+  if (!user) {
+    return { success: false, requireAuth: true, error: "Please log in to run test cases." };
+  }
 
   const { problemId, language, sourceCode } = payload;
 

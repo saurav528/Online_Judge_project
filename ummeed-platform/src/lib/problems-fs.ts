@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { BoilerplateGenerator } from "./boilerplate/generator";
+import { LANGUAGE_REGISTRY } from "./boilerplate/languages";
 
 // Locate the problems directory in the root of the workspace
 const PROBLEMS_DIR = path.join(process.cwd(), "..", "problems");
@@ -27,6 +29,8 @@ export interface ProblemContent {
   examples: ProblemExample[];
   testCases: ProblemTestCase[];
   signature?: any;
+  boilerplate?: Record<string, string>;
+  boilerplateFull?: Record<string, string>;
 }
 
 /**
@@ -39,15 +43,19 @@ function ensureProblemsDir() {
 }
 
 /**
- * Saves a problem's Git-backed content (statement, specs, examples, and test cases) to the filesystem.
+ * Saves a problem's Git-backed content (statement, specs, examples, test cases, and generated boilerplate code) to disk.
  */
 export async function saveProblemContent(slug: string, content: ProblemContent): Promise<void> {
   ensureProblemsDir();
   const problemDir = path.join(PROBLEMS_DIR, slug);
   const testsDir = path.join(problemDir, "tests");
+  const boilerplateDir = path.join(problemDir, "boilerplate");
+  const boilerplateFullDir = path.join(problemDir, "boilerplate_full");
 
-  // Create problem and tests directories
+  // Create problem, tests, boilerplate, and boilerplate_full directories
   fs.mkdirSync(testsDir, { recursive: true });
+  fs.mkdirSync(boilerplateDir, { recursive: true });
+  fs.mkdirSync(boilerplateFullDir, { recursive: true });
 
   // 1. Save problem description metadata (omitting raw test case contents)
   const metadataContent = {
@@ -78,10 +86,26 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
     fs.writeFileSync(path.join(testsDir, `${tc.order}.in`), tc.input, "utf-8");
     fs.writeFileSync(path.join(testsDir, `${tc.order}.out`), tc.output, "utf-8");
   }
+
+  // 3. Generate and save Boilerplate & BoilerplateFull files for all supported languages
+  if (content.signature) {
+    for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
+      try {
+        const studentStub = BoilerplateGenerator.generateStudentBoilerplate(langKey, content.signature);
+        const executionWrapper = BoilerplateGenerator.generateExecutionWrapper(langKey, content.signature);
+
+        const fileName = `${langKey}.${langDef.extension}`;
+        fs.writeFileSync(path.join(boilerplateDir, fileName), studentStub, "utf-8");
+        fs.writeFileSync(path.join(boilerplateFullDir, fileName), executionWrapper, "utf-8");
+      } catch (err) {
+        console.warn(`Failed to pre-generate boilerplate for language ${langKey} on problem ${slug}:`, err);
+      }
+    }
+  }
 }
 
 /**
- * Reads a problem's Git-backed content from the filesystem.
+ * Reads a problem's Git-backed content from the filesystem (including pre-saved boilerplate files).
  */
 export async function getProblemContent(slug: string): Promise<ProblemContent | null> {
   const problemDir = path.join(PROBLEMS_DIR, slug);
@@ -115,6 +139,27 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     }
   }
 
+  // Hydrate pre-generated boilerplate files from disk if available
+  const boilerplate: Record<string, string> = {};
+  const boilerplateFull: Record<string, string> = {};
+
+  const boilerplateDir = path.join(problemDir, "boilerplate");
+  const boilerplateFullDir = path.join(problemDir, "boilerplate_full");
+
+  for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
+    const fileName = `${langKey}.${langDef.extension}`;
+
+    const bpPath = path.join(boilerplateDir, fileName);
+    if (fs.existsSync(bpPath)) {
+      boilerplate[langKey] = fs.readFileSync(bpPath, "utf-8");
+    }
+
+    const bpFullPath = path.join(boilerplateFullDir, fileName);
+    if (fs.existsSync(bpFullPath)) {
+      boilerplateFull[langKey] = fs.readFileSync(bpFullPath, "utf-8");
+    }
+  }
+
   return {
     statement: metadata.statement,
     inputSpecification: metadata.inputSpecification,
@@ -124,6 +169,8 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     examples: metadata.examples || [],
     testCases: hydratedTestCases,
     signature: metadata.signature,
+    boilerplate,
+    boilerplateFull,
   };
 }
 
