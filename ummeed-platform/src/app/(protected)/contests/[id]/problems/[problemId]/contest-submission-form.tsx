@@ -69,10 +69,6 @@ export function ContestSubmissionForm({
 
   useEffect(() => {
     setIsClient(true);
-    const stored = loadCode(contestId, problemId, "CPP");
-    if (stored) setSourceCode(stored);
-    else setSourceCode(getBoilerplateCode("CPP"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -81,7 +77,7 @@ export function ContestSubmissionForm({
     if (stored) setSourceCode(stored);
     else setSourceCode(getBoilerplateCode(language));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, isClient]);
+  }, [language, isClient, problemSignature, preloadedBoilerplate]);
 
   const handleCodeChange = useCallback((code: string) => {
     setSourceCode(code);

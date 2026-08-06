@@ -78,19 +78,12 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature, prelo
     return BoilerplateGenerator.generateGenericBoilerplate(lang);
   };
 
-  // Hydrate from localStorage on mount
+  // Hydrate on mount
   useEffect(() => {
     setIsClient(true);
-    const stored = loadCode(problemId, language);
-    if (stored) {
-      setSourceCode(stored);
-    } else {
-      setSourceCode(getBoilerplateCode(language));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // When language changes, try to load stored code for that language
+  // When language changes or boilerplate props load asynchronously, set source code
   useEffect(() => {
     if (!isClient) return;
     const stored = loadCode(problemId, language);
@@ -100,7 +93,7 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature, prelo
       setSourceCode(getBoilerplateCode(language));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language, isClient]);
+  }, [language, isClient, problemSignature, preloadedBoilerplate]);
 
   // Auto-save on every keystroke (debounced 800ms) — Design Time
   const handleCodeChange = useCallback((code: string) => {
