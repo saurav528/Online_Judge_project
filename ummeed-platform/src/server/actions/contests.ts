@@ -1,9 +1,9 @@
 "use server";
 
-import { prisma } from "@/config/db";
-import { requireAdmin } from "@/lib/auth/auth-utils";
-import { ContestFormSchema } from "@/lib/validation/contest";
-import { ContestService } from "@/lib/services/contest";
+import { prisma } from "@/server/db/db";
+import { requireAdmin } from "@/server/auth/auth-utils";
+import { ContestFormSchema } from "@/server/validation/contest";
+import { ContestService } from "@/server/services/contest";
 import { revalidatePath } from "next/cache";
 
 /**

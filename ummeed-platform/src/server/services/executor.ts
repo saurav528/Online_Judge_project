@@ -1,10 +1,10 @@
-import { prisma } from "@/config/db";
+import { prisma } from "@/server/db/db";
 import { SubmissionStatus, Verdict } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import { ProblemSignature } from "../boilerplate/types";
+import { ProblemSignature } from "./boilerplate/types";
 import { WrapperService } from "./wrapper";
-import { LANGUAGE_REGISTRY } from "../boilerplate/languages";
+import { LANGUAGE_REGISTRY } from "./boilerplate/languages";
 import { ContestService } from "./contest";
 import { DuelService } from "./duel";
 

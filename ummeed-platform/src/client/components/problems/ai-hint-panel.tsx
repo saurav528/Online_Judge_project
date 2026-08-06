@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { RichText } from "@/components/rich-text";
+import { RichText } from "@/client/components/rich-text";
 
 interface AIHintPanelProps {
   problemId: string;

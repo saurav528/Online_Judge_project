@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ContestService } from "@/lib/services/contest";
+import { ContestService } from "@/server/services/contest";
 import { ContestStatus } from "@prisma/client";
 
 const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];

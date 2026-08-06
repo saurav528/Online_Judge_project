@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { SubmissionForm } from "@/components/problems/submission-form";
-import { TabPanel } from "@/components/ui/tab-panel";
+import { SubmissionForm } from "@/client/components/problems/submission-form";
+import { TabPanel } from "@/client/components/ui/tab-panel";
 
 interface DuelState {
   id: string;

@@ -1,5 +1,5 @@
-import { prisma } from "@/config/db";
-import { saveProblemContent, deleteProblemContent } from "@/lib/problems-fs";
+import { prisma } from "@/server/db/db";
+import { saveProblemContent, deleteProblemContent } from "@/server/services/problems-fs";
 
 export class ProblemService {
   /**

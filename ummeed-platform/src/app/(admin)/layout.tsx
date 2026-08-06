@@ -1,8 +1,8 @@
 import React from "react";
-import { requireAdmin } from "@/lib/auth/auth-utils";
-import { UserProvider, AuthUser } from "@/components/providers/user-provider";
-import { Navbar } from "@/components/app-shell/navbar";
-import { Sidebar } from "@/components/app-shell/sidebar";
+import { requireAdmin } from "@/server/auth/auth-utils";
+import { UserProvider, AuthUser } from "@/client/components/providers/user-provider";
+import { Navbar } from "@/client/components/app-shell/navbar";
+import { Sidebar } from "@/client/components/app-shell/sidebar";
 
 export default async function AdminLayout({
   children,

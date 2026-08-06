@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { ContestService } from "@/lib/services/contest";
-import { prisma } from "@/config/db";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { ContestService } from "@/server/services/contest";
+import { prisma } from "@/server/db/db";
 
 export async function POST(
   _req: Request,

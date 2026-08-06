@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { prisma } from "@/config/db";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { ContestService } from "@/lib/services/contest";
-import { getProblemContent } from "@/lib/problems-fs";
-import { SEEDED_SIGNATURES } from "@/lib/services/executor";
+import { prisma } from "@/server/db/db";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { ContestService } from "@/server/services/contest";
+import { getProblemContent } from "@/server/services/problems-fs";
+import { SEEDED_SIGNATURES } from "@/server/services/executor";
 import { ContestCountdown } from "../../contest-client";
 import { ContestSubmissionForm } from "./contest-submission-form";
-import { RichText } from "@/components/rich-text";
+import { RichText } from "@/client/components/rich-text";
 
 export default async function ContestProblemPage({
   params,

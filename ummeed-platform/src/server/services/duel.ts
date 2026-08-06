@@ -1,4 +1,4 @@
-import { prisma } from "@/config/db";
+import { prisma } from "@/server/db/db";
 import { DuelStatus, Verdict, Difficulty } from "@prisma/client";
 
 export class DuelService {

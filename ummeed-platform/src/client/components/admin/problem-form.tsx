@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProblemAction, updateProblemAction } from "@/app/actions/problems";
-import { ParamType, Parameter, ProblemSignature } from "@/lib/boilerplate/types";
+import { createProblemAction, updateProblemAction } from "@/server/actions/problems";
+import { ParamType, Parameter, ProblemSignature } from "@/server/services/boilerplate/types";
 
 const PARAM_TYPES: ParamType[] = [
   "int",

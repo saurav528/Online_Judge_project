@@ -1,14 +1,14 @@
 "use server";
 
-import { getCurrentUser } from "@/lib/auth/auth-utils";
-import { SubmissionCreateSchema } from "@/lib/validation/submission";
-import { SubmissionService } from "@/lib/services/submission";
+import { getCurrentUser } from "@/server/auth/auth-utils";
+import { SubmissionCreateSchema } from "@/server/validation/submission";
+import { SubmissionService } from "@/server/services/submission";
 import { revalidatePath } from "next/cache";
-import { WrapperService } from "@/lib/services/wrapper";
-import { LANGUAGE_REGISTRY } from "@/lib/boilerplate/languages";
-import { SEEDED_SIGNATURES } from "@/lib/services/executor";
-import { getProblemContent } from "@/lib/problems-fs";
-import { prisma } from "@/config/db";
+import { WrapperService } from "@/server/services/wrapper";
+import { LANGUAGE_REGISTRY } from "@/server/services/boilerplate/languages";
+import { SEEDED_SIGNATURES } from "@/server/services/executor";
+import { getProblemContent } from "@/server/services/problems-fs";
+import { prisma } from "@/server/db/db";
 
 export async function createSubmissionAction(payload: any) {
   const user = await getCurrentUser();

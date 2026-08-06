@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ContestService } from "@/lib/services/contest";
+import { ContestService } from "@/server/services/contest";
 
 export async function GET() {
   try {

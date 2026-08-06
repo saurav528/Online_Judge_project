@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/config/db";
-import { deleteProblemAction } from "@/app/actions/problems";
+import { prisma } from "@/server/db/db";
+import { deleteProblemAction } from "@/server/actions/problems";
 import { revalidatePath } from "next/cache";
 
 // Server action wrapper to handle delete from the list directly

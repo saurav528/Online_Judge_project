@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/config/db";
-import { SubmissionService } from "@/lib/services/submission";
+import { prisma } from "@/server/db/db";
+import { SubmissionService } from "@/server/services/submission";
 import { SubmissionStatus, Verdict } from "@prisma/client";
 
 function decodeBase64(str: string | null | undefined): string {

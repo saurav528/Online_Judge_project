@@ -4,9 +4,9 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Editor from "@monaco-editor/react";
-import { createSubmissionAction, runCodeAction } from "@/app/actions/submissions";
-import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
-import { ProblemSignature } from "@/lib/boilerplate/types";
+import { createSubmissionAction, runCodeAction } from "@/server/actions/submissions";
+import { BoilerplateGenerator } from "@/server/services/boilerplate/generator";
+import { ProblemSignature } from "@/server/services/boilerplate/types";
 
 interface SubmissionFormProps {
   problemId: string;

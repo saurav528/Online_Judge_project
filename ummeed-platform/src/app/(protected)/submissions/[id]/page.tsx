@@ -1,8 +1,8 @@
 import React from "react";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth/auth-utils";
-import { SubmissionService } from "@/lib/services/submission";
+import { getCurrentUser } from "@/server/auth/auth-utils";
+import { SubmissionService } from "@/server/services/submission";
 
 interface SubmissionDetailPageProps {
   params: Promise<{

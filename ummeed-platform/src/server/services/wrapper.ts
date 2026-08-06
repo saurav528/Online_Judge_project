@@ -1,6 +1,6 @@
-import { ProblemSignature } from "../boilerplate/types";
-import { BoilerplateGenerator } from "../boilerplate/generator";
-import { LANGUAGE_REGISTRY } from "../boilerplate/languages";
+import { ProblemSignature } from "./boilerplate/types";
+import { BoilerplateGenerator } from "./boilerplate/generator";
+import { LANGUAGE_REGISTRY } from "./boilerplate/languages";
 
 export class WrapperService {
   /**

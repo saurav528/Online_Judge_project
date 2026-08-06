@@ -1,6 +1,6 @@
 import React from "react";
-import { ContestForm } from "@/components/admin/contest-form";
-import { prisma } from "@/config/db";
+import { ContestForm } from "@/client/components/admin/contest-form";
+import { prisma } from "@/server/db/db";
 
 export default async function NewContestPage() {
   // Fetch existing problems in the database to link to this contest

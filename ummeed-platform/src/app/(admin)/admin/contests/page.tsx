@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/config/db";
-import { deleteContestAction } from "@/app/actions/contests";
+import { prisma } from "@/server/db/db";
+import { deleteContestAction } from "@/server/actions/contests";
 
 // Server action wrapper to handle delete from the list directly
 async function handleDelete(formData: FormData) {

@@ -1,8 +1,8 @@
 import React from "react";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { UserProvider, AuthUser } from "@/components/providers/user-provider";
-import { Navbar } from "@/components/app-shell/navbar";
-import { Sidebar } from "@/components/app-shell/sidebar";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { UserProvider, AuthUser } from "@/client/components/providers/user-provider";
+import { Navbar } from "@/client/components/app-shell/navbar";
+import { Sidebar } from "@/client/components/app-shell/sidebar";
 
 export default async function ProtectedLayout({
   children,

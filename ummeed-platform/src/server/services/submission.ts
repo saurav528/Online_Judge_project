@@ -1,4 +1,4 @@
-import { prisma } from "@/config/db";
+import { prisma } from "@/server/db/db";
 import { Language, SubmissionStatus, Verdict } from "@prisma/client";
 import { submissionExecutor } from "./executor";
 

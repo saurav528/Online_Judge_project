@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useUser } from "../providers/user-provider";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/server/auth/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { logoutAdminAction } from "@/app/actions/admin-auth";
+import { logoutAdminAction } from "@/server/actions/admin-auth";
 
 export function UserMenu() {
   const user = useUser();

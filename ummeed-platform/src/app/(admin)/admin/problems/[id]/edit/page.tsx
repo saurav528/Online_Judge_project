@@ -1,8 +1,8 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/config/db";
-import { getProblemContent } from "@/lib/problems-fs";
-import { ProblemForm } from "@/components/admin/problem-form";
+import { prisma } from "@/server/db/db";
+import { getProblemContent } from "@/server/services/problems-fs";
+import { ProblemForm } from "@/client/components/admin/problem-form";
 
 interface EditProblemPageProps {
   params: Promise<{

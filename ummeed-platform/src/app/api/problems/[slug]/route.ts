@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProblemContent } from "@/lib/problems-fs";
-import { prisma } from "@/config/db";
+import { getProblemContent } from "@/server/services/problems-fs";
+import { prisma } from "@/server/db/db";
 
 export async function GET(
   request: NextRequest,

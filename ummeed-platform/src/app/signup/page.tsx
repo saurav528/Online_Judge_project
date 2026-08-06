@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/server/auth/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 

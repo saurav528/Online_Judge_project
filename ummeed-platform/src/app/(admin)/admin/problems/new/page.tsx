@@ -1,5 +1,5 @@
 import React from "react";
-import { ProblemForm } from "@/components/admin/problem-form";
+import { ProblemForm } from "@/client/components/admin/problem-form";
 
 export default function NewProblemPage() {
   return (

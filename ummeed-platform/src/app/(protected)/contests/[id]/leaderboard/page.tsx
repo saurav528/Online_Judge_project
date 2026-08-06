@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContestService } from "@/lib/services/contest";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { prisma } from "@/config/db";
+import { ContestService } from "@/server/services/contest";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { prisma } from "@/server/db/db";
 
 const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];
 

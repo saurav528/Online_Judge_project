@@ -1,15 +1,15 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { prisma } from "@/config/db";
-import { getProblemContent } from "@/lib/problems-fs";
+import { prisma } from "@/server/db/db";
+import { getProblemContent } from "@/server/services/problems-fs";
 import Link from "next/link";
-import { SubmissionForm } from "@/components/problems/submission-form";
-import { ProblemSubmissions } from "@/components/problems/problem-submissions";
-import { AIHintPanel } from "@/components/problems/ai-hint-panel";
-import { TabPanel } from "@/components/ui/tab-panel";
-import { SEEDED_SIGNATURES } from "@/lib/services/executor";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { RichText } from "@/components/rich-text";
+import { SubmissionForm } from "@/client/components/problems/submission-form";
+import { ProblemSubmissions } from "@/client/components/problems/problem-submissions";
+import { AIHintPanel } from "@/client/components/problems/ai-hint-panel";
+import { TabPanel } from "@/client/components/ui/tab-panel";
+import { SEEDED_SIGNATURES } from "@/server/services/executor";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { RichText } from "@/client/components/rich-text";
 
 export default async function StudentProblemDetailsPage({
   params,

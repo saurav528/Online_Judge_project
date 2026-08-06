@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createContestAction, updateContestAction } from "@/app/actions/contests";
+import { createContestAction, updateContestAction } from "@/server/actions/contests";
 
 interface ProblemOption {
   id: string;

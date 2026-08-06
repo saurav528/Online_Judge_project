@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { loginAdminAction } from "@/app/actions/admin-auth";
+import { loginAdminAction } from "@/server/actions/admin-auth";
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState("");

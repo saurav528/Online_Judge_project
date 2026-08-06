@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContestService } from "@/lib/services/contest";
-import { getCurrentUser } from "@/lib/auth/auth-utils";
+import { ContestService } from "@/server/services/contest";
+import { getCurrentUser } from "@/server/auth/auth-utils";
 import { ContestCountdown, RegisterButton } from "./contest-client";
 
 const SEQUENCE_LABELS = ["A", "B", "C", "D", "E", "F"];

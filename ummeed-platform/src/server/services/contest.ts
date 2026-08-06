@@ -1,4 +1,4 @@
-import { prisma } from "@/config/db";
+import { prisma } from "@/server/db/db";
 
 const PENALTY_PER_WRONG = 20; // minutes per wrong submission before AC
 

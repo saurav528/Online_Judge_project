@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/config/db";
-import { requireAuth } from "@/lib/auth/auth-utils";
+import { prisma } from "@/server/db/db";
+import { requireAuth } from "@/server/auth/auth-utils";
 
 export default async function GlobalLeaderboardPage() {
   const user = await requireAuth();

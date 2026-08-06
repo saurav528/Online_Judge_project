@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { getCurrentUser } from "@/lib/auth/auth-utils";
-import { prisma } from "@/config/db";
+import { getCurrentUser } from "@/server/auth/auth-utils";
+import { prisma } from "@/server/db/db";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth/auth-utils";
-import { ContestService } from "@/lib/services/contest";
-import { prisma } from "@/config/db";
-import { WrapperService } from "@/lib/services/wrapper";
-import { LANGUAGE_REGISTRY } from "@/lib/boilerplate/languages";
-import { SEEDED_SIGNATURES } from "@/lib/services/executor";
+import { requireAuth } from "@/server/auth/auth-utils";
+import { ContestService } from "@/server/services/contest";
+import { prisma } from "@/server/db/db";
+import { WrapperService } from "@/server/services/wrapper";
+import { LANGUAGE_REGISTRY } from "@/server/services/boilerplate/languages";
+import { SEEDED_SIGNATURES } from "@/server/services/executor";
 import fs from "fs";
 import path from "path";
 

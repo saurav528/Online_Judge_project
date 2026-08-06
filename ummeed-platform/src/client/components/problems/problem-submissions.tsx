@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { prisma } from "@/config/db";
+import { prisma } from "@/server/db/db";
 
 interface ProblemSubmissionsProps {
   problemId: string;

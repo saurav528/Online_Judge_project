@@ -1,8 +1,8 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/auth-utils";
-import { ProblemFormSchema } from "@/lib/validation/problem";
-import { ProblemService } from "@/lib/services/problem";
+import { requireAdmin } from "@/server/auth/auth-utils";
+import { ProblemFormSchema } from "@/server/validation/problem";
+import { ProblemService } from "@/server/services/problem";
 import { revalidatePath } from "next/cache";
 
 /**

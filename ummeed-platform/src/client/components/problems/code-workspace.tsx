@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { BoilerplateGenerator } from "@/lib/boilerplate/generator";
-import { ProblemSignature } from "@/lib/boilerplate/types";
+import { BoilerplateGenerator } from "@/server/services/boilerplate/generator";
+import { ProblemSignature } from "@/server/services/boilerplate/types";
 
 export type Language = "CPP" | "PYTHON" | "JAVA" | "JAVASCRIPT";
 

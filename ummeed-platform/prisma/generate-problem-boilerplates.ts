@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { saveProblemContent, getProblemContent } from "../src/lib/problems-fs";
-import { SEEDED_SIGNATURES } from "../src/lib/services/executor";
+import { saveProblemContent, getProblemContent } from "../src/server/services/problems-fs";
+import { SEEDED_SIGNATURES } from "../src/server/services/executor";
 
 async function generateAllBoilerplates() {
   const problemsDir = path.join(process.cwd(), "..", "problems");
