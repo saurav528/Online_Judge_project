@@ -13,21 +13,18 @@ public class Main {
         }
         return tokenizer.nextToken();
     }
-
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String tStr = readNextToken(reader);
         if (tStr == null) return;
         int t = Integer.parseInt(tStr);
         while (t-- > 0) {
-                    int a = Integer.parseInt(readNextToken(reader));
+        int a = Integer.parseInt(readNextToken(reader));
         int b = Integer.parseInt(readNextToken(reader));
         int c = Integer.parseInt(readNextToken(reader));
-
-                    Solution solver = new Solution();
-        int result = solver.max(a, b, c);
-
-                    System.out.println(result);
+        Solution solver = new Solution();
+        auto result = solver.max(a, b, c);
+        System.out.println(result);
         }
     }
 }

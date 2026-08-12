@@ -135,7 +135,7 @@ import sys
 import json
 from typing import List
 
-# INSERT_STUDENT_CODE_HERE
+// INSERT_STUDENT_CODE_HERE
 
 def main():
     # Read all tokens from standard input
@@ -158,11 +158,11 @@ def main():
         return
     t = int(t_str)
     for _ in range(t):
-        # INSERT_PARSING_CODE_HERE
+// INSERT_PARSING_CODE_HERE
 
-        # INSERT_INVOCATION_CODE_HERE
+// INSERT_INVOCATION_CODE_HERE
 
-        # INSERT_SERIALIZATION_CODE_HERE
+// INSERT_SERIALIZATION_CODE_HERE
 
 if __name__ == "__main__":
     main()

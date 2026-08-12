@@ -13,19 +13,16 @@ public class Main {
         }
         return tokenizer.nextToken();
     }
-
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String tStr = readNextToken(reader);
         if (tStr == null) return;
         int t = Integer.parseInt(tStr);
         while (t-- > 0) {
-                    int year = Integer.parseInt(readNextToken(reader));
-
-                    Solution solver = new Solution();
-        String result = solver.isLeap(year);
-
-                    System.out.println(result);
+        int year = Integer.parseInt(readNextToken(reader));
+        Solution solver = new Solution();
+        auto result = solver.isLeap(year);
+        System.out.println(result);
         }
     }
 }

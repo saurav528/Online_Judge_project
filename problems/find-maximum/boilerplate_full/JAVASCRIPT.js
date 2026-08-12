@@ -5,26 +5,21 @@ const fs = require('fs');
 function main() {
     const input = fs.readFileSync(0, 'utf-8').trim().split(/\s+/);
     if (input.length === 0 || input[0] === "") return;
-    
     let tokenIdx = 0;
     function nextToken() {
         if (tokenIdx >= input.length) return "";
         return input[tokenIdx++];
     }
-
     const tStr = nextToken();
     if (!tStr) return;
     const t = parseInt(tStr, 10);
     for (let i = 0; i < t; i++) {
-            const a = parseInt(nextToken(), 10);
+    const a = parseInt(nextToken(), 10);
     const b = parseInt(nextToken(), 10);
     const c = parseInt(nextToken(), 10);
-
-            const solver = new Solution();
+    const solver = new Solution();
     const result = solver.max(a, b, c);
-
-            console.log(result);
+    console.log(result);
     }
 }
-
 main();

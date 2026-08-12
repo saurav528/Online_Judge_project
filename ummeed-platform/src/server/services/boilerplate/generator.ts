@@ -113,11 +113,11 @@ public:
     // 3. Generate Serialization Code
     const serializationCode = this.generateSerializationCode(langKey, sig);
 
-    // 4. Inject into the language wrapper template
+    // 4. Inject into the language wrapper template (supporting both // and # comments)
     let wrapper = lang.wrapperTemplate;
-    wrapper = wrapper.replace("// INSERT_PARSING_CODE_HERE", parsingCode);
-    wrapper = wrapper.replace("// INSERT_INVOCATION_CODE_HERE", invocationCode);
-    wrapper = wrapper.replace("// INSERT_SERIALIZATION_CODE_HERE", serializationCode);
+    wrapper = wrapper.replace(/\s*(\/\/|#)\s*INSERT_PARSING_CODE_HERE/, "\n" + parsingCode);
+    wrapper = wrapper.replace(/\s*(\/\/|#)\s*INSERT_INVOCATION_CODE_HERE/, "\n" + invocationCode);
+    wrapper = wrapper.replace(/\s*(\/\/|#)\s*INSERT_SERIALIZATION_CODE_HERE/, "\n" + serializationCode);
 
     return wrapper.trim();
   }

@@ -29,8 +29,9 @@ export class WrapperService {
     // 1. Use pre-saved execution wrapper template if available, otherwise generate dynamically
     const executionWrapper = customExecutionWrapper || BoilerplateGenerator.generateExecutionWrapper(language, signature);
 
-    // 2. Inject the student code snippet into the wrapper placeholder
-    const finalSource = executionWrapper.replace("// INSERT_STUDENT_CODE_HERE", studentCode);
+    // 2. Inject the student code snippet into the wrapper placeholder (supporting both // and # comments)
+    const finalSource = executionWrapper
+      .replace(/\s*(\/\/|#)\s*INSERT_STUDENT_CODE_HERE/, "\n" + studentCode);
 
     return finalSource;
   }

@@ -13,19 +13,16 @@ public class Main {
         }
         return tokenizer.nextToken();
     }
-
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String tStr = readNextToken(reader);
         if (tStr == null) return;
         int t = Integer.parseInt(tStr);
         while (t-- > 0) {
-                    int n = Integer.parseInt(readNextToken(reader));
-
-                    Solution solver = new Solution();
-        String result = solver.check(n);
-
-                    System.out.println(result);
+        int n = Integer.parseInt(readNextToken(reader));
+        Solution solver = new Solution();
+        auto result = solver.check(n);
+        System.out.println(result);
         }
     }
 }
