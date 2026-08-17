@@ -15,21 +15,6 @@
       "displayOrder": 2
     }
   ],
-  "signature": {
-    "className": "Solution",
-    "functionName": "sum",
-    "returnType": "int",
-    "parameters": [
-      {
-        "name": "n",
-        "type": "int"
-      },
-      {
-        "name": "arr",
-        "type": "int[]"
-      }
-    ]
-  },
   "testCases": [
     {
       "order": 1,

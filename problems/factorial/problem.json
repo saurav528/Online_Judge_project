@@ -15,17 +15,6 @@
       "displayOrder": 2
     }
   ],
-  "signature": {
-    "className": "Solution",
-    "functionName": "factorial",
-    "returnType": "int",
-    "parameters": [
-      {
-        "name": "n",
-        "type": "int"
-      }
-    ]
-  },
   "testCases": [
     {
       "order": 1,

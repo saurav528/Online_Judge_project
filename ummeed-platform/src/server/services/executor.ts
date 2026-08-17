@@ -9,12 +9,15 @@ import { ContestService } from "./contest";
 import { DuelService } from "./duel";
 
 
+import { STANDARD_SIGNATURES } from "./boilerplate/signatures";
+
 export interface SubmissionExecutor {
   execute(submissionId: string): Promise<void>;
 }
 
-// Mapped signatures for the 12 default seeded school-level problems
+// Mapped signatures for seeded and standard problems
 export const SEEDED_SIGNATURES: Record<string, ProblemSignature> = {
+  ...STANDARD_SIGNATURES,
   "add-two-numbers": {
     className: "Solution",
     functionName: "add",

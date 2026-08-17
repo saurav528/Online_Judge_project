@@ -15,17 +15,6 @@
       "displayOrder": 2
     }
   ],
-  "signature": {
-    "className": "Solution",
-    "functionName": "isLeap",
-    "returnType": "string",
-    "parameters": [
-      {
-        "name": "year",
-        "type": "int"
-      }
-    ]
-  },
   "testCases": [
     {
       "order": 1,

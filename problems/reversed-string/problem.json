@@ -15,17 +15,6 @@
       "displayOrder": 2
     }
   ],
-  "signature": {
-    "className": "Solution",
-    "functionName": "reverse",
-    "returnType": "string",
-    "parameters": [
-      {
-        "name": "s",
-        "type": "string"
-      }
-    ]
-  },
   "testCases": [
     {
       "order": 1,

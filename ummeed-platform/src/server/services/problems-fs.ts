@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { BoilerplateGenerator } from "./boilerplate/generator";
 import { LANGUAGE_REGISTRY } from "./boilerplate/languages";
+import { STANDARD_SIGNATURES } from "./boilerplate/signatures";
 
 // Locate the problems directory in the root of the workspace
 const PROBLEMS_DIR = path.join(process.cwd(), "..", "problems");
@@ -57,6 +58,8 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
   fs.mkdirSync(boilerplateDir, { recursive: true });
   fs.mkdirSync(boilerplateFullDir, { recursive: true });
 
+  const activeSignature = content.signature || STANDARD_SIGNATURES[slug];
+
   // 1. Save problem description metadata (omitting raw test case contents)
   const metadataContent = {
     statement: content.statement,
@@ -65,7 +68,7 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
     constraints: content.constraints,
     explanation: content.explanation,
     examples: content.examples,
-    signature: content.signature,
+    signature: activeSignature,
     // Store only test case references (without body text) in the JSON to keep it lightweight
     testCases: content.testCases.map((tc) => ({
       order: tc.order,
@@ -88,18 +91,21 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
   }
 
   // 3. Generate and save Boilerplate & BoilerplateFull files for all supported languages
-  if (content.signature) {
-    for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
-      try {
-        const studentStub = BoilerplateGenerator.generateStudentBoilerplate(langKey, content.signature);
-        const executionWrapper = BoilerplateGenerator.generateExecutionWrapper(langKey, content.signature);
+  for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
+    try {
+      const studentStub = activeSignature
+        ? BoilerplateGenerator.generateStudentBoilerplate(langKey, activeSignature)
+        : BoilerplateGenerator.generateGenericBoilerplate(langKey);
+      
+      const executionWrapper = activeSignature
+        ? BoilerplateGenerator.generateExecutionWrapper(langKey, activeSignature)
+        : studentStub;
 
-        const fileName = `${langKey}.${langDef.extension}`;
-        fs.writeFileSync(path.join(boilerplateDir, fileName), studentStub, "utf-8");
-        fs.writeFileSync(path.join(boilerplateFullDir, fileName), executionWrapper, "utf-8");
-      } catch (err) {
-        console.warn(`Failed to pre-generate boilerplate for language ${langKey} on problem ${slug}:`, err);
-      }
+      const fileName = `${langKey}.${langDef.extension}`;
+      fs.writeFileSync(path.join(boilerplateDir, fileName), studentStub, "utf-8");
+      fs.writeFileSync(path.join(boilerplateFullDir, fileName), executionWrapper, "utf-8");
+    } catch (err) {
+      console.warn(`Failed to pre-generate boilerplate for language ${langKey} on problem ${slug}:`, err);
     }
   }
 }
@@ -117,6 +123,8 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
 
   const jsonRaw = fs.readFileSync(jsonPath, "utf-8");
   const metadata = JSON.parse(jsonRaw);
+
+  const activeSignature = metadata.signature || STANDARD_SIGNATURES[slug];
 
   // Hydrate the test cases by reading their input/output files from disk
   const hydratedTestCases: ProblemTestCase[] = [];
@@ -139,7 +147,7 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     }
   }
 
-  // Hydrate pre-generated boilerplate files from disk if available
+  // Hydrate pre-generated boilerplate files from disk if available, or generate on the fly
   const boilerplate: Record<string, string> = {};
   const boilerplateFull: Record<string, string> = {};
 
@@ -152,11 +160,19 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     const bpPath = path.join(boilerplateDir, fileName);
     if (fs.existsSync(bpPath)) {
       boilerplate[langKey] = fs.readFileSync(bpPath, "utf-8");
+    } else if (activeSignature) {
+      boilerplate[langKey] = BoilerplateGenerator.generateStudentBoilerplate(langKey, activeSignature);
+    } else {
+      boilerplate[langKey] = BoilerplateGenerator.generateGenericBoilerplate(langKey);
     }
 
     const bpFullPath = path.join(boilerplateFullDir, fileName);
     if (fs.existsSync(bpFullPath)) {
       boilerplateFull[langKey] = fs.readFileSync(bpFullPath, "utf-8");
+    } else if (activeSignature) {
+      boilerplateFull[langKey] = BoilerplateGenerator.generateExecutionWrapper(langKey, activeSignature);
+    } else {
+      boilerplateFull[langKey] = boilerplate[langKey];
     }
   }
 
@@ -168,7 +184,7 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     explanation: metadata.explanation,
     examples: metadata.examples || [],
     testCases: hydratedTestCases,
-    signature: metadata.signature,
+    signature: activeSignature,
     boilerplate,
     boilerplateFull,
   };
