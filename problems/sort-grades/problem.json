@@ -1,0 +1,65 @@
+{
+  "statement": "Given a list of $N$ student letter grades (such as `'A'`, `'B'`, `'C'`, `'D'`), sort them in non-decreasing (alphabetical) order from `'A'` to `'D'` and return the sorted list.",
+  "inputSpecification": "The first line contains an integer $N$. The second line contains $N$ space-separated uppercase grade strings.",
+  "outputSpecification": "Print the sorted grades separated by a single space.",
+  "constraints": "$1 \\le N \\le 10^5$.",
+  "examples": [
+    {
+      "input": "7\nC D A A B B A",
+      "output": "A A A B B C D",
+      "displayOrder": 1
+    },
+    {
+      "input": "4\nD C B A",
+      "output": "A B C D",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "sortGrades",
+    "returnType": "string[]",
+    "parameters": [
+      {
+        "name": "n",
+        "type": "int"
+      },
+      {
+        "name": "grades",
+        "type": "string[]"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/sort-grades/tests/1.in",
+      "outputPath": "problems/sort-grades/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/sort-grades/tests/2.in",
+      "outputPath": "problems/sort-grades/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/sort-grades/tests/3.in",
+      "outputPath": "problems/sort-grades/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/sort-grades/tests/4.in",
+      "outputPath": "problems/sort-grades/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/sort-grades/tests/5.in",
+      "outputPath": "problems/sort-grades/tests/5.out"
+    }
+  ]
+}

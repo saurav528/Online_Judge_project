@@ -43,26 +43,29 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Check if the user is in an active duel room (status = PLAYING)
-    const activeRoom = await prisma.duelRoom.findFirst({
-      where: {
-        status: "PLAYING",
-        OR: [{ player1Id: user.id }, { player2Id: user.id }],
-      },
-    });
-
+    // 1. Check if the user is in an active (unexpired) duel room
+    const activeRoom = await DuelService.getActiveRoomForUser(user.id);
     if (activeRoom) {
       return NextResponse.json({ matched: true, roomId: activeRoom.id });
     }
 
-    // Check if still in queue
+    // 2. Check if user is currently in queue
     const queueEntry = await prisma.duelQueue.findUnique({
       where: { userId: user.id },
     });
 
+    if (queueEntry) {
+      // Send heartbeat ping to keep queue entry alive while polling
+      await DuelService.heartbeatQueue(user.id);
+      return NextResponse.json({
+        matched: false,
+        inQueue: true,
+      });
+    }
+
     return NextResponse.json({
       matched: false,
-      inQueue: !!queueEntry,
+      inQueue: false,
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

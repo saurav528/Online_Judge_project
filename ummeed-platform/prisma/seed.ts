@@ -327,6 +327,122 @@ const seedProblems: SeedProblem[] = [
       { order: 4, isSample: false, input: "radar", output: "radar" },
       { order: 5, isSample: false, input: "steponnopets", output: "steponnopets" }
     ]
+  },
+  {
+    slug: "favorite-movies-list",
+    title: "Store Favorite Movies",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["List", "Basics", "Array"],
+    statement: "Write a program that takes the names of three favorite movies entered by the user and stores them in a list/array in the exact order they were entered.",
+    inputSpecification: "Three space-separated single-word strings representing movie names $M_1$, $M_2$, and $M_3$.",
+    outputSpecification: "Print the three movie names separated by a single space.",
+    constraints: "$1 \\le |M_1|, |M_2|, |M_3| \\le 50$, each movie name consists of alphanumeric characters.",
+    examples: [
+      { input: "Inception Avatar Titanic", output: "Inception Avatar Titanic", displayOrder: 1 },
+      { input: "Interstellar Oppenheimer Batman", output: "Interstellar Oppenheimer Batman", displayOrder: 2 }
+    ],
+    testCases: [
+      { order: 1, isSample: true, input: "Inception Avatar Titanic", output: "Inception Avatar Titanic" },
+      { order: 2, isSample: true, input: "Interstellar Oppenheimer Batman", output: "Interstellar Oppenheimer Batman" },
+      { order: 3, isSample: false, input: "Matrix Dune Gladiator", output: "Matrix Dune Gladiator" },
+      { order: 4, isSample: false, input: "Ironman Thor Hulk", output: "Ironman Thor Hulk" },
+      { order: 5, isSample: false, input: "Spiderman Superman Batman", output: "Spiderman Superman Batman" }
+    ]
+  },
+  {
+    slug: "list-palindrome-check",
+    title: "List Palindrome Check",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Array", "List", "Two Pointers"],
+    statement: "Given a list/array of $N$ integers, determine whether the list is a palindrome (reads the same forwards and backwards).",
+    inputSpecification: "The first line contains an integer $N$. The second line contains $N$ space-separated integers representing the elements of the list.",
+    outputSpecification: "Print `Yes` if the list is a palindrome, otherwise print `No`.",
+    constraints: "$1 \\le N \\le 10^5$, $-10^9 \\le \\text{arr}[i] \\le 10^9$.",
+    examples: [
+      { input: "5\n1 2 3 2 1", output: "Yes", displayOrder: 1 },
+      { input: "4\n1 2 3 4", output: "No", displayOrder: 2 }
+    ],
+    testCases: [
+      { order: 1, isSample: true, input: "5\n1 2 3 2 1", output: "Yes" },
+      { order: 2, isSample: true, input: "4\n1 2 3 4", output: "No" },
+      { order: 3, isSample: false, input: "1\n42", output: "Yes" },
+      { order: 4, isSample: false, input: "6\n10 20 30 30 20 10", output: "Yes" },
+      { order: 5, isSample: false, input: "5\n1 2 3 4 1", output: "No" }
+    ]
+  },
+  {
+    slug: "count-grade-a",
+    title: "Count Grade A Students",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Array", "Tuple", "Counting"],
+    statement: "Given a sequence of $N$ student grades represented as uppercase character strings (e.g. `'A'`, `'B'`, `'C'`, `'D'`), count and return the total number of students who received grade `'A'`.",
+    inputSpecification: "The first line contains an integer $N$. The second line contains $N$ space-separated uppercase strings representing the grades.",
+    outputSpecification: "Print a single integer representing the count of students with grade `A`.",
+    constraints: "$1 \\le N \\le 10^5$, each grade string is an uppercase letter.",
+    examples: [
+      { input: "7\nC D A A B B A", output: "3", displayOrder: 1 },
+      { input: "5\nB B C D F", output: "0", displayOrder: 2 }
+    ],
+    testCases: [
+      { order: 1, isSample: true, input: "7\nC D A A B B A", output: "3" },
+      { order: 2, isSample: true, input: "5\nB B C D F", output: "0" },
+      { order: 3, isSample: false, input: "4\nA A A A", output: "4" },
+      { order: 4, isSample: false, input: "6\nA B A C A D", output: "3" },
+      { order: 5, isSample: false, input: "1\nA", output: "1" }
+    ]
+  },
+  {
+    slug: "sort-grades",
+    title: "Sort Student Grades",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Array", "Sorting", "String"],
+    statement: "Given a list of $N$ student letter grades (such as `'A'`, `'B'`, `'C'`, `'D'`), sort them in non-decreasing (alphabetical) order from `'A'` to `'D'` and return the sorted list.",
+    inputSpecification: "The first line contains an integer $N$. The second line contains $N$ space-separated uppercase grade strings.",
+    outputSpecification: "Print the sorted grades separated by a single space.",
+    constraints: "$1 \\le N \\le 10^5$.",
+    examples: [
+      { input: "7\nC D A A B B A", output: "A A A B B C D", displayOrder: 1 },
+      { input: "4\nD C B A", output: "A B C D", displayOrder: 2 }
+    ],
+    testCases: [
+      { order: 1, isSample: true, input: "7\nC D A A B B A", output: "A A A B B C D" },
+      { order: 2, isSample: true, input: "4\nD C B A", output: "A B C D" },
+      { order: 3, isSample: false, input: "3\nB A B", output: "A B B" },
+      { order: 4, isSample: false, input: "5\nA A A A A", output: "A A A A A" },
+      { order: 5, isSample: false, input: "6\nC A B D C B", output: "A B B C C D" }
+    ]
+  },
+  {
+    slug: "multiple-of-seven",
+    title: "Multiple of 7 Check",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Math", "Conditionals", "Basics"],
+    statement: "Given an integer $N$, determine whether it is a multiple of 7.",
+    inputSpecification: "A single integer $N$.",
+    outputSpecification: "Print `Yes` if $N$ is a multiple of 7, otherwise print `No`.",
+    constraints: "$-10^9 \\le N \\le 10^9$",
+    examples: [
+      { input: "14", output: "Yes", displayOrder: 1 },
+      { input: "20", output: "No", displayOrder: 2 }
+    ],
+    testCases: [
+      { order: 1, isSample: true, input: "14", output: "Yes" },
+      { order: 2, isSample: true, input: "20", output: "No" },
+      { order: 3, isSample: false, input: "0", output: "Yes" },
+      { order: 4, isSample: false, input: "49", output: "Yes" },
+      { order: 5, isSample: false, input: "-21", output: "Yes" },
+      { order: 6, isSample: false, input: "100", output: "No" }
+    ]
   }
 ];
 

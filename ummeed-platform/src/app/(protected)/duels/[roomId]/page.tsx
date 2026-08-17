@@ -134,6 +134,22 @@ export default function DuelArenaPage() {
     );
   }
 
+  const handleForfeit = async () => {
+    if (!window.confirm("Are you sure you want to forfeit this duel? Your opponent will win and Elo ratings will be updated.")) {
+      return;
+    }
+    try {
+      await fetch(`/api/duels/${roomId}`, { method: "POST" });
+      const res = await fetch(`/api/duels/${roomId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDuel(data);
+      }
+    } catch {
+      // ignore
+    }
+  };
+
   const isMyScore100 = duel.isPlayer1 ? duel.player1Score === 100 : duel.player2Score === 100;
   const isOpponentScore100 = duel.isPlayer1 ? duel.player2Score === 100 : duel.player1Score === 100;
 
@@ -181,7 +197,7 @@ export default function DuelArenaPage() {
                   DEFEAT
                 </h2>
                 <p style={{ color: "var(--gray-500)", fontSize: "0.95rem", marginBottom: "2rem" }}>
-                  Your opponent got 100% correct code before you. Keep practicing to bounce back!
+                  Your opponent won this duel. Keep practicing to bounce back!
                 </p>
               </div>
             )}
@@ -226,17 +242,34 @@ export default function DuelArenaPage() {
           </div>
         </div>
 
-        {/* Center: Timer & Status */}
-        <div style={{ textAlign: "center" }}>
+        {/* Center: Timer & Status & Forfeit */}
+        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.25rem" }}>
           <span style={{
             fontSize: "0.72rem", fontWeight: 700, padding: "0.15rem 0.65rem", borderRadius: "999px",
             background: "rgba(239, 68, 68, 0.2)", color: "#f87171", border: "1px solid rgba(239,68,68,0.3)"
           }}>
             LIVE DUEL
           </span>
-          <div style={{ fontSize: "2rem", fontWeight: 800, fontFamily: "monospace", marginTop: "0.25rem", color: timeLeft && timeLeft < 60 ? "#ef4444" : "#fff" }}>
+          <div style={{ fontSize: "2rem", fontWeight: 800, fontFamily: "monospace", color: timeLeft && timeLeft < 60 ? "#ef4444" : "#fff" }}>
             {timeLeft != null ? formatTimer(timeLeft) : "00:00"}
           </div>
+          {duel.status === "PLAYING" && (
+            <button
+              onClick={handleForfeit}
+              style={{
+                fontSize: "0.75rem",
+                color: "#f87171",
+                background: "transparent",
+                border: "1px solid rgba(248, 113, 113, 0.4)",
+                borderRadius: "6px",
+                padding: "0.2rem 0.6rem",
+                cursor: "pointer",
+                marginTop: "0.25rem",
+              }}
+            >
+              Forfeit Duel
+            </button>
+          )}
         </div>
 
         {/* Right player */}

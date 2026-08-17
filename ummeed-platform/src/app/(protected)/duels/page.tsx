@@ -45,6 +45,15 @@ export default function DuelLobbyPage() {
     };
   }, [inQueue, router]);
 
+  // Clean up queue if user navigates away or unmounts while in queue
+  useEffect(() => {
+    return () => {
+      if (inQueue) {
+        fetch("/api/duels/queue", { method: "DELETE", keepalive: true }).catch(() => {});
+      }
+    };
+  }, [inQueue]);
+
   // Initial check on mount if user is already in a running match or queue
   useEffect(() => {
     async function checkStatus() {

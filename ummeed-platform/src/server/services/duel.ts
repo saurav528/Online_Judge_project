@@ -1,7 +1,52 @@
 import { prisma } from "@/server/db/db";
 import { DuelStatus, Verdict, Difficulty } from "@prisma/client";
 
+// Maximum time (in ms) a queue entry is valid without a heartbeat ping (25 seconds)
+const QUEUE_TTL_MS = 25 * 1000;
+
 export class DuelService {
+  /**
+   * Remove abandoned/stale entries from the matchmaking queue
+   */
+  static async cleanStaleQueue() {
+    const cutoff = new Date(Date.now() - QUEUE_TTL_MS);
+    await prisma.duelQueue.deleteMany({
+      where: {
+        joinedAt: { lt: cutoff },
+      },
+    });
+  }
+
+  /**
+   * Find an active unexpired duel room for a user.
+   * If an old room is found past its endsAt timestamp, auto-finalize it and return null.
+   */
+  static async getActiveRoomForUser(userId: string) {
+    const room = await prisma.duelRoom.findFirst({
+      where: {
+        status: DuelStatus.PLAYING,
+        OR: [{ player1Id: userId }, { player2Id: userId }],
+      },
+    });
+
+    if (!room) return null;
+
+    // Check if the match timer has expired
+    if (room.endsAt && new Date() > new Date(room.endsAt)) {
+      let winnerId: string | null = null;
+      let isDraw = false;
+
+      if (room.player1Score > room.player2Score) winnerId = room.player1Id;
+      else if (room.player2Score > room.player1Score) winnerId = room.player2Id;
+      else isDraw = true;
+
+      await this.finalizeDuel(room.id, winnerId, isDraw);
+      return null;
+    }
+
+    return room;
+  }
+
   /**
    * Calculate new Elo ratings for two players
    */
@@ -20,7 +65,7 @@ export class DuelService {
   }
 
   /**
-   * Finalize the duel when timer expires or someone gets 100/100 points
+   * Finalize the duel when timer expires, someone gets 100/100 points, or forfeits
    */
   static async finalizeDuel(roomId: string, winnerId: string | null, isDraw = false) {
     const room = await prisma.duelRoom.findUnique({ where: { id: roomId } });
@@ -66,6 +111,19 @@ export class DuelService {
   }
 
   /**
+   * Forfeit an active duel (the forfeiting user loses)
+   */
+  static async forfeitDuel(roomId: string, userId: string) {
+    const room = await prisma.duelRoom.findUnique({ where: { id: roomId } });
+    if (!room || room.status !== DuelStatus.PLAYING) return;
+
+    if (room.player1Id !== userId && room.player2Id !== userId) return;
+
+    const winnerId = room.player1Id === userId ? room.player2Id : room.player1Id;
+    await this.finalizeDuel(roomId, winnerId, false);
+  }
+
+  /**
    * Triggers after every submission runs in execution service.
    * Checks if user is in active duel for this problem and updates status.
    */
@@ -95,21 +153,42 @@ export class DuelService {
   }
 
   /**
+   * Keep-alive ping from a client currently waiting in queue
+   */
+  static async heartbeatQueue(userId: string) {
+    await prisma.duelQueue.updateMany({
+      where: { userId },
+      data: { joinedAt: new Date() },
+    });
+  }
+
+  /**
    * Add a player to the queue and attempt matchmaking
    */
   static async joinQueue(userId: string, difficulty: Difficulty) {
-    // 1. Upsert queue record
+    // 0. Check if user is already in an active unexpired room
+    const existingActiveRoom = await this.getActiveRoomForUser(userId);
+    if (existingActiveRoom) {
+      return { matched: true, roomId: existingActiveRoom.id };
+    }
+
+    // 1. Clean up stale/abandoned queue entries first
+    await this.cleanStaleQueue();
+
+    // 2. Upsert queue record with fresh timestamp
     await prisma.duelQueue.upsert({
       where: { userId },
-      update: { difficulty },
-      create: { userId, difficulty },
+      update: { difficulty, joinedAt: new Date() },
+      create: { userId, difficulty, joinedAt: new Date() },
     });
 
-    // 2. Look for another opponent in queue with same difficulty
+    // 3. Look for another active opponent in queue with same difficulty
+    const cutoff = new Date(Date.now() - QUEUE_TTL_MS);
     const opponent = await prisma.duelQueue.findFirst({
       where: {
         difficulty,
         userId: { not: userId },
+        joinedAt: { gte: cutoff },
       },
       orderBy: { joinedAt: "asc" },
     });

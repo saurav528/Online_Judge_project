@@ -1,0 +1,69 @@
+{
+  "statement": "Write a program that takes the names of three favorite movies entered by the user and stores them in a list/array in the exact order they were entered.",
+  "inputSpecification": "Three space-separated single-word strings representing movie names $M_1$, $M_2$, and $M_3$.",
+  "outputSpecification": "Print the three movie names separated by a single space.",
+  "constraints": "$1 \\le |M_1|, |M_2|, |M_3| \\le 50$, each movie name consists of alphanumeric characters.",
+  "examples": [
+    {
+      "input": "Inception Avatar Titanic",
+      "output": "Inception Avatar Titanic",
+      "displayOrder": 1
+    },
+    {
+      "input": "Interstellar Oppenheimer Batman",
+      "output": "Interstellar Oppenheimer Batman",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "storeMovies",
+    "returnType": "string[]",
+    "parameters": [
+      {
+        "name": "m1",
+        "type": "string"
+      },
+      {
+        "name": "m2",
+        "type": "string"
+      },
+      {
+        "name": "m3",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/favorite-movies-list/tests/1.in",
+      "outputPath": "problems/favorite-movies-list/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/favorite-movies-list/tests/2.in",
+      "outputPath": "problems/favorite-movies-list/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/favorite-movies-list/tests/3.in",
+      "outputPath": "problems/favorite-movies-list/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/favorite-movies-list/tests/4.in",
+      "outputPath": "problems/favorite-movies-list/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/favorite-movies-list/tests/5.in",
+      "outputPath": "problems/favorite-movies-list/tests/5.out"
+    }
+  ]
+}

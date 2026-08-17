@@ -1,0 +1,65 @@
+{
+  "statement": "Given a sequence of $N$ student grades represented as uppercase character strings (e.g. `'A'`, `'B'`, `'C'`, `'D'`), count and return the total number of students who received grade `'A'`.",
+  "inputSpecification": "The first line contains an integer $N$. The second line contains $N$ space-separated uppercase strings representing the grades.",
+  "outputSpecification": "Print a single integer representing the count of students with grade `A`.",
+  "constraints": "$1 \\le N \\le 10^5$, each grade string is an uppercase letter.",
+  "examples": [
+    {
+      "input": "7\nC D A A B B A",
+      "output": "3",
+      "displayOrder": 1
+    },
+    {
+      "input": "5\nB B C D F",
+      "output": "0",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "countGradeA",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "n",
+        "type": "int"
+      },
+      {
+        "name": "grades",
+        "type": "string[]"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/count-grade-a/tests/1.in",
+      "outputPath": "problems/count-grade-a/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/count-grade-a/tests/2.in",
+      "outputPath": "problems/count-grade-a/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/count-grade-a/tests/3.in",
+      "outputPath": "problems/count-grade-a/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/count-grade-a/tests/4.in",
+      "outputPath": "problems/count-grade-a/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/count-grade-a/tests/5.in",
+      "outputPath": "problems/count-grade-a/tests/5.out"
+    }
+  ]
+}

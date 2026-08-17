@@ -97,6 +97,49 @@ export const SEEDED_SIGNATURES: Record<string, ProblemSignature> = {
     returnType: "string",
     parameters: [{ name: "s", type: "string" }],
   },
+  "favorite-movies-list": {
+    className: "Solution",
+    functionName: "storeMovies",
+    returnType: "string[]",
+    parameters: [
+      { name: "m1", type: "string" },
+      { name: "m2", type: "string" },
+      { name: "m3", type: "string" },
+    ],
+  },
+  "list-palindrome-check": {
+    className: "Solution",
+    functionName: "isListPalindrome",
+    returnType: "string",
+    parameters: [
+      { name: "n", type: "int" },
+      { name: "arr", type: "int[]" },
+    ],
+  },
+  "count-grade-a": {
+    className: "Solution",
+    functionName: "countGradeA",
+    returnType: "int",
+    parameters: [
+      { name: "n", type: "int" },
+      { name: "grades", type: "string[]" },
+    ],
+  },
+  "sort-grades": {
+    className: "Solution",
+    functionName: "sortGrades",
+    returnType: "string[]",
+    parameters: [
+      { name: "n", type: "int" },
+      { name: "grades", type: "string[]" },
+    ],
+  },
+  "multiple-of-seven": {
+    className: "Solution",
+    functionName: "isMultipleOfSeven",
+    returnType: "string",
+    parameters: [{ name: "n", type: "int" }],
+  },
 };
 
 export class Judge0Executor implements SubmissionExecutor {
