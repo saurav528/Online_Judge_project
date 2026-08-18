@@ -194,6 +194,7 @@ export class Judge0Executor implements SubmissionExecutor {
     // 3. Construct the wrapped executable program
     let wrappedCode = submission.sourceCode;
     if (signature) {
+      try {
         wrappedCode = WrapperService.wrapSolution(
           submission.sourceCode,
           signature,
