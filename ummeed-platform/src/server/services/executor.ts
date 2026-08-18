@@ -194,21 +194,10 @@ export class Judge0Executor implements SubmissionExecutor {
     // 3. Construct the wrapped executable program
     let wrappedCode = submission.sourceCode;
     if (signature) {
-      try {
-        let preloadedWrapper: string | undefined = undefined;
-        const langDef = LANGUAGE_REGISTRY[submission.language];
-        if (langDef) {
-          const bpFullPath = path.join(problemDir, "boilerplate_full", `${submission.language}.${langDef.extension}`);
-          if (fs.existsSync(bpFullPath)) {
-            preloadedWrapper = fs.readFileSync(bpFullPath, "utf-8");
-          }
-        }
-
         wrappedCode = WrapperService.wrapSolution(
           submission.sourceCode,
           signature,
-          submission.language,
-          preloadedWrapper
+          submission.language
         );
       } catch (e: any) {
         console.error("Code wrapping failed", e);

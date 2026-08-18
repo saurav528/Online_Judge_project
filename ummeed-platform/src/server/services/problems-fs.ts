@@ -44,23 +44,19 @@ function ensureProblemsDir() {
 }
 
 /**
- * Saves a problem's Git-backed content (statement, specs, examples, test cases, and generated boilerplate code) to disk.
+ * Saves a problem's Git-backed content (statement, specs, examples, test cases, and signature) to disk.
  */
 export async function saveProblemContent(slug: string, content: ProblemContent): Promise<void> {
   ensureProblemsDir();
   const problemDir = path.join(PROBLEMS_DIR, slug);
   const testsDir = path.join(problemDir, "tests");
-  const boilerplateDir = path.join(problemDir, "boilerplate");
-  const boilerplateFullDir = path.join(problemDir, "boilerplate_full");
 
-  // Create problem, tests, boilerplate, and boilerplate_full directories
+  // Create problem and tests directories only
   fs.mkdirSync(testsDir, { recursive: true });
-  fs.mkdirSync(boilerplateDir, { recursive: true });
-  fs.mkdirSync(boilerplateFullDir, { recursive: true });
 
   const activeSignature = content.signature || STANDARD_SIGNATURES[slug];
 
-  // 1. Save problem description metadata (omitting raw test case contents)
+  // 1. Save problem description metadata with signature (omitting raw test case contents)
   const metadataContent = {
     statement: content.statement,
     inputSpecification: content.inputSpecification,
@@ -89,29 +85,10 @@ export async function saveProblemContent(slug: string, content: ProblemContent):
     fs.writeFileSync(path.join(testsDir, `${tc.order}.in`), tc.input, "utf-8");
     fs.writeFileSync(path.join(testsDir, `${tc.order}.out`), tc.output, "utf-8");
   }
-
-  // 3. Generate and save Boilerplate & BoilerplateFull files for all supported languages
-  for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
-    try {
-      const studentStub = activeSignature
-        ? BoilerplateGenerator.generateStudentBoilerplate(langKey, activeSignature)
-        : BoilerplateGenerator.generateGenericBoilerplate(langKey);
-      
-      const executionWrapper = activeSignature
-        ? BoilerplateGenerator.generateExecutionWrapper(langKey, activeSignature)
-        : studentStub;
-
-      const fileName = `${langKey}.${langDef.extension}`;
-      fs.writeFileSync(path.join(boilerplateDir, fileName), studentStub, "utf-8");
-      fs.writeFileSync(path.join(boilerplateFullDir, fileName), executionWrapper, "utf-8");
-    } catch (err) {
-      console.warn(`Failed to pre-generate boilerplate for language ${langKey} on problem ${slug}:`, err);
-    }
-  }
 }
 
 /**
- * Reads a problem's Git-backed content from the filesystem (including pre-saved boilerplate files).
+ * Reads a problem's Git-backed content from the filesystem and generates multi-language boilerplates on the fly.
  */
 export async function getProblemContent(slug: string): Promise<ProblemContent | null> {
   const problemDir = path.join(PROBLEMS_DIR, slug);
@@ -147,31 +124,16 @@ export async function getProblemContent(slug: string): Promise<ProblemContent | 
     }
   }
 
-  // Hydrate pre-generated boilerplate files from disk if available, or generate on the fly
+  // Generate boilerplate and execution wrappers purely on the fly for all supported languages
   const boilerplate: Record<string, string> = {};
   const boilerplateFull: Record<string, string> = {};
 
-  const boilerplateDir = path.join(problemDir, "boilerplate");
-  const boilerplateFullDir = path.join(problemDir, "boilerplate_full");
-
-  for (const [langKey, langDef] of Object.entries(LANGUAGE_REGISTRY)) {
-    const fileName = `${langKey}.${langDef.extension}`;
-
-    const bpPath = path.join(boilerplateDir, fileName);
-    if (fs.existsSync(bpPath)) {
-      boilerplate[langKey] = fs.readFileSync(bpPath, "utf-8");
-    } else if (activeSignature) {
+  for (const langKey of Object.keys(LANGUAGE_REGISTRY)) {
+    if (activeSignature) {
       boilerplate[langKey] = BoilerplateGenerator.generateStudentBoilerplate(langKey, activeSignature);
-    } else {
-      boilerplate[langKey] = BoilerplateGenerator.generateGenericBoilerplate(langKey);
-    }
-
-    const bpFullPath = path.join(boilerplateFullDir, fileName);
-    if (fs.existsSync(bpFullPath)) {
-      boilerplateFull[langKey] = fs.readFileSync(bpFullPath, "utf-8");
-    } else if (activeSignature) {
       boilerplateFull[langKey] = BoilerplateGenerator.generateExecutionWrapper(langKey, activeSignature);
     } else {
+      boilerplate[langKey] = BoilerplateGenerator.generateGenericBoilerplate(langKey);
       boilerplateFull[langKey] = boilerplate[langKey];
     }
   }
