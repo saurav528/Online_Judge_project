@@ -1,0 +1,67 @@
+{
+  "statement": "Given an integer $N$, determine whether it is a multiple of 7.",
+  "inputSpecification": "A single integer $N$.",
+  "outputSpecification": "Print `Yes` if $N$ is a multiple of 7, otherwise print `No`.",
+  "constraints": "$-10^9 \\le N \\le 10^9$",
+  "examples": [
+    {
+      "input": "14",
+      "output": "Yes",
+      "displayOrder": 1
+    },
+    {
+      "input": "20",
+      "output": "No",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "isMultipleOfSeven",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "n",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/multiple-of-seven/tests/1.in",
+      "outputPath": "problems/multiple-of-seven/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/multiple-of-seven/tests/2.in",
+      "outputPath": "problems/multiple-of-seven/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/multiple-of-seven/tests/3.in",
+      "outputPath": "problems/multiple-of-seven/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/multiple-of-seven/tests/4.in",
+      "outputPath": "problems/multiple-of-seven/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/multiple-of-seven/tests/5.in",
+      "outputPath": "problems/multiple-of-seven/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/multiple-of-seven/tests/6.in",
+      "outputPath": "problems/multiple-of-seven/tests/6.out"
+    }
+  ]
+}
