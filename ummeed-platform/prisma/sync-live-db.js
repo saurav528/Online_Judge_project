@@ -145,6 +145,186 @@ const PROBLEMS = [
       { order: 4, isSample: false },
       { order: 5, isSample: false }
     ]
+  },
+  {
+    slug: "distinct-numbers-count-extras",
+    title: "Distinct Numbers Count - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Set", "Basics"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "most-frequent-digit-extras",
+    title: "Most Frequent Digit - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Dictionary", "Counting"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "common-elements-intersection-extras",
+    title: "Common Elements Intersection - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Set", "Basics"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "lonely-numbers-extras",
+    title: "Lonely Numbers - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Dictionary", "Counting"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "sum-of-unique-elements-extras",
+    title: "Sum of Unique Elements - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Set", "Math"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "slice-and-sum-extras",
+    title: "Slice and Sum - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "List", "Slicing"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "pop-and-multiply-extras",
+    title: "Pop and Multiply - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "List", "Methods"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "tuple-occurrence-counter-extras",
+    title: "Tuple Occurrence Counter - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Tuple", "Counting"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "sort-and-pick-extras",
+    title: "Sort and Pick - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "List", "Sorting"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "reverse-difference-extras",
+    title: "Reverse Difference - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "List", "Methods"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "string-length-conditional-extras",
+    title: "String Length Conditional - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "String", "Conditionals"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "binary-replacement-extras",
+    title: "Binary Replacement - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "String", "Methods"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "first-occurrence-index-extras",
+    title: "First Occurrence Index - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "String", "Searching"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "divisibility-grade-extras",
+    title: "Divisibility Grade - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Conditionals", "Math"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "greatest-is-even-extras",
+    title: "Greatest is Even - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Conditionals", "Basics"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "the-exponent-formula-extras",
+    title: "The Exponent Formula - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Operators", "Math"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "type-casting-magic-extras",
+    title: "Type Casting Magic - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Type Casting", "Basics"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "modulo-arithmetic-extras",
+    title: "Modulo Arithmetic - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Operators", "Math"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "area-vs-perimeter-check-extras",
+    title: "Area vs Perimeter Check - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Conditionals", "Math"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "relational-operators-test-extras",
+    title: "Relational Operators Test - Extras",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Operators", "Conditionals"],
+    testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
   }
 ];
 

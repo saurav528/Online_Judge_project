@@ -1,0 +1,129 @@
+{
+  "statement": "Given 3 integers stored in a list, remove (pop) the element at index 1 using `lst.pop(1)`. Then, output the product of the popped element and the new length of the list (`popped * len(lst)`).\n\n💡 **Note:** *This problem is designed for Python practice. In Python, `popped = lst.pop(1)` removes index 1 and leaves 2 elements!*",
+  "inputSpecification": "Three space-separated integers: $a, b, c$.",
+  "outputSpecification": "Print the product of the popped element and the remaining length of the list.",
+  "constraints": "$-10^9 \\le a, b, c \\le 10^9$",
+  "examples": [
+    {
+      "input": "5 10 15",
+      "output": "20",
+      "displayOrder": 1
+    },
+    {
+      "input": "1 2 3",
+      "output": "4",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "popAndMultiply",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "int"
+      },
+      {
+        "name": "b",
+        "type": "int"
+      },
+      {
+        "name": "c",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/pop-and-multiply-extras/tests/1.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/pop-and-multiply-extras/tests/2.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/3.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/4.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/5.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/6.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/7.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/8.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/9.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/10.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/10.out"
+    },
+    {
+      "order": 11,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/11.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/11.out"
+    },
+    {
+      "order": 12,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/12.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/12.out"
+    },
+    {
+      "order": 13,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/13.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/13.out"
+    },
+    {
+      "order": 14,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/14.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/14.out"
+    },
+    {
+      "order": 15,
+      "isSample": false,
+      "inputPath": "problems/pop-and-multiply-extras/tests/15.in",
+      "outputPath": "problems/pop-and-multiply-extras/tests/15.out"
+    }
+  ]
+}

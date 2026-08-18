@@ -1,0 +1,133 @@
+{
+  "statement": "Given 4 integers stored in a list, sort the list in ascending order (using `lst.sort()`), and output the element at **index 2** (the 3rd element in 0-based indexing).\n\n💡 **Note:** *This problem is designed for Python practice. In Python, `lst = [a, b, c, d]; lst.sort(); return lst[2]`!*",
+  "inputSpecification": "Four space-separated integers: $a, b, c, d$.",
+  "outputSpecification": "Print the element at index 2 after sorting.",
+  "constraints": "$-10^9 \\le a, b, c, d \\le 10^9$",
+  "examples": [
+    {
+      "input": "4 1 3 2",
+      "output": "3",
+      "displayOrder": 1
+    },
+    {
+      "input": "10 40 20 30",
+      "output": "30",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "sortAndPick",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "int"
+      },
+      {
+        "name": "b",
+        "type": "int"
+      },
+      {
+        "name": "c",
+        "type": "int"
+      },
+      {
+        "name": "d",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/sort-and-pick-extras/tests/1.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/sort-and-pick-extras/tests/2.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/3.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/4.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/5.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/6.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/7.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/8.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/9.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/10.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/10.out"
+    },
+    {
+      "order": 11,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/11.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/11.out"
+    },
+    {
+      "order": 12,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/12.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/12.out"
+    },
+    {
+      "order": 13,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/13.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/13.out"
+    },
+    {
+      "order": 14,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/14.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/14.out"
+    },
+    {
+      "order": 15,
+      "isSample": false,
+      "inputPath": "problems/sort-and-pick-extras/tests/15.in",
+      "outputPath": "problems/sort-and-pick-extras/tests/15.out"
+    }
+  ]
+}
