@@ -85,6 +85,66 @@ const PROBLEMS = [
       { order: 5, isSample: false },
       { order: 6, isSample: false }
     ]
+  },
+  {
+    slug: "word-dictionary-meaning",
+    title: "Word Dictionary Lookup",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Dictionary", "Basics"],
+    testCases: [
+      { order: 1, isSample: true },
+      { order: 2, isSample: true },
+      { order: 3, isSample: false },
+      { order: 4, isSample: false },
+      { order: 5, isSample: false }
+    ]
+  },
+  {
+    slug: "count-classrooms-needed",
+    title: "Count Classrooms Needed",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Set", "Array", "Basics"],
+    testCases: [
+      { order: 1, isSample: true },
+      { order: 2, isSample: true },
+      { order: 3, isSample: false },
+      { order: 4, isSample: false },
+      { order: 5, isSample: false }
+    ]
+  },
+  {
+    slug: "subject-marks-total",
+    title: "Store Subject Marks in Dictionary",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Dictionary", "Math", "Basics"],
+    testCases: [
+      { order: 1, isSample: true },
+      { order: 2, isSample: true },
+      { order: 3, isSample: false },
+      { order: 4, isSample: false },
+      { order: 5, isSample: false }
+    ]
+  },
+  {
+    slug: "store-int-and-float-in-set",
+    title: "Store Integer and Float in Set",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["Python", "Set", "Data Types"],
+    testCases: [
+      { order: 1, isSample: true },
+      { order: 2, isSample: true },
+      { order: 3, isSample: false },
+      { order: 4, isSample: false },
+      { order: 5, isSample: false }
+    ]
   }
 ];
 

@@ -1,0 +1,65 @@
+{
+  "statement": "A school offers several subjects to students. You are given a list of $N$ subject names chosen by students.\n\nAssume **one classroom is required for 1 unique subject**.\n\nFind the total number of classrooms required so that all distinct subjects can be taught.\n\n💡 **Note:** *This question is designed for Python practice. In Python, you can use a `set` (`set(subjects)`) to easily find unique items and `len()` to count them!*",
+  "inputSpecification": "The first line contains an integer $N$. The second line contains $N$ space-separated strings representing the subjects.",
+  "outputSpecification": "Print a single integer representing the total number of unique classrooms needed.",
+  "constraints": "$1 \\le N \\le 10^5$, each subject name is a non-empty string.",
+  "examples": [
+    {
+      "input": "10\npython java C++ python javascript java python java C++ C",
+      "output": "5",
+      "displayOrder": 1
+    },
+    {
+      "input": "4\nmath science math english",
+      "output": "3",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "countClassrooms",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "n",
+        "type": "int"
+      },
+      {
+        "name": "subjects",
+        "type": "string[]"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/count-classrooms-needed/tests/1.in",
+      "outputPath": "problems/count-classrooms-needed/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/count-classrooms-needed/tests/2.in",
+      "outputPath": "problems/count-classrooms-needed/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/count-classrooms-needed/tests/3.in",
+      "outputPath": "problems/count-classrooms-needed/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/count-classrooms-needed/tests/4.in",
+      "outputPath": "problems/count-classrooms-needed/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/count-classrooms-needed/tests/5.in",
+      "outputPath": "problems/count-classrooms-needed/tests/5.out"
+    }
+  ]
+}

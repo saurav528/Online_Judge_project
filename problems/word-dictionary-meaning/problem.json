@@ -1,0 +1,61 @@
+{
+  "statement": "In this problem, you need to look up the meaning of an English word using a dictionary.\n\nThe dictionary contains the following words and meanings:\n- `table` : `a piece of furniture`\n- `cat` : `a small animal`\n- `book` : `a set of printed pages`\n- `sun` : `the star at the center of the solar system`\n\nGiven a word $W$, return its definition from the dictionary. If the word is not in the dictionary, return `Word not found`.\n\n💡 **Note:** *This question is designed for Python practice. Using a Python dictionary (`dict`) is recommended!*",
+  "inputSpecification": "A single string $W$ representing the word to search.",
+  "outputSpecification": "Print the meaning of the word. If not found, print `Word not found`.",
+  "constraints": "$1 \\le |W| \\le 50$, $W$ contains lowercase English letters.",
+  "examples": [
+    {
+      "input": "table",
+      "output": "a piece of furniture",
+      "displayOrder": 1
+    },
+    {
+      "input": "cat",
+      "output": "a small animal",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getMeaning",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "word",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/word-dictionary-meaning/tests/1.in",
+      "outputPath": "problems/word-dictionary-meaning/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/word-dictionary-meaning/tests/2.in",
+      "outputPath": "problems/word-dictionary-meaning/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/word-dictionary-meaning/tests/3.in",
+      "outputPath": "problems/word-dictionary-meaning/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/word-dictionary-meaning/tests/4.in",
+      "outputPath": "problems/word-dictionary-meaning/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/word-dictionary-meaning/tests/5.in",
+      "outputPath": "problems/word-dictionary-meaning/tests/5.out"
+    }
+  ]
+}

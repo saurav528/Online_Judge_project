@@ -1,0 +1,81 @@
+{
+  "statement": "Write a program that takes the names and marks of 3 subjects entered by a student, stores them in a dictionary (with subject name as key and marks as value), and returns the **total sum of all marks**.\n\n💡 **Note:** *This question is designed for Python practice. Start with an empty dictionary `marks = {}`, add each subject with `marks[sub] = score`, and use `sum(marks.values())` to calculate the total!*",
+  "inputSpecification": "Six space-separated values: `sub1 m1 sub2 m2 sub3 m3`, where each `sub` is a subject name (string) and each `m` is the score (integer).",
+  "outputSpecification": "Print a single integer representing the total marks.",
+  "constraints": "$0 \\le \\text{marks} \\le 100$, subject names consist of lowercase English letters.",
+  "examples": [
+    {
+      "input": "physics 97 chemistry 98 math 95",
+      "output": "290",
+      "displayOrder": 1
+    },
+    {
+      "input": "english 85 hindi 90 computer 95",
+      "output": "270",
+      "displayOrder": 2
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "calculateTotalMarks",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "sub1",
+        "type": "string"
+      },
+      {
+        "name": "m1",
+        "type": "int"
+      },
+      {
+        "name": "sub2",
+        "type": "string"
+      },
+      {
+        "name": "m2",
+        "type": "int"
+      },
+      {
+        "name": "sub3",
+        "type": "string"
+      },
+      {
+        "name": "m3",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/subject-marks-total/tests/1.in",
+      "outputPath": "problems/subject-marks-total/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/subject-marks-total/tests/2.in",
+      "outputPath": "problems/subject-marks-total/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": false,
+      "inputPath": "problems/subject-marks-total/tests/3.in",
+      "outputPath": "problems/subject-marks-total/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/subject-marks-total/tests/4.in",
+      "outputPath": "problems/subject-marks-total/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/subject-marks-total/tests/5.in",
+      "outputPath": "problems/subject-marks-total/tests/5.out"
+    }
+  ]
+}

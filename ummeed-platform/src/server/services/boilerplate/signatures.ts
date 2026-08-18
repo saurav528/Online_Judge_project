@@ -44,5 +44,44 @@ export const STANDARD_SIGNATURES: Record<string, ProblemSignature> = {
       { name: "n", type: "int" },
       { name: "height", type: "int[]" }
     ]
+  },
+  "word-dictionary-meaning": {
+    className: "Solution",
+    functionName: "getMeaning",
+    returnType: "string",
+    parameters: [
+      { name: "word", type: "string" }
+    ]
+  },
+  "count-classrooms-needed": {
+    className: "Solution",
+    functionName: "countClassrooms",
+    returnType: "int",
+    parameters: [
+      { name: "n", type: "int" },
+      { name: "subjects", type: "string[]" }
+    ]
+  },
+  "subject-marks-total": {
+    className: "Solution",
+    functionName: "calculateTotalMarks",
+    returnType: "int",
+    parameters: [
+      { name: "sub1", type: "string" },
+      { name: "m1", type: "int" },
+      { name: "sub2", type: "string" },
+      { name: "m2", type: "int" },
+      { name: "sub3", type: "string" },
+      { name: "m3", type: "int" }
+    ]
+  },
+  "store-int-and-float-in-set": {
+    className: "Solution",
+    functionName: "countDistinctTyped",
+    returnType: "int",
+    parameters: [
+      { name: "a", type: "int" },
+      { name: "b", type: "double" }
+    ]
   }
 };
