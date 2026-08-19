@@ -111,15 +111,9 @@ export function SubmissionForm({ problemId, problemSlug, problemSignature, prelo
   useEffect(() => () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); }, []);
 
   const handleReset = () => {
-    if (problemSignature) {
-      const boilerplate = BoilerplateGenerator.generateStudentBoilerplate(language, problemSignature);
-      setSourceCode(boilerplate);
-      saveCode(problemId, language, boilerplate);
-    } else {
-      const boilerplate = BoilerplateGenerator.generateGenericBoilerplate(language);
-      setSourceCode(boilerplate);
-      saveCode(problemId, language, boilerplate);
-    }
+    const boilerplate = getBoilerplateCode(language);
+    setSourceCode(boilerplate);
+    saveCode(problemId, language, boilerplate);
   };
 
   const [runLoading, setRunLoading] = useState(false);
