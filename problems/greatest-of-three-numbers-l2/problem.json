@@ -1,0 +1,104 @@
+{
+  "statement": "Write a program to find and return the greatest of 3 numbers $A, B$, and $C$.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return max(a, b, c)`!*",
+  "inputSpecification": "Three space-separated integers: $A, B, C$.",
+  "outputSpecification": "Print the greatest of the three numbers.",
+  "constraints": "$-10^9 \\le A, B, C \\le 10^9$",
+  "examples": [
+    {
+      "input": "10 20 30",
+      "output": "30",
+      "displayOrder": 1
+    },
+    {
+      "input": "50 10 5",
+      "output": "50",
+      "displayOrder": 2
+    },
+    {
+      "input": "1 100 2",
+      "output": "100",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "findGreatest",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "int"
+      },
+      {
+        "name": "b",
+        "type": "int"
+      },
+      {
+        "name": "c",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/1.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/2.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/3.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/4.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/5.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/6.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/7.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/8.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/9.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/greatest-of-three-numbers-l2/tests/10.in",
+      "outputPath": "problems/greatest-of-three-numbers-l2/tests/10.out"
+    }
+  ]
+}

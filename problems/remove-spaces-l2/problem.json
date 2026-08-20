@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that takes a string $S$ containing underscore separators `_` and uses the `replace()` function to remove all underscores (replacing `'_'` with empty string `''`). Print the modified string.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return s.replace('_', '')`!*",
+  "inputSpecification": "A single string $S$.",
+  "outputSpecification": "Print the string after removing all underscores.",
+  "constraints": "$1 \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "hello_world",
+      "output": "helloworld",
+      "displayOrder": 1
+    },
+    {
+      "input": "a_b_c",
+      "output": "abc",
+      "displayOrder": 2
+    },
+    {
+      "input": "python_is_fun",
+      "output": "pythonisfun",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "removeSpaces",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/remove-spaces-l2/tests/1.in",
+      "outputPath": "problems/remove-spaces-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/remove-spaces-l2/tests/2.in",
+      "outputPath": "problems/remove-spaces-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/remove-spaces-l2/tests/3.in",
+      "outputPath": "problems/remove-spaces-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/4.in",
+      "outputPath": "problems/remove-spaces-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/5.in",
+      "outputPath": "problems/remove-spaces-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/6.in",
+      "outputPath": "problems/remove-spaces-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/7.in",
+      "outputPath": "problems/remove-spaces-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/8.in",
+      "outputPath": "problems/remove-spaces-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/9.in",
+      "outputPath": "problems/remove-spaces-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/remove-spaces-l2/tests/10.in",
+      "outputPath": "problems/remove-spaces-l2/tests/10.out"
+    }
+  ]
+}

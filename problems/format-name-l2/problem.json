@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that takes a lowercase word as input and uses the `capitalize()` method to capitalize its first character, then prints the result.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return word.capitalize()`!*",
+  "inputSpecification": "A single lowercase string $W$.",
+  "outputSpecification": "Print the capitalized string.",
+  "constraints": "$1 \\le |W| \\le 500$",
+  "examples": [
+    {
+      "input": "python",
+      "output": "Python",
+      "displayOrder": 1
+    },
+    {
+      "input": "java",
+      "output": "Java",
+      "displayOrder": 2
+    },
+    {
+      "input": "hello",
+      "output": "Hello",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "capitalizeWord",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "word",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/format-name-l2/tests/1.in",
+      "outputPath": "problems/format-name-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/format-name-l2/tests/2.in",
+      "outputPath": "problems/format-name-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/format-name-l2/tests/3.in",
+      "outputPath": "problems/format-name-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/4.in",
+      "outputPath": "problems/format-name-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/5.in",
+      "outputPath": "problems/format-name-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/6.in",
+      "outputPath": "problems/format-name-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/7.in",
+      "outputPath": "problems/format-name-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/8.in",
+      "outputPath": "problems/format-name-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/9.in",
+      "outputPath": "problems/format-name-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/format-name-l2/tests/10.in",
+      "outputPath": "problems/format-name-l2/tests/10.out"
+    }
+  ]
+}

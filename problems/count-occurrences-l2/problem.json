@@ -1,0 +1,100 @@
+{
+  "statement": "Write a program that takes a string $S$ and a target substring. Use the `count()` method to print the number of times the substring appears in the string.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return s.count(target)`!*",
+  "inputSpecification": "Two space-separated strings: $S$ and $\\text{target}$.",
+  "outputSpecification": "Print the count of occurrences.",
+  "constraints": "$1 \\le |\\text{target}| \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "hello l",
+      "output": "2",
+      "displayOrder": 1
+    },
+    {
+      "input": "banana a",
+      "output": "3",
+      "displayOrder": 2
+    },
+    {
+      "input": "mississippi iss",
+      "output": "2",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "countSubstring",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "target",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/count-occurrences-l2/tests/1.in",
+      "outputPath": "problems/count-occurrences-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/count-occurrences-l2/tests/2.in",
+      "outputPath": "problems/count-occurrences-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/count-occurrences-l2/tests/3.in",
+      "outputPath": "problems/count-occurrences-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/4.in",
+      "outputPath": "problems/count-occurrences-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/5.in",
+      "outputPath": "problems/count-occurrences-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/6.in",
+      "outputPath": "problems/count-occurrences-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/7.in",
+      "outputPath": "problems/count-occurrences-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/8.in",
+      "outputPath": "problems/count-occurrences-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/9.in",
+      "outputPath": "problems/count-occurrences-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/count-occurrences-l2/tests/10.in",
+      "outputPath": "problems/count-occurrences-l2/tests/10.out"
+    }
+  ]
+}

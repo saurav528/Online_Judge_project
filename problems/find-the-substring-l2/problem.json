@@ -1,0 +1,100 @@
+{
+  "statement": "Write a program that takes a string $S$ and a target substring. Use the `find()` function to print the first 0-based index of the target substring. If not found, print `-1`.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return s.find(target)`!*",
+  "inputSpecification": "Two space-separated strings: $S$ and $\\text{target}$.",
+  "outputSpecification": "Print the 0-based first occurrence index, or `-1` if not found.",
+  "constraints": "$1 \\le |\\text{target}| \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "hello_world world",
+      "output": "6",
+      "displayOrder": 1
+    },
+    {
+      "input": "I_am_a_coder am",
+      "output": "2",
+      "displayOrder": 2
+    },
+    {
+      "input": "python_is_fun is",
+      "output": "7",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "findSubstring",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "target",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/find-the-substring-l2/tests/1.in",
+      "outputPath": "problems/find-the-substring-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/find-the-substring-l2/tests/2.in",
+      "outputPath": "problems/find-the-substring-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/find-the-substring-l2/tests/3.in",
+      "outputPath": "problems/find-the-substring-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/4.in",
+      "outputPath": "problems/find-the-substring-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/5.in",
+      "outputPath": "problems/find-the-substring-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/6.in",
+      "outputPath": "problems/find-the-substring-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/7.in",
+      "outputPath": "problems/find-the-substring-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/8.in",
+      "outputPath": "problems/find-the-substring-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/9.in",
+      "outputPath": "problems/find-the-substring-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/find-the-substring-l2/tests/10.in",
+      "outputPath": "problems/find-the-substring-l2/tests/10.out"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program to grade students based on their marks using conditional statements:\n- If $\\text{marks} \\ge 90$, grade is `'A'`.\n- If $80 \\le \\text{marks} < 90$, grade is `'B'`.\n- If $70 \\le \\text{marks} < 80$, grade is `'C'`.\n- If $\\text{marks} < 70$, grade is `'D'`.\n\n💡 **Note:** *This problem is designed for Python practice. Use an `if-elif-else` chain!*",
+  "inputSpecification": "A single integer representing student marks ($0 \\le \\text{marks} \\le 100$).",
+  "outputSpecification": "Print the corresponding grade ('A', 'B', 'C', or 'D').",
+  "constraints": "$0 \\le \\text{marks} \\le 100$",
+  "examples": [
+    {
+      "input": "95",
+      "output": "A",
+      "displayOrder": 1
+    },
+    {
+      "input": "90",
+      "output": "A",
+      "displayOrder": 2
+    },
+    {
+      "input": "89",
+      "output": "B",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getStudentGrade",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "marks",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/student-grading-system-l2/tests/1.in",
+      "outputPath": "problems/student-grading-system-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/student-grading-system-l2/tests/2.in",
+      "outputPath": "problems/student-grading-system-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/student-grading-system-l2/tests/3.in",
+      "outputPath": "problems/student-grading-system-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/4.in",
+      "outputPath": "problems/student-grading-system-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/5.in",
+      "outputPath": "problems/student-grading-system-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/6.in",
+      "outputPath": "problems/student-grading-system-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/7.in",
+      "outputPath": "problems/student-grading-system-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/8.in",
+      "outputPath": "problems/student-grading-system-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/9.in",
+      "outputPath": "problems/student-grading-system-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/student-grading-system-l2/tests/10.in",
+      "outputPath": "problems/student-grading-system-l2/tests/10.out"
+    }
+  ]
+}

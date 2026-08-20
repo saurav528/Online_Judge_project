@@ -333,5 +333,123 @@ export const STANDARD_SIGNATURES: Record<string, ProblemSignature> = {
       { name: "start", type: "int" },
       { name: "end", type: "int" }
     ]
+  },
+  "check-file-extension-l2": {
+    className: "Solution",
+    functionName: "isPdf",
+    returnType: "boolean",
+    parameters: [
+      { name: "filename", type: "string" }
+    ]
+  },
+  "format-name-l2": {
+    className: "Solution",
+    functionName: "capitalizeWord",
+    returnType: "string",
+    parameters: [
+      { name: "word", type: "string" }
+    ]
+  },
+  "replace-word-l2": {
+    className: "Solution",
+    functionName: "replaceWord",
+    returnType: "string",
+    parameters: [
+      { name: "sentence", type: "string" },
+      { name: "oldWord", type: "string" },
+      { name: "newWord", type: "string" }
+    ]
+  },
+  "find-the-substring-l2": {
+    className: "Solution",
+    functionName: "findSubstring",
+    returnType: "int",
+    parameters: [
+      { name: "s", type: "string" },
+      { name: "target", type: "string" }
+    ]
+  },
+  "count-occurrences-l2": {
+    className: "Solution",
+    functionName: "countSubstring",
+    returnType: "int",
+    parameters: [
+      { name: "s", type: "string" },
+      { name: "target", type: "string" }
+    ]
+  },
+  "remove-spaces-l2": {
+    className: "Solution",
+    functionName: "removeSpaces",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "first-name-length-l2": {
+    className: "Solution",
+    functionName: "getNameLength",
+    returnType: "int",
+    parameters: [
+      { name: "name", type: "string" }
+    ]
+  },
+  "occurrence-of-three-l2": {
+    className: "Solution",
+    functionName: "countThrees",
+    returnType: "int",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "student-grading-system-l2": {
+    className: "Solution",
+    functionName: "getStudentGrade",
+    returnType: "string",
+    parameters: [
+      { name: "marks", type: "int" }
+    ]
+  },
+  "string-length-category-l2": {
+    className: "Solution",
+    functionName: "categorizeLength",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "pass-or-fail-status-l2": {
+    className: "Solution",
+    functionName: "checkPassFail",
+    returnType: "string",
+    parameters: [
+      { name: "marks", type: "int" }
+    ]
+  },
+  "odd-or-even-l2": {
+    className: "Solution",
+    functionName: "checkOddEven",
+    returnType: "string",
+    parameters: [
+      { name: "n", type: "int" }
+    ]
+  },
+  "greatest-of-three-numbers-l2": {
+    className: "Solution",
+    functionName: "findGreatest",
+    returnType: "int",
+    parameters: [
+      { name: "a", type: "int" },
+      { name: "b", type: "int" },
+      { name: "c", type: "int" }
+    ]
+  },
+  "multiple-of-seven-l2": {
+    className: "Solution",
+    functionName: "isMultipleOfSeven",
+    returnType: "boolean",
+    parameters: [
+      { name: "n", type: "int" }
+    ]
   }
 };

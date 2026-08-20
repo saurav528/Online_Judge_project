@@ -1,0 +1,104 @@
+{
+  "statement": "Write a program that takes a sentence, a word to replace (`old`), and a new word (`new`). Use the `replace()` function to replace all occurrences of the old word with the new word and return the updated sentence.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return sentence.replace(oldWord, newWord)`!*",
+  "inputSpecification": "Three space-separated strings: `sentence`, `oldWord`, and `newWord`.",
+  "outputSpecification": "Print the updated string with words replaced.",
+  "constraints": "$1 \\le |\\text{sentence}| \\le 1000$",
+  "examples": [
+    {
+      "input": "I_love_apples apples oranges",
+      "output": "I_love_oranges",
+      "displayOrder": 1
+    },
+    {
+      "input": "cat_dog_cat cat bird",
+      "output": "bird_dog_bird",
+      "displayOrder": 2
+    },
+    {
+      "input": "hello_world world python",
+      "output": "hello_python",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "replaceWord",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "sentence",
+        "type": "string"
+      },
+      {
+        "name": "oldWord",
+        "type": "string"
+      },
+      {
+        "name": "newWord",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/replace-word-l2/tests/1.in",
+      "outputPath": "problems/replace-word-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/replace-word-l2/tests/2.in",
+      "outputPath": "problems/replace-word-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/replace-word-l2/tests/3.in",
+      "outputPath": "problems/replace-word-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/4.in",
+      "outputPath": "problems/replace-word-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/5.in",
+      "outputPath": "problems/replace-word-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/6.in",
+      "outputPath": "problems/replace-word-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/7.in",
+      "outputPath": "problems/replace-word-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/8.in",
+      "outputPath": "problems/replace-word-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/9.in",
+      "outputPath": "problems/replace-word-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/replace-word-l2/tests/10.in",
+      "outputPath": "problems/replace-word-l2/tests/10.out"
+    }
+  ]
+}

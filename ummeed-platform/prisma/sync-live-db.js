@@ -379,6 +379,132 @@ const PROBLEMS = [
     memoryLimit: 256,
     tags: ["L2", "String", "Slicing", "Basics"],
     testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "check-file-extension-l2",
+    title: "Check File Extension L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Methods", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "format-name-l2",
+    title: "Format Name L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Methods", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "replace-word-l2",
+    title: "Replace Word L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Methods", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "find-the-substring-l2",
+    title: "Find the Substring L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Searching", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "count-occurrences-l2",
+    title: "Count Occurrences L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Counting", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "remove-spaces-l2",
+    title: "Remove Spaces L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Methods", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "first-name-length-l2",
+    title: "First Name Length L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "occurrence-of-three-l2",
+    title: "Occurrence of '3' L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Counting", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "student-grading-system-l2",
+    title: "Student Grading System L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "Conditionals", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "string-length-category-l2",
+    title: "String Length Category L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Conditionals", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "pass-or-fail-status-l2",
+    title: "Pass or Fail Status L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "Conditionals", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "odd-or-even-l2",
+    title: "Odd or Even L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "Conditionals", "Math", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "greatest-of-three-numbers-l2",
+    title: "Greatest of Three Numbers L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "Conditionals", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "multiple-of-seven-l2",
+    title: "Multiple of 7 L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "Conditionals", "Math", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
   }
 ];
 

@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that takes a student's first name and returns its length using the `len()` function.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return len(name)`!*",
+  "inputSpecification": "A single string $\\text{name}$.",
+  "outputSpecification": "Print the integer length of the name.",
+  "constraints": "$1 \\le |\\text{name}| \\le 100$",
+  "examples": [
+    {
+      "input": "Amit",
+      "output": "4",
+      "displayOrder": 1
+    },
+    {
+      "input": "Priyanka",
+      "output": "8",
+      "displayOrder": 2
+    },
+    {
+      "input": "Raj",
+      "output": "3",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getNameLength",
+    "returnType": "int",
+    "parameters": [
+      {
+        "name": "name",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/first-name-length-l2/tests/1.in",
+      "outputPath": "problems/first-name-length-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/first-name-length-l2/tests/2.in",
+      "outputPath": "problems/first-name-length-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/first-name-length-l2/tests/3.in",
+      "outputPath": "problems/first-name-length-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/4.in",
+      "outputPath": "problems/first-name-length-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/5.in",
+      "outputPath": "problems/first-name-length-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/6.in",
+      "outputPath": "problems/first-name-length-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/7.in",
+      "outputPath": "problems/first-name-length-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/8.in",
+      "outputPath": "problems/first-name-length-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/9.in",
+      "outputPath": "problems/first-name-length-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/first-name-length-l2/tests/10.in",
+      "outputPath": "problems/first-name-length-l2/tests/10.out"
+    }
+  ]
+}
