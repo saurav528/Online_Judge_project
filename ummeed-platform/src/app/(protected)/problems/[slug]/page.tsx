@@ -146,11 +146,39 @@ export default async function StudentProblemDetailsPage({
               }}>
                 {problem.difficulty}
               </span>
-              {problem.tags.map((t: any) => (
-                <span key={t.id} style={{ fontSize: "0.75rem", background: "var(--gray-100)", color: "var(--gray-600)", padding: "0.15rem 0.5rem", borderRadius: "999px" }}>
-                  {t.name}
-                </span>
-              ))}
+              {(() => {
+                const sortedTags = [...problem.tags].sort((a: any, b: any) => {
+                  const isLectureA = /^L\d+/i.test(a.name);
+                  const isLectureB = /^L\d+/i.test(b.name);
+                  if (isLectureA && !isLectureB) return -1;
+                  if (!isLectureA && isLectureB) return 1;
+                  return 0;
+                });
+
+                return sortedTags.map((t: any) => {
+                  const isLecture = /^L\d+/i.test(t.name);
+                  return (
+                    <Link
+                      key={t.id}
+                      href={`/problems?tag=${encodeURIComponent(t.name)}`}
+                      style={{
+                        fontSize: "0.75rem",
+                        fontWeight: isLecture ? 800 : 500,
+                        background: isLecture ? "#ede9fe" : "var(--gray-100)",
+                        color: isLecture ? "#6d28d9" : "var(--gray-600)",
+                        border: isLecture ? "1px solid #c4b5fd" : "1px solid transparent",
+                        padding: isLecture ? "0.15rem 0.55rem" : "0.15rem 0.5rem",
+                        borderRadius: "999px",
+                        textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {isLecture ? `📚 ${t.name}` : t.name}
+                    </Link>
+                  );
+                });
+              })()}
               {solved && (
                 <span style={{ fontSize: "0.78rem", fontWeight: 700, padding: "0.2rem 0.65rem", borderRadius: "999px", background: "var(--verdict-ac-bg)", color: "var(--verdict-ac)" }}>
                   Solved

@@ -48,6 +48,15 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
     prisma.submission.findMany({ where: { userId: user.id }, select: { problemId: true }, distinct: ["problemId"] }).then((r: any) => new Set(r.map((s: any) => s.problemId))),
   ]);
 
+  // Prioritize lecture tags (like L1, L2, L3) first, then alphabetical
+  const sortedAllTags = [...allTags].sort((a, b) => {
+    const isLectureA = /^L\d+/i.test(a.name);
+    const isLectureB = /^L\d+/i.test(b.name);
+    if (isLectureA && !isLectureB) return -1;
+    if (!isLectureA && isLectureB) return 1;
+    return a.name.localeCompare(b.name);
+  });
+
   const totalPages = Math.ceil(totalCount / limit);
 
   const getPageUrl = (targetPage: number) => {
@@ -128,30 +137,54 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
         </div>
 
         {/* Tag filter */}
-        {allTags.length > 0 && (
-          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
-            {allTags.slice(0, 8).map((t: any) => (
+        {sortedAllTags.length > 0 && (
+          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", width: "100%", marginTop: "0.25rem" }}>
+            {sortedAllTags.map((t: any) => {
+              const isLecture = /^L\d+/i.test(t.name);
+              const isActive = tag === t.name;
+              return (
+                <Link
+                  key={t.id}
+                  href={getFilterUrl({ tag: isActive ? undefined : t.name })}
+                  style={{
+                    padding: isLecture ? "0.25rem 0.8rem" : "0.25rem 0.6rem",
+                    borderRadius: "999px",
+                    fontSize: "0.78rem",
+                    fontWeight: isLecture ? 800 : 600,
+                    textDecoration: "none",
+                    background: isActive
+                      ? (isLecture ? "#7c3aed" : "var(--gray-800)")
+                      : (isLecture ? "#f5f3ff" : "var(--gray-100)"),
+                    color: isActive
+                      ? "#ffffff"
+                      : (isLecture ? "#7c3aed" : "var(--gray-600)"),
+                    border: `1.5px solid ${
+                      isActive
+                        ? (isLecture ? "#6d28d9" : "var(--gray-800)")
+                        : (isLecture ? "#ddd6fe" : "var(--gray-200)")
+                    }`,
+                    transition: "all 150ms ease",
+                  }}
+                >
+                  {isLecture ? `📚 ${t.name}` : t.name}
+                </Link>
+              );
+            })}
+            {tag && (
               <Link
-                key={t.id}
-                href={getFilterUrl({ tag: tag === t.name ? undefined : t.name })}
+                href={getFilterUrl({ tag: undefined })}
                 style={{
-                  padding: "0.25rem 0.6",
+                  padding: "0.25rem 0.65rem",
                   borderRadius: "999px",
                   fontSize: "0.75rem",
                   fontWeight: 600,
                   textDecoration: "none",
-                  background: tag === t.name ? "var(--gray-200)" : "var(--gray-100)",
-                  color: tag === t.name ? "var(--brand-primary)" : "var(--gray-500)",
-                  border: `1px solid ${tag === t.name ? "var(--brand-primary)" : "var(--gray-200)"}`,
-                  transition: "all 150ms ease",
+                  background: "var(--verdict-wa-bg)",
+                  color: "var(--brand-red)",
+                  border: "1px solid var(--brand-red)",
                 }}
               >
-                {t.name}
-              </Link>
-            ))}
-            {tag && (
-              <Link href={getFilterUrl({ tag: undefined })} style={{ padding: "0.25rem 0.65rem", borderRadius: "999px", fontSize: "0.75rem", fontWeight: 600, textDecoration: "none", background: "var(--verdict-wa-bg)", color: "var(--brand-red)", border: "1px solid var(--brand-red)" }}>
-                Clear tag
+                ✕ Clear filter
               </Link>
             )}
           </div>
@@ -213,15 +246,47 @@ export default async function StudentProblemsPage({ searchParams }: StudentProbl
                       </span>
                     </td>
                     <td>
-                      <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
-                        {problem.tags.slice(0, 3).map((t: any) => (
-                          <span key={t.id} style={{ fontSize: "0.72rem", background: "var(--gray-100)", color: "var(--gray-500)", padding: "0.1rem 0.45rem", borderRadius: "999px" }}>
-                            {t.name}
-                          </span>
-                        ))}
-                        {problem.tags.length > 3 && (
-                          <span style={{ fontSize: "0.72rem", color: "#9ca3af" }}>+{problem.tags.length - 3}</span>
-                        )}
+                      <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap", alignItems: "center" }}>
+                        {(() => {
+                          const sortedTags = [...problem.tags].sort((a: any, b: any) => {
+                            const isLectureA = /^L\d+/i.test(a.name);
+                            const isLectureB = /^L\d+/i.test(b.name);
+                            if (isLectureA && !isLectureB) return -1;
+                            if (!isLectureA && isLectureB) return 1;
+                            return 0;
+                          });
+
+                          return (
+                            <>
+                              {sortedTags.slice(0, 4).map((t: any) => {
+                                const isLecture = /^L\d+/i.test(t.name);
+                                return (
+                                  <Link
+                                    key={t.id}
+                                    href={getFilterUrl({ tag: t.name })}
+                                    style={{
+                                      fontSize: "0.72rem",
+                                      fontWeight: isLecture ? 800 : 500,
+                                      background: isLecture ? "#ede9fe" : "var(--gray-100)",
+                                      color: isLecture ? "#6d28d9" : "var(--gray-600)",
+                                      border: isLecture ? "1px solid #c4b5fd" : "1px solid transparent",
+                                      padding: isLecture ? "0.15rem 0.5rem" : "0.1rem 0.45rem",
+                                      borderRadius: "999px",
+                                      textDecoration: "none",
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    {isLecture ? `📚 ${t.name}` : t.name}
+                                  </Link>
+                                );
+                              })}
+                              {sortedTags.length > 4 && (
+                                <span style={{ fontSize: "0.72rem", color: "#9ca3af" }}>+{sortedTags.length - 4}</span>
+                              )}
+                            </>
+                          );
+                        })()}
                       </div>
                     </td>
                     <td style={{ textAlign: "center", color: "#16a34a", fontWeight: 700, fontSize: "0.88rem" }}>
