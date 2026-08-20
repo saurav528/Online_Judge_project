@@ -325,6 +325,60 @@ const PROBLEMS = [
     memoryLimit: 256,
     tags: ["Python", "Operators", "Conditionals"],
     testCases: Array.from({ length: 15 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "first-character-extraction-l2",
+    title: "First Character Extraction L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Indexing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "last-character-extraction-l2",
+    title: "Last Character Extraction L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Indexing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "the-nth-character-l2",
+    title: "The Nth Character L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Indexing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "extract-first-n-characters-l2",
+    title: "Extract First N Characters L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Slicing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "mid-slice-removing-edges-l2",
+    title: "Mid-Slice (Removing Edges) L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Slicing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
+  },
+  {
+    slug: "extracting-a-specific-substring-l2",
+    title: "Extracting a Specific Substring L2",
+    difficulty: "EASY",
+    timeLimit: 1000,
+    memoryLimit: 256,
+    tags: ["L2", "String", "Slicing", "Basics"],
+    testCases: Array.from({ length: 10 }, (_, i) => ({ order: i + 1, isSample: i < 3 }))
   }
 ];
 

@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that asks the user to input a string and uses negative indexing (`s[-1]`) to print the last character of the string.\n\n💡 **Note:** *This problem is designed for Python practice. In Python, negative indexing `s[-1]` accesses the last character directly!*",
+  "inputSpecification": "A single string $S$.",
+  "outputSpecification": "Print the last character of $S$.",
+  "constraints": "$1 \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "Python",
+      "output": "n",
+      "displayOrder": 1
+    },
+    {
+      "input": "Apple",
+      "output": "e",
+      "displayOrder": 2
+    },
+    {
+      "input": "12345",
+      "output": "5",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getLastChar",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/last-character-extraction-l2/tests/1.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/last-character-extraction-l2/tests/2.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/last-character-extraction-l2/tests/3.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/4.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/5.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/6.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/7.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/8.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/9.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/last-character-extraction-l2/tests/10.in",
+      "outputPath": "problems/last-character-extraction-l2/tests/10.out"
+    }
+  ]
+}

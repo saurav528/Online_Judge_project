@@ -1,0 +1,104 @@
+{
+  "statement": "Write a program that takes a string $S$, a starting index $\\text{start}$, and an ending index $\\text{end}$. Print the sliced substring using those bounds (`s[start:end]`). Remember that in slicing, the ending index is not included.\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return s[start:end]`!*",
+  "inputSpecification": "Three space-separated or line-separated inputs: string $S$, integer $\\text{start}$, and integer $\\text{end}$.",
+  "outputSpecification": "Print the sliced substring from start to end (exclusive).",
+  "constraints": "$1 \\le |S| \\le 1000, 0 \\le \\text{start} \\le \\text{end} \\le |S|$",
+  "examples": [
+    {
+      "input": "CityCollege\n1\n4",
+      "output": "ity",
+      "displayOrder": 1
+    },
+    {
+      "input": "Python\n2\n5",
+      "output": "tho",
+      "displayOrder": 2
+    },
+    {
+      "input": "Hello\n0\n4",
+      "output": "Hell",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "extractSubstring",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "start",
+        "type": "int"
+      },
+      {
+        "name": "end",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/1.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/2.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/3.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/4.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/5.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/6.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/7.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/8.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/9.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/extracting-a-specific-substring-l2/tests/10.in",
+      "outputPath": "problems/extracting-a-specific-substring-l2/tests/10.out"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "statement": "Write a program that accepts a string $S$ and an integer $\\text{index}$. Print the character located at that specific 0-based index in the string (`s[index]`).\n\n💡 **Note:** *This problem is designed for Python practice. In Python: `return s[index]`!*",
+  "inputSpecification": "Two lines: the first line contains string $S$, and the second line contains an integer $\\text{index}$.",
+  "outputSpecification": "Print the character at the specified index.",
+  "constraints": "$1 \\le |S| \\le 1000, 0 \\le \\text{index} < |S|$",
+  "examples": [
+    {
+      "input": "City_College\n0",
+      "output": "C",
+      "displayOrder": 1
+    },
+    {
+      "input": "City_College\n4",
+      "output": "_",
+      "displayOrder": 2
+    },
+    {
+      "input": "Python\n2",
+      "output": "t",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getNthChar",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "index",
+        "type": "int"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/the-nth-character-l2/tests/1.in",
+      "outputPath": "problems/the-nth-character-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/the-nth-character-l2/tests/2.in",
+      "outputPath": "problems/the-nth-character-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/the-nth-character-l2/tests/3.in",
+      "outputPath": "problems/the-nth-character-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/4.in",
+      "outputPath": "problems/the-nth-character-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/5.in",
+      "outputPath": "problems/the-nth-character-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/6.in",
+      "outputPath": "problems/the-nth-character-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/7.in",
+      "outputPath": "problems/the-nth-character-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/8.in",
+      "outputPath": "problems/the-nth-character-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/9.in",
+      "outputPath": "problems/the-nth-character-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/the-nth-character-l2/tests/10.in",
+      "outputPath": "problems/the-nth-character-l2/tests/10.out"
+    }
+  ]
+}

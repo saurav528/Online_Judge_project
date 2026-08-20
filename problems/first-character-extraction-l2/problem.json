@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that asks the user to input a string and prints only the very first character of that string using indexing (`s[0]`).\n\n💡 **Note:** *This problem is designed for Python practice. In Python, you can access the first character with `s[0]`!*",
+  "inputSpecification": "A single string $S$.",
+  "outputSpecification": "Print the first character of $S$.",
+  "constraints": "$1 \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "Python",
+      "output": "P",
+      "displayOrder": 1
+    },
+    {
+      "input": "Apple",
+      "output": "A",
+      "displayOrder": 2
+    },
+    {
+      "input": "12345",
+      "output": "1",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "getFirstChar",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/first-character-extraction-l2/tests/1.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/first-character-extraction-l2/tests/2.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/first-character-extraction-l2/tests/3.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/4.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/5.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/6.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/7.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/8.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/9.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/first-character-extraction-l2/tests/10.in",
+      "outputPath": "problems/first-character-extraction-l2/tests/10.out"
+    }
+  ]
+}

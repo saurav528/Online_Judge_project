@@ -281,5 +281,57 @@ export const STANDARD_SIGNATURES: Record<string, ProblemSignature> = {
       { name: "a", type: "int" },
       { name: "b", type: "int" }
     ]
+  },
+  "first-character-extraction-l2": {
+    className: "Solution",
+    functionName: "getFirstChar",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "last-character-extraction-l2": {
+    className: "Solution",
+    functionName: "getLastChar",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "the-nth-character-l2": {
+    className: "Solution",
+    functionName: "getNthChar",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" },
+      { name: "index", type: "int" }
+    ]
+  },
+  "extract-first-n-characters-l2": {
+    className: "Solution",
+    functionName: "extractFirstN",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" },
+      { name: "n", type: "int" }
+    ]
+  },
+  "mid-slice-removing-edges-l2": {
+    className: "Solution",
+    functionName: "removeEdges",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" }
+    ]
+  },
+  "extracting-a-specific-substring-l2": {
+    className: "Solution",
+    functionName: "extractSubstring",
+    returnType: "string",
+    parameters: [
+      { name: "s", type: "string" },
+      { name: "start", type: "int" },
+      { name: "end", type: "int" }
+    ]
   }
 };

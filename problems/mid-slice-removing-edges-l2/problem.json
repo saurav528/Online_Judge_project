@@ -1,0 +1,96 @@
+{
+  "statement": "Write a program that takes a string $S$ of at least 3 characters and uses slicing to print the string without its first and last characters (`s[1:-1]`).\n\n💡 **Note:** *This problem is designed for Python practice. In Python, slicing `s[1:-1]` trims off the first and last characters!*",
+  "inputSpecification": "A single string $S$ of length at least 3.",
+  "outputSpecification": "Print the middle slice of string $S$.",
+  "constraints": "$3 \\le |S| \\le 1000$",
+  "examples": [
+    {
+      "input": "Python",
+      "output": "ytho",
+      "displayOrder": 1
+    },
+    {
+      "input": "Hello",
+      "output": "ell",
+      "displayOrder": 2
+    },
+    {
+      "input": "12345",
+      "output": "234",
+      "displayOrder": 3
+    }
+  ],
+  "signature": {
+    "className": "Solution",
+    "functionName": "removeEdges",
+    "returnType": "string",
+    "parameters": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ]
+  },
+  "testCases": [
+    {
+      "order": 1,
+      "isSample": true,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/1.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/1.out"
+    },
+    {
+      "order": 2,
+      "isSample": true,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/2.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/2.out"
+    },
+    {
+      "order": 3,
+      "isSample": true,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/3.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/3.out"
+    },
+    {
+      "order": 4,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/4.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/4.out"
+    },
+    {
+      "order": 5,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/5.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/5.out"
+    },
+    {
+      "order": 6,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/6.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/6.out"
+    },
+    {
+      "order": 7,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/7.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/7.out"
+    },
+    {
+      "order": 8,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/8.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/8.out"
+    },
+    {
+      "order": 9,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/9.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/9.out"
+    },
+    {
+      "order": 10,
+      "isSample": false,
+      "inputPath": "problems/mid-slice-removing-edges-l2/tests/10.in",
+      "outputPath": "problems/mid-slice-removing-edges-l2/tests/10.out"
+    }
+  ]
+}
